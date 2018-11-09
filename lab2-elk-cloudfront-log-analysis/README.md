@@ -313,7 +313,7 @@ This visualization will show if customers are experiencing errors and from which
 6. Select settings under **Bucket** as follows and then click **Apply changes** button (play button on top):
 
 |           | **Aggregation**|**Field**                 |
-| ----------|:--------------:| -----:                   |
+| ----------|:--------------:| :-----                   |
 | **X-Axis**| Terms          | useragent.device.keyword |
 | **Y-Axis**| Terms          | sc_status                |
 
