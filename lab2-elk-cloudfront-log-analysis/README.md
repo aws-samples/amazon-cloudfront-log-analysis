@@ -18,9 +18,8 @@ The solution involves S3 bucket for storing CloudFront access logs, Logstash dep
 ![](assets/architecture.png)
  
 ## Pre-requisites
-This module requires completion of previous modules:
- - [Celebrity Recognition](https://github.com/darwaishx/celebrity-recognition/tree/master/1-celebrity-recognition)
- - [Recognize Custom Celebrities](https://github.com/darwaishx/celebrity-recognition/tree/master/2-recognize-custom-celebrities)
+This module requires:
+ - You should have active AWS account with Administrator IAM role.
 
 ## Create a Key Pair for EC2 Instances
 
@@ -51,7 +50,7 @@ In this section we will deploy the solution using CloudFormation template. This 
 
 - A VPC with IGW, two public subnets
 - Nginx proxy installed on a EC2 instance with an Elastic IP Address
-- LogStash installed on a EC2 instance with Elastic IP address
+- Logstash installed on a EC2 instance with Elastic IP address
 - A S3 bucket in your region which stores a sample CloudFront access logs  
     EC2 IAM roles with policies to access the Amazon S3
 - Amazon ES domain with 2 nodes with IP-based access policy with access restricted to only Nginx proxy and Logstash instances
@@ -59,7 +58,7 @@ In this section we will deploy the solution using CloudFormation template. This 
 The template gives the following outputs:
 
 - Amazon ES domain and Kibana Endpoints.
-- Elastic IP details of LogStash and Nginx proxy servers
+- Elastic IP details of Logstash and Nginx proxy servers
 - Nginx IP URLs for the Amazon ES Kibana through the proxy. You can use this to access the Kibana.
 
 1. Click on **Launch Stack** button below to launch CloudFormation template in US East AWS region.
@@ -206,6 +205,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 
 ![](assets/esIndices3.png)
 
+You have successfully configured Logstash. Let us proceed to Nginx configuration.
 ## Nginx proxy configuration
 It should be noted that Kibana does not natively support IAM users and roles, but Amazon Elasticsearch offers several solutions for controlling access to Kibana. For more details, please refer to [AWS documentation](https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-kibana.html#es-kibana-access). In this lab, we will be using open source based Nginx proxy solution to access the Kibana console.
 
@@ -227,20 +227,28 @@ It should be noted that Kibana does not natively support IAM users and roles, bu
 	```
 4. Update following parameters in **nginx.conf** with correct values for Elasticsearch domain endpoint **(ESDomainEndpoint)**, Kibana endpoint **(ESKibanaEndpoint)** and Nginx EC2 IP **(NginxEC2Instance)**. You can get the values from CloudFormation
 	```nginx
-	# ES Domain name WITHOUT https://
-	proxy_set_header Host <Elasticsearch Domain name WITHOUT https://>; 
-	
-	#IP of Nginx EC2 Instance
-	proxy_set_header X-Real-IP  <NginxEC2Instance>;
+	location / {
+		
+		# ES Domain name WITHOUT https://
+		proxy_set_header Host <Elasticsearch Domain name WITHOUT https://>; 
+		
+		#IP of Nginx EC2 Instance
+		proxy_set_header X-Real-IP  <NginxEC2Instance>;
 
-	#Elasticsearch Kibana endpoint 
-	proxy_pass https://<Elasticsearch Domain name>/_plugin/kibana/;
+		#Elasticsearch Kibana endpoint 
+		proxy_pass https://<Elasticsearch Domain name>/_plugin/kibana/;
 
-	#Elasticsearch kibana endpoint and IP of Nginx EC2 Instance
-	proxy_redirect https://<Elasticsearch Domain name>/_plugin/kibana/ http://<NginxEC2Instance>; 
-
-	#Elasticsearch Domain endpoint
-	proxy_pass https://<Elasticsearch Domain name>; 
+		#Elasticsearch kibana endpoint and IP of Nginx EC2 Instance
+		proxy_redirect https://<Elasticsearch Domain name>/_plugin/kibana/ http://<NginxEC2Instance>; 
+		......
+		..........
+	}
+	location ~ (/app/kibana|/app/timelion|/bundles|/es_admin|/plugins|/api|/ui|/elasticsearch) {
+		......
+		........
+		#Elasticsearch Domain endpoint
+		proxy_pass https://<Elasticsearch Domain name>; 
+	}
 	```
 
 5. Restart the nginx server after updating the configurations.
