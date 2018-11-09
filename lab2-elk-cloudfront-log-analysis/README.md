@@ -52,7 +52,7 @@ In this section we will deploy the solution using CloudFormation template. This 
 - Nginx proxy installed on a EC2 instance with an Elastic IP Address
 - Logstash installed on a EC2 instance with Elastic IP address
 - A S3 bucket in your region which stores a sample CloudFront access logs  
-    EC2 IAM roles with policies to access the Amazon S3
+- EC2 IAM role with policies to access the Amazon S3
 - Amazon ES domain with 2 nodes with IP-based access policy with access restricted to only Nginx proxy and Logstash instances
 
 The template gives the following outputs:
@@ -71,7 +71,7 @@ EU (Ireland) | [![Launch Who-is-Who Workshop in eu-west-1](http://docs.aws.amazo
 
 2. Select the key pair you created in previous section.
 
-3. Update **KibanaPassword** field. Default password is set to **admin123* but we highly recommend to update it to a strong password.
+3. Update **KibanaPassword** field. Default password is set to **admin123** but we highly recommend to update it to a strong password.
 
 4. Under Create stack, check both checkboxes for **I acknowledge that AWS CloudFormation might create IAM resources with custom names** and click **Create** button.
 
@@ -257,6 +257,8 @@ It should be noted that Kibana does not natively support IAM users and roles, bu
 	service nginx reload
 	```
 
+Nginx configuration is completed. Next step will be to configure Kibana.
+
 ## Kibana Configuration
 1. Access the Kibana via Nginx proxy IP address.  For protection of your proxy server, we will leverage a basic Http authentication.  You will be challenged with username and password. Enter the username as admin (lowercase) and password as specified in the parameter section of the CloudFormation template. If you have used default values, then the password is admin123.
 
@@ -282,24 +284,93 @@ It should be noted that Kibana does not natively support IAM users and roles, bu
 
 ![](assets/kibana6.png)
 
+Now Kibana has been configured and let us move to final part of this lab where we will create visualizations.
+
 ## Kibana Visualization
 Now we are ready to create visualizations. You can create visualizations manually or import the predefined visualizations as JSON templates to your dashboard. We will go over both cases.
 
 ### Use Case #1 (User agent Vs Error code)
+This visualization will show if customers are experiencing errors and from which  specific device types.
 
-1. **User agent vs Error code**:  This visualization will show if viewers are experiencing errors. is to know you want to understand if viewers seeing errors occurring from specific devices?
+1. Go to Kibana dashboard.
 
-## Test the solution
+2. Select **Visualize** from the left side menu and click on the **+** in visualize section. 
 
-1. 
-2.
-3.
+![](assets/kibana7.png)
 
+3.  Select **Heat Map** under **Basic Charts** in **Select visualization type**.
+
+![](assets/kibana8.png)
+
+4. Select **cloudfront*** from **From a New Search, Select Index** section.
+
+![](assets/kibana9.png)
+
+5. Change the time for visualization from last 15 minutest to **Last 60 days**
+
+![](assets/kibana10.png)
+
+6. Select settings under **Bucket** as follows and then click **Apply changes** button (play button on top):
+
+|           | **Aggregation**|**Field**                 |
+| ----------|:--------------:| -----:                   |
+| **X-Axis**| Terms          | useragent.device.keyword |
+| **Y-Axis**| Terms          | sc_status                |
+
+
+![](assets/kibana11.png)
+
+7. You will see the graph/visualization. Save the visualization as **User agent-status-code-heatmap**
+
+![](assets/kibana12.png)
+
+### Use Case #2 (Avg or Max Latency per city)
+You can use Geo-spatial visualization using Co-ordinate map. We will show to how to import the visualization from predefined template.
+
+1. Download [kibanamaxlatencypercity.json](https://github.com/aws-samples/amazon-cloudfront-log-analysis/blob/master/lab2-elk-cloudfront-log-analysis/kibanamaxlatencypercity.json) file to your local computer.
+
+2. Go to **Management** -> **Saved objects**.  Click **Import** and import the downloaded **kibanamaxlatencypercity.json**. This visualization shows the max(time_taken) for each city. 
+
+![](assets/kibana13.png)
+
+3. Click **Yes, overwrite all objects** if asked for **Automatically overwrite all saved objects** dialog box.
+
+4. Click **Confirm all changes** for **Index Pattern Conflicts** dialog box.
+
+5. You should now see following visualization under the **Visualization** tab.
+
+![](assets/kibana14.png)
+
+6. Click on **Visualization** from the Kibana dashboard menu and select **Max-Latency-percity** to see the visualization.
+
+![](assets/kibana15.png)
+
+![](assets/kibana16.png)
+
+### Use Case #3 (Number of requests per geo-region or popular regions)
+In this case, we will create Geo-spatial visualization using regional map. This visualization shows the number of request distribution for each city. This kind of visualization can be used for analyzing the traffic pattern as well as marketing purposes.
+
+1. Download [kibanageorequests.json](https://github.com/aws-samples/amazon-cloudfront-log-analysis/blob/master/lab2-elk-cloudfront-log-analysis/kibanageorequests.json) file to your local computer.
+
+2. Follow **Steps 2 - 6** from the Use Case #2 and import downloaded file (kibanageorequests.json) .
+
+3. Once completed, you will be able to see the final visualization for number of requests per geo-region.
+
+![](assets/kibana17.png)
+
+![](assets/kibana18.png)   
 
 ## Completion
-You have successfully ....
+You have successfully this Lab. Please proceed with the clean up of this lab to make sure running resources do not incur unnecessary billing.  
 
 ## Clean up
-1. 
-2.  
-3. 
+1.  Delete the S3 buckets created in this lab.
+
+2. Go to CloudFormation console : http://console.aws.amazon.com/cloudformation/ 
+
+3. Click the checkbox next to the stack you created.
+
+5. Click **Actions** button and select **Delete Stack** to delete the stack.  
+
+![](assets/cleanup1.png)   
+
