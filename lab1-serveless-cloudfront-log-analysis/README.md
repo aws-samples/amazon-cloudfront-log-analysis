@@ -452,6 +452,124 @@ SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.combined_log_opti
 SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 ```
 
+## Generate visualization using Amazon QuickSight
+![quicksight-visualization-all.png](./assets/quicksight-visualization-all.png)
+
+- Open the AWS Management console for Amazon QuickSight from [here](https://eu-west-1.quicksight.aws.amazon.com/sn/start)
+
+### Signing Up for Amazon Quicksight Standard Edition
+
+![quicksight-signup.png](./assets/quicksight-signup.png)
+
+- If this is the first time you are accessing QuickSight, you will see a sign-up landing page for QuickSight.
+- Click on **Sign up for QuickSight**.
+
+![quicksight-edition.png](./assets/quicksight-edition.png)
+
+- On the **Create your QuickSight account** page, select **Standard Edition** for the subscription type. 
+- Click **Continue**
+
+![quicksight-account-create.png](./assets/quicksight-account-create.png)
+
+- On the next page, type a unique **QuickSight account name** 
+- Type a valid email id for **Notification email address**
+- Just for this step, ensure that **US East(N. Virginia)** is selected from the drop down menu for *QuickSight capacity region*
+- Ensure that boxes next to **Enable autodiscovery of your data and users in your Amazon Redshift, Amazon RDS and AWS IAM Services** and **Amazon Athena** are checked
+- Click **Finish**
+- Wait until the page with message **Congratulations! You are signed up for Amazon QuickSight!** on successful sign up is presented. 
+- Click on **Go to Amazon QuickSight**.
+
+### Configure Amazon S3 bucket Permission
+
+![quicksight-manage.png](./assets/quicksight-manage.png)
+
+- On the Amazon QuickSight dashboard, navigate to User Settings page on the Top-Right section and click *Manage QuickSight*.
+
+![quicksight-permissionpng](./assets/quicksight-permission.png)
+
+- On the next page, click on **Account Settings**
+- Click on **Manage QuickSight permissions**
+- Click **Choose S3 buckets** to select the Amazon S3 buckets for which auto-discovery needs to be enabled for QuickSight
+
+![quicksight-s3-bucket-selection.png](./assets/quicksight-s3-bucket-selection.png)
+
+- On the pop up *Select Amazon S3 buckets *page check the box next to* Select all *or the name of the Amazon S3 bucket you created at the beginning of the lab
+-  Click **Select buckets**
+- Ensure that the box next to *Amazon S3 *is checked
+- Click **Apply**
+
+### Configuring Amazon Quicksight to use Amazon Athena as data source
+
+![quicksight-region-selection.png](./assets/quicksight-region-selection.png)
+
+- Select **EU(Ireland)** as the region for this lab
+- Click on **Manage data** in the upper right hand corner
+- Click on **New data set** on the upper left hand corner
+
+![quicksight-datasource.png](./assets/quicksight-datasource.png)
+
+- Select **Athena** as the data source 
+
+![quicksight-athena-ds.png](./assets/quicksight-athena-ds.png)
+
+- Type a **Data source name** *(e.g. ReInvent-CTD410-DS)*
+- Click on **Create data source**
+
+![quicksight-table-selection.png](./assets/quicksight-table-selection.png)
+
+- Select **reinvent2018_aws_service_logs** from the drop down menu for **Database: contain sets of tables**
+- Choose **combined_log_optimized** from the list under **Tables: contains the data you can visualize**
+- Click **Edit/Preview data**
+
+> Note: This is a crucial step. Please ensure you choose Edit/Preview data.
+
+### Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight
+
+- Under *Fields* on the left column, click **New field**
+
+![quicksight-new-field.png](./assets/quicksight-new-field.png)
+
+- In the *Add calculated field *pop up page, type **EdgeToOriginTimeTaken** under **Calculated field name**
+- Copy and paste the formula below in the **Formula** text box
+
+```$xslt
+ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_time < -1 or response_processing_time < -1 or request_processing_time < -1, 0, {timetaken} - {target_processing_time} + {response_processing_time} +{request_processing_time}))
+```
+
+-Click **Create**
+-Ensure that **#EdgeToOriginTimeTaken** appears under *Calculated fields*
+
+### Create new calculated fields "HourOfDay" in Amazon QuickSight
+
+- Under **Fields** on the left column, click **New field**
+- In the **Add calculated field** pop up page, type **HourOfDay** under **Calculated field name**
+- Copy and paste the formula below in the *Formula* text box
+
+```$xslt
+extract("HH",{time})
+```
+
+- Click **Create**
+- Ensure that **#HourOfDay** *appears under **Calculated fields**
+
+### Create new calculated fields "TotalTimeTakenAtALB" in Amazon QuickSight
+
+- Under **Fields** on the left column, click **New field**
+- In the **Add calculated field** pop up page, type **TotalTimeTakenAtALB** under **Calculated field name**
+- Copy and paste the formula below in the **Formula** text box
+
+```$xslt
+ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or response_processing_time < -1 or request_processing_time < -1, 0, {target_processing_time} + {response_processing_time} +{request_processing_time}))
+```
+
+- Click **Create**
+- Ensure that **#TotatlTimeTakenAtALB** appears under **Calculated fields**
+- Click on **Save & visualize** on the top of the page
+
+
+
+
+
 ## License Summary
 
 This sample code is made available under a modified MIT license. See the LICENSE file.
