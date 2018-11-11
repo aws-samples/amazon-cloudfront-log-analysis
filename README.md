@@ -1,6 +1,8 @@
-## Amazon Cloudfront Log Analysis
-
 # Analyze & Visualize Amazon CloudFront and Lambda@Edge Logs to Improve Customer Experience on your website.
+
+## Overview
+
+Nowadays, web servers are often fronted by a global content delivery network, such as Amazon CloudFront, to accelerate delivery of websites, APIs, media content, and other web assets. In this hands-on-workshop, learn to improve website availability, optimize content based on devices, browser and user demographics, identify and analyze CDN usage patterns, and perform end-to-end debugging by correlating logs from various points in a request-response pipeline. Build an end-to-end serverless solution to analyze Amazon CloudFront logs using AWS Glue and Amazon Athena, generate visualization to derive deeper insights using Amazon QuickSight, and correlate with other logs such Lambda@Edge logs, ALB logs to provide finer debugging experiences. You will also learn how to use the popular ELK(Elasticsearch,Logstash,Kibana) solution for geospatial visualization of CloudFront logs. Discuss how you can extend the pipeline you just built to generate deeper insights needed to improve the overall experience for your users.
 
 ## AWS Console
 
