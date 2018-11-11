@@ -661,12 +661,10 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click on the Ascending order next to **HourOfDay** under **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Hourly Avg. time taken (total Vs. edge to origin Vs. server-side processing) by end user country** (optional)
 
-### __Optional Section:__ Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewER country
-
 <details>
      <summary>Click to expand for optional section</summary>
   
-  ### Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewER country
+  ### Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewer country
   
   ![time-taken-visualize-2.png](./assets/time-taken-visualize-2.png)
   
@@ -679,7 +677,69 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 
 </details>
 
+### Generate Visualization to show PRODUCT CATEGORY REQUEST BY Country
 
+![product-category-chart.png](./assets/product-category-chart.png)
+
+- Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
+- Ensure that the selected region is **Ireland** in top right corner
+- Click the **Filter** icon in the QuickSight navigation pane 
+- Click again on **+** symbol next to **Applied Filters** to add another filter
+- Select **requestdata** field in the pop up menu
+
+![product-category-filter.png](./assets/product-category-filter.png)
+
+- Choose the new filter that you just created by clicking on filter name **requestdata**
+- Choose **Custom filter** from the drop down for **Filter type** 
+- For the second drop down under **Filter type** choose **Does not equal**
+- Type *null* in the text box.
+- Click **Apply**
+- Click **Close**
+- Click again on **+** symbol next to **Applied Filters** to add another filter
+- Select **viewercountry** field in the pop up menu
+- Choose the new filter that you just created by clicking on filter name **viewercountry**
+- Select all the values **(DE, IE, IN, US)** except **NULL**
+- Click **Apply**
+- Click **Close**
+- Click the **Visualize** icon in the QuickSight navigation pane
+
+![product-category-sort.png](./assets/product-category-sort.png)
+
+### Generate visualization to show device form factor ratio
+
+![device-form-factor-chart.png](./assets/device-form-factor-chart.png)
+
+- Click on *Add *from the QuickSight menu on the top to **Add Visual** from the pop up menu
+- Ensure that the selected region is **Ireland** in top right corner
+- Click the **Filter** icon in the QuickSight navigation pane 
+- Click on **+** symbol next to **Applied Filters**
+- Select **deviceformfactor** field in the pop up menu
+- Choose the new filter that you just created by clicking on filter name **deviceformfactor**
+- Choose *Custom filter from the drop down for **Filter type** 
+- For the second drop down under **Filter type** choose **Does not equal**
+- Type *null* in the text box.
+- Click **Apply**
+- Click **Close**
+- Click the **Visualize** icon in the QuickSight navigation pane
+- Select the **Pie chart** under **Visual types** 
+- Drag and drop the **deviceformfactor** field into **Group/Color** in the **Field wells** section
+- Edit the title by click on the title in the chart to **Device form factor Ratio** (optional)
+
+![device-form-factor-visualize.png](./assets/device-form-factor-visualize.png)
+
+<details>
+     <summary>Click to expand for optional section</summary>
+     
+ ### Generate visualization to show device form factor ration by viewer country
+ 
+ - Click the **Filter** icon in the QuickSight navigation pane 
+ - Choose the new filter that you just created by clicking on filter name **viewercountry**
+ - Select one of the values (e.g. **IN**) except **DE**
+ - Click **Apply**
+ - Click **Close**
+ - Click the **Visualize** icon in the QuickSight navigation pane
+  
+</details>
 
 ## License Summary
 
