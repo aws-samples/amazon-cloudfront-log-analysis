@@ -1,6 +1,46 @@
 ## Amazon Cloudfront Log Analysis
 
-Analyze & Visualize Amazon CloudFront and Lambda@Edge Logs to Improve Customer Experience on your website.
+# Analyze & Visualize Amazon CloudFront and Lambda@Edge Logs to Improve Customer Experience on your website.
+
+## AWS Console
+
+### Verifying your region in the AWS Management Console
+
+With Amazon Ec2, you can place instances in multiple locations. Amazon EC2 locations are composed of regions that contain more that one Availability Zones. Regions are dispersed and located in separate geographic areas (US, EU, etc.). Availability Zones are distinct locations within a region. They are are engineered to be isolated from failures in other Availability Zones and to provide inexpensive, low-latency network connectivity to other Availability Zones in the same region.
+
+By launching instances in separate regions, you can design your application to be closer to specific customers or to meet legal or other requirements. By launching instances in separate Availability Zones, you can protect your application from localized regional failures.
+
+### Verify your Region
+
+The AWS region name is always listed in the upper-right corner of the AWS Management Console, in the navigation bar.
+
+* Make a note of the AWS region name, for example, for this lab you will need to choose the **US West (Oregon)** region.
+* Use the chart below to determine the region code. Choose **us-west-2 for this lab.**
+
+| Region Name |Region Code|
+|---|---|
+|US East (Northern Virginia) Region|us-east-1  |
+|US West (Oregon) Region|us-west-2|
+|Asia Pacific (Tokyo) Region|ap-northeast-1|
+|Asia Pacific (Seoul) Region|ap-northeast-2|
+|Asia Pacific (Singapore) Region|ap-southeast-1|
+|Asia Pacific (Sydney) Region|ap-southeast-2|
+|EU (Ireland) Region|eu-west-1|
+|EU (Frankfurt) Region|eu-central-1|
+
+---
+## Labs
+
+### Pre-requisites
+
+[Create a new AWS Account](https://aws.amazon.com/free/) if you don't have one. 
+ 
+
+|Lab|Name|
+|---|----|
+|Lab 1|[Serverless Amazon CloudFront Log Analysis Pipeline](./lab1-serveless-cloudfront-log-analysis)|
+|Lab 2|[Amazon CloudFront Log Analysis using ELK](./lab2-cloudfront-log-analysis)|
+
 
 ## License Summary
 
