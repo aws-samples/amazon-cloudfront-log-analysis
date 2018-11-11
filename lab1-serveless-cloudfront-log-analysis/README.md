@@ -567,6 +567,117 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click on **Save & visualize** on the top of the page
 
 
+### Generate visualization to show hourly average time taken between edge and origin by country where the end user request originated from
+
+![edge-to-origin-chart.png](./assets/edge-to-origin-chart.png)
+
+- Ensure that the selected region is **Ireland** in top right corner
+- Click the *Filter *icon in the QuickSight navigation pane 
+- Click on **+** symbol next to **Applied Filters**
+- Select **day** field in the pop up menu
+
+![edge-to-origin-filter.png](./assets/edge-to-origin-filter.png)
+
+- Choose the new filter that you just created by clicking on filter name **day**
+- Wait for QuickSight to load the filter values and then check the box next to one of the values for the day field *(e.g. 4)*  
+- Click **Apply**
+- Click **Close**
+- Click again on **+** symbol next to **Applied Filters** to add another filter
+- Select **viewercountry** field in the pop up menu
+- Choose the new filter that you just created by clicking on filter name **viewercountry**
+- Select all the values **(DE, IE, IN, US)** except **NULL**
+- Click **Apply**
+-  Click **Close**
+-  Click again on **+** symbol next to **Applied Filters** to add another filter
+-  Select **responseresulttype** field in the pop up menu
+-  Choose the new filter that you just created by clicking on filter name **responseresulttype**
+-  Select **Miss** from the list of values
+-  Click **Apply**
+-  Click **Close**
+
+![edge-to-rogin-filter-summary.png](./assets/edge-to-origin-filter-summary.png)
+
+- Click the **Visualize** icon in the QuickSight navigation pane
+
+![edge-to-origin-visualize.png](./assets/edge-to-origin-visualize.png)
+
+- Select the Line chart under **Visual types** 
+- Drag and drop the **#HourofDay** field into the **X axis** in the **Field wells** section on the top 
+- Drag and drop the **viewercountry** field into the **Color** in the **Field wells** section 
+- Drag and drop the **#EdgeToOriginTimeTaken** field into the **Value** in the **Field wells** section
+- Click on the down arrow next to **EdgeToOriginTimeTaken** in the Value to reveal a sub-menu
+- Select **Aggregate:** and select **Average**
+
+![edge-to-origin-x-axis.png](./assets/edge-to-origin-x-axis.png)
+
+- Click on the drop down arrow next to **HourOfDay** in the x-axis of the chart to reveal a sub menu.
+- Click on the Ascending order next to **HourOfDay** under **Sort by** in the revealed menu
+- Edit the title by click on the title in the chart to **Houlry Avg. for time taken from edge to origin by end user country** (optional)
+
+### Generate visualization to show hourly average time taken (total Vs. edge to origin Vs. server-side processing) by country where the end user request originated from
+
+![time-taken-chart.png](./assets/time-taken-chart.png)
+
+- Click on *Add *from the QuickSight menu on the top to **Add Visual** from the pop up menu
+- Ensure that the selected region is **Ireland** in top right corner
+- Click the **Filter** icon in the QuickSight navigation pane 
+- Click on **+** symbol next to **Applied Filters**
+- Select **day** field in the pop up menu
+- Choose the new filter that you just created by clicking on filter name **day**
+- Wait for QuickSight to load the filter values and then check the box next to one of the values for the day field (*e.g. 4 same day that you selected in the previous chart*)  
+- Click **Apply**
+- Click **Close**
+-  Click again on **+** symbol next to **Applied Filters** to add another filter
+-  Select **viewercountry** field in the pop up menu
+-  Choose the new filter that you just created by clicking on filter name **viewercountry**
+-  Select one of the values (e.g. **US**) except **DE**
+-  Click **Apply**
+-  Click **Close**
+-  Click again on **+** symbol next to **Applied Filters** to add another filter
+-  Select **responseresulttype** field in the pop up menu
+-  Choose the new filter that you just created by clicking on filter name **responseresulttype**
+-  Select **Miss** from the list of values
+-  Click **Apply**
+-  Click **Close**
+
+![time-taken-filter-summary.png](./assets/time-taken-filter-summary.png)
+
+- Click the **Visualize** icon in the QuickSight navigation pane
+
+![time-taken-visualize.png](./assets/time-taken-visualize.png)
+
+- Select the Line chart under **Visual types** 
+- Drag and drop the **#HourofDay**field into the **X axis** in the **Field wells** section on the top 
+- Drag and drop the **#EdgeToOriginTimeTaken** field into the **Value** in the **Field wells** section
+- Click on the down arrow next to **EdgeToOriginTimeTaken** in the Value to reveal a sub-menu
+- Select **Aggregate:** and select **Average**
+- Drag and drop the **#TimeTakenAtALB**field into the **Value** in the **Field wells** section
+- Click on the down arrow next to **#TimeTakenAtALB** in the Value to reveal a sub-menu
+- Select **Aggregate:** and select **Average**
+- Drag and drop the **#timetaken** field into the **Value** in the **Field wells** section
+- Click on the down arrow next to **#timetaken** in the Value to reveal a sub-menu
+- Select **Aggregate:** and select **Average**
+- Click on the drop down arrow next to **HourOfDay** in the x-axis of the chart to reveal a sub menu.
+- Click on the Ascending order next to **HourOfDay** under **Sort by** in the revealed menu
+- Edit the title by click on the title in the chart to **Hourly Avg. time taken (total Vs. edge to origin Vs. server-side processing) by end user country** (optional)
+
+### __Optional Section:__ Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewER country
+
+<details>
+     <summary>Click to expand for optional section</summary>
+  
+  ### Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewER country
+  
+  ![time-taken-visualize-2.png](./assets/time-taken-visualize-2.png)
+  
+  - Click the **Filter** icon in the QuickSight navigation pane 
+  - Choose the new filter that you just created by clicking on filter name **viewercountry**
+  - Select one of the values (e.g. **IN**) except **DE**
+  - Click **Apply**
+  - Click **Close**
+  - Click the **Visualize** icon in the QuickSight navigation pane
+
+</details>
 
 
 
