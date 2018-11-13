@@ -16,8 +16,8 @@ By launching instances in separate regions, you can design your application to b
 
 The AWS region name is always listed in the upper-right corner of the AWS Management Console, in the navigation bar.
 
-* Make a note of the AWS region name, for example, for this lab you will need to choose the **US West (Oregon)** region.
-* Use the chart below to determine the region code. Choose **us-west-2 for this lab.**
+* Make a note of the AWS region name, for example, for this lab you will need to choose the **EU West-1 (Ireland)** region.
+* Use the chart below to determine the region code. Choose **eu-west-1 for this lab.**
 
 | Region Name |Region Code|
 |---|---|
