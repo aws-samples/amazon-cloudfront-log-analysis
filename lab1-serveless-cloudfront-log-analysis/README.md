@@ -32,7 +32,12 @@ In this lab, you are going to build a serverless architecture to combine all the
 
 ## Lambda @ Edge
 
+![lambda-edge.png](./assets/lambda-edge.png)
 
+|EventType|Script|
+|---|----|
+|Viewer Request|[index.js](./viewerRequest-Lambda/index.js)|
+|Origin Request|[index.js](./originRequest-Lambda/index.js)|
 
 ## Create Amazon S3 Bucket
 
