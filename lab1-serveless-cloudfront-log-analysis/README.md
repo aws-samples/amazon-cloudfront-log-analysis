@@ -2,9 +2,37 @@
 
 ## Overview
 
-## Architecture Diagram
+### Log collection
+  
 
-![architecture-overview.png](./assets/architecture-diagram.png)
+![log-collection.png](./assets/log-collection.png)
+
+As part of the log data generation generation, the following four different logs have been collected
+
+|Log Name|Raw Log Location|Format|
+|---|----|---|
+|Viewer request triggered Lambda@Edge logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lelogs/viewer-request/|JSON{executionregion, requestid, distributionid, distributionname, eventtype, requestdata, customtraceid, useragentstring}| 
+|Amazon CloudFront access logs|aws s3 ls s3://eu-west-1.data-analytics/raw/cf-accesslogs/|[Web Distribution Log File Format](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#BasicDistributionFileFormat)|
+|Origin request triggered Lambda@Edge logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lelogs/origin-request/|JSON{executionregion, requestid, distributionid, distributionname, eventtype, requestdata, customtraceid, viewercountry, deviceformfactor}|
+|Application Load Balancer(ALB) logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lblogs/|[Access Log Entries](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-log-entry-format)|
+
+
+### ETL job to convert raw log to optimized logs in Parquet format 
+
+![architecture-overview-all.png](./assets/architecture-overview-all.png)
+
+The raw logs are converted to optimized logs stored in compresssed raw parquet format and are partitioned using the hive compatible partition format
+
+|Log Name|Partition|Conversion Script|Github|
+|---|----|---|---|
+|Viewer request triggered Lambda@Edge logs|year, month, day, hour|[lelogconverter.py](./lelogconverter.py)|-|
+|Amazon CloudFront access logs|year, month, day|[sample_cloudfront_job.py](https://github.com/awslabs/athena-glue-service-logs/blob/master/scripts/sample_cloudfront_job.py)|[Link](https://github.com/awslabs/athena-glue-service-logs)|
+|Origin request triggered Lambda@Edge logs|year, month, day, hour|[lelogconverter.py](./lelogconverter.py)|-|
+|Application Load Balancer(ALB) logs|region, year, month, day|[sample_alb_job.py](https://github.com/awslabs/athena-glue-service-logs/blob/master/scripts/sample_alb_job.py)|[Link](https://github.com/awslabs/athena-glue-service-logs)|
+
+
+
+![architecture-diagram.png](./assets/architecture-diagram.png)
 
 ## Create Amazon S3 Bucket
 
