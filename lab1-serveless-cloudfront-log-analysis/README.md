@@ -9,19 +9,19 @@
 
 As part of the log data generation generation, the following four different logs have been collected
 
-|Log Name|Raw Log Location|Format|
-|---|----|---|
-|Viewer request triggered Lambda@Edge logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lelogs/viewer-request/|JSON{executionregion, requestid, distributionid, distributionname, eventtype, requestdata, customtraceid, useragentstring}| 
-|Amazon CloudFront access logs|aws s3 ls s3://eu-west-1.data-analytics/raw/cf-accesslogs/|[Web Distribution Log File Format](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#BasicDistributionFileFormat)|
-|Origin request triggered Lambda@Edge logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lelogs/origin-request/|JSON{executionregion, requestid, distributionid, distributionname, eventtype, requestdata, customtraceid, viewercountry, deviceformfactor}|
-|Application Load Balancer(ALB) logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lblogs/|[Access Log Entries](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-log-entry-format)|
+|Log Name|Raw Log Location|Format|Log Entries|
+|---|----|---|-----|
+|Viewer request triggered Lambda@Edge logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lelogs/viewer-request/|JSON|{executionregion, requestid, distributionid, distributionname, eventtype, requestdata, customtraceid, useragentstring}| 
+|Amazon CloudFront access logs|aws s3 ls s3://eu-west-1.data-analytics/raw/cf-accesslogs/|CSV|[Web Distribution Log File Format](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#BasicDistributionFileFormat)|
+|Origin request triggered Lambda@Edge logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lelogs/origin-request/|JSON|{executionregion, requestid, distributionid, distributionname, eventtype, requestdata, customtraceid, viewercountry, deviceformfactor}|
+|Application Load Balancer(ALB) logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lblogs/|JSON|[Access Log Entries](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-log-entry-format)|
 
 
-### ETL job to convert raw log to optimized logs in Parquet format 
+### Lab Overview 
 
 ![architecture-overview-all.png](./assets/architecture-overview-all.png)
 
-The raw logs are converted to optimized logs stored in compresssed raw parquet format and are partitioned using the hive compatible partition format
+In this lab, you are going to build a serverless architecture to combine all the four logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3) Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs using AWS Glue and then analyze the combined logs using Amazon Athena and visualize in Amazon QuickSight. The logs you are going to use is already converter from raw logs in CSV or JSON format to optimized logs into partition and compresses parquet format. 
 
 |Log Name|Partition|Conversion Script|Github|
 |---|----|---|---|
@@ -30,9 +30,9 @@ The raw logs are converted to optimized logs stored in compresssed raw parquet f
 |Origin request triggered Lambda@Edge logs|year, month, day, hour|[lelogconverter.py](./lelogconverter.py)|-|
 |Application Load Balancer(ALB) logs|region, year, month, day|[sample_alb_job.py](https://github.com/awslabs/athena-glue-service-logs/blob/master/scripts/sample_alb_job.py)|[Link](https://github.com/awslabs/athena-glue-service-logs)|
 
+## Lambda @ Edge
 
 
-![architecture-diagram.png](./assets/architecture-diagram.png)
 
 ## Create Amazon S3 Bucket
 
