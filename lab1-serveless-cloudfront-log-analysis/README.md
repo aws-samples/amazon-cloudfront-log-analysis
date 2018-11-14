@@ -23,12 +23,12 @@ As part of the log data generation generation, the following four different logs
 
 In this lab, you are going to build a serverless architecture to combine all the four logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3) Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs using AWS Glue and then analyze the combined logs using Amazon Athena and visualize in Amazon QuickSight. The logs you are going to use is already converter from raw logs in CSV or JSON format to optimized logs into partition and compresses parquet format. 
 
-|Log Name|Partition|Conversion Script|Github|
-|---|----|---|---|
-|Viewer request triggered Lambda@Edge logs|year, month, day, hour|[lelogconverter.py](./lelogconverter.py)|-|
-|Amazon CloudFront access logs|year, month, day|[sample_cloudfront_job.py](https://github.com/awslabs/athena-glue-service-logs/blob/master/scripts/sample_cloudfront_job.py)|[Link](https://github.com/awslabs/athena-glue-service-logs)|
-|Origin request triggered Lambda@Edge logs|year, month, day, hour|[lelogconverter.py](./lelogconverter.py)|-|
-|Application Load Balancer(ALB) logs|region, year, month, day|[sample_alb_job.py](https://github.com/awslabs/athena-glue-service-logs/blob/master/scripts/sample_alb_job.py)|[Link](https://github.com/awslabs/athena-glue-service-logs)|
+|Log Name|Partition|Conversion Script|Github|Optimized Log Location|
+|---|----|---|---|---|
+|Viewer request triggered Lambda@Edge logs|year, month, day, hour|[lelogconverter.py](./lelogconverter.py)|-|aws s3 ls s3://eu-west-1.data-analytics/cflogworkshop/optimized/lelogs/viewer-request/|
+|Amazon CloudFront access logs|year, month, day|[sample_cloudfront_job.py](https://github.com/awslabs/athena-glue-service-logs/blob/master/scripts/sample_cloudfront_job.py)|[Link](https://github.com/awslabs/athena-glue-service-logs)|aws s3 ls s3://us-east-1.data-analytics/cflogworkshop/optimized/cf-accesslogs/|
+|Origin request triggered Lambda@Edge logs|year, month, day, hour|[lelogconverter.py](./lelogconverter.py)|-|aws s3 ls s3://eu-west-1.data-analytics/cflogworkshop/optimized/lelogs/origin-request/|
+|Application Load Balancer(ALB) logs|region, year, month, day|[sample_alb_job.py](https://github.com/awslabs/athena-glue-service-logs/blob/master/scripts/sample_alb_job.py)|[Link](https://github.com/awslabs/athena-glue-service-logs)|aws s3 ls s3://eu-west-1.data-analytics/cflogworkshop/optimized/lblogs/|
 
 ## Lambda @ Edge
 
@@ -49,7 +49,7 @@ In this lab, you are going to build a serverless architecture to combine all the
 - In the **Create Bucket** pop-up page, input a unique **Bucket name**. Choose a large bucket name with many random characters and numbers (no spaces). You will need this Bucket name later in this exercise. 
   - Select the region as **EU (Ireland)**.
   - Click Next to navigate to next tab.
-  - In the **Set properties** tab, leave all options as default.
+  - In the **Configure Options** tab, leave all options as default.
   - In the **Set permissions** tag, leave all options as default.
   - In the **Review** tab, click on **Create Bucket**
   
@@ -337,9 +337,9 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - On the **Review** page, click **Save job and edit script**
 - If this your first time, a **Script editor tips** page will pop up. Close the pop up page by clicking on the *x *symbol on the top right
 - Copy and paste the LogCombiner script [log-combiner-glue-script.py](./log-combiner-glue-script.py) to AWS Glue script editor pane
-- Replace the place holder *<your-s3-bucket>* with the name of the Amazon S3 bucket your created at the beginning of this lab
+- Replace the place holder **<your-s3-bucket>** with the name of the Amazon S3 bucket your created at the beginning of this lab
 
-> **Note:** This step may take from upto 15 minutes to complete. 
+> **Note:** there are 4 place holder in the script that needs to replaced with the name of the Amazon S3 bucket created at the begining of this lab.
 
 - Click **Save**
 - Click **Run**
@@ -695,7 +695,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Edit the title by click on the title in the chart to **Hourly Avg. time taken (total Vs. edge to origin Vs. server-side processing) by end user country** (optional)
 
 <details>
-     <summary>Click to expand for optional section</summary>
+     <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
   
   ### Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewer country
   
@@ -761,7 +761,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 ![device-form-factor-visualize.png](./assets/device-form-factor-visualize.png)
 
 <details>
-     <summary>Click to expand for optional section</summary>
+     <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
      
  ### Generate visualization to show device form factor ration by viewer country
  
