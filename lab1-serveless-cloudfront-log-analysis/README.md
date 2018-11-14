@@ -599,6 +599,53 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Ensure that **#TotatlTimeTakenAtALB** appears under **Calculated fields**
 - Click on **Save & visualize** on the top of the page
 
+### Generate visualization to status code by edge location
+![quicksight-status-code-pop.png](./assets/quicksight-status-code-pop.png)
+
+Ensure that the selected region is **Ireland** in top right corner
+- Click the *Filter *icon in the QuickSight navigation pane 
+- Click on **+** symbol next to **Applied Filters**
+- Select **day** field in the pop up menu
+
+![quicksight-status-code-pop-filter.png](./assets/quicksight-status-code-pop-filter.png)
+
+- Choose the new filter that you just created by clicking on filter name **day**
+- Wait for QuickSight to load the filter values and then check the box next to one of the values for the day field *(e.g. 4)*  
+- Click **Apply**
+- Click **Close**
+- Click again on **+** symbol next to **Applied Filters** to add another filter
+- Select **HourOfDay** field in the pop up menu
+- Choose the new filter that you just created by clicking on filter name **HourOfDay**
+- Wait for QuickSight to load the filter values and then check the box next to one of the values for the day field *(e.g. 0)*  
+- Click **Apply**
+- Click **Close**
+
+![quicksight-status-code-filter-summary.png](./assets/quicksight-status-code-filter-summary.png)
+
+- Click the **Visualize** icon in the QuickSight navigation pane
+
+![quicksight-status-code-visualize-1.png](./assets/quicksight-status-code-visualize-1.png)
+
+- Select the Horizontal bar chart under **Visual types** 
+- Drag and drop the **#status** field into the **Y axis** in the **Field wells** section on the top 
+- Drag and drop the **location** field into the **Group/Color** in the **Field wells** section 
+- Click on the drop down arrow next to **status** in the y-axis of the chart to reveal a sub menu.
+- Click on the Ascending order for **Sort by** in the revealed menu
+- Edit the title by click on the title in the chart to **Status code by Edge Location**(optional)
+
+<details>
+     <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
+     
+### Generate visualization to status code by URI
+     
+- Drag and drop the **uri** field into the **Group/Color** in the **Field wells** section 
+- Click on the drop down arrow next to **status** in the y-axis of the chart to reveal a sub menu.
+- Click on the Ascending order for **Sort by** in the revealed menu
+- Edit the title by click on the title in the chart to **Status code by URI**(optional)     
+     
+![quicksight-status-code-visualize-2.png](./assets/quicksight-status-code-visualize-2.png)
+     
+</details>
 
 ### Generate visualization to show hourly average time taken between edge and origin by country where the end user request originated from
 
@@ -608,9 +655,6 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click the *Filter *icon in the QuickSight navigation pane 
 - Click on **+** symbol next to **Applied Filters**
 - Select **day** field in the pop up menu
-
-![edge-to-origin-filter.png](./assets/edge-to-origin-filter.png)
-
 - Choose the new filter that you just created by clicking on filter name **day**
 - Wait for QuickSight to load the filter values and then check the box next to one of the values for the day field *(e.g. 4)*  
 - Click **Apply**
@@ -628,7 +672,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 -  Click **Apply**
 -  Click **Close**
 
-![edge-to-rogin-filter-summary.png](./assets/edge-to-origin-filter-summary.png)
+![edge-to-origin-filter-summary.png](./assets/edge-to-origin-filter-summary.png)
 
 - Click the **Visualize** icon in the QuickSight navigation pane
 
@@ -737,6 +781,13 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click the **Visualize** icon in the QuickSight navigation pane
 
 ![product-category-sort.png](./assets/product-category-sort.png)
+
+- Select the **Horizontal bar chart** under **Visual types** 
+- Drag and drop the **requestdata** field into the **Y axis** in the **Field wells** section on the top 
+- Drag and drop the **viewercountry** field into **Group/Color** in the **Field wells** section
+- Click on the drop down arrow next to **requestdata** in the y-axis of the chart to reveal a sub menu.
+- Click on the Ascending order for **Sort by** in the revealed menu
+- Edit the title by click on the title in the chart to **Count of product category by end user country**(optional)
 
 ### Generate visualization to show device form factor ratio
 
