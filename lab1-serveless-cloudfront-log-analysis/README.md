@@ -348,7 +348,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Click **Run job**
 - Close the script editor page by click on **X** symbol on the right hand side of the page 
 - On the Jobs pages check the box next to the name of the Glue ETL job *(e.g. ReInvent2018-CTD410-LogCombiner)* *to view the current status of the job under the **History** tab at the bottom of the page
-- Ensure that the *Run status *is displaced as **Running**
+- Ensure that the **Run status** is displaced as **Running**
 - Wait until the Run status changes to **Succeeded** 
 
 > **Note:** This step may take from upto 15 minutes to complete.
