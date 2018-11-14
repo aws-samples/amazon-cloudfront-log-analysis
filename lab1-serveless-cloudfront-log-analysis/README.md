@@ -341,7 +341,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Click **Run**
 - Expand *Security configuration, script libraries, and job parameters* section on the popped up **Parameters(optional)** page
 - Under **Job parameters**, type **--target_s3_bucket** into the text box under **Key**
-- Type the name of the Amazon S3 bucket that you created at the beginning of this lab.
+- Into the text box under  **Value**, type the name of the Amazon S3 bucket that you created at the beginning of this lab.
 
 > **Note:** Type only the name of the S3 bucket and **not** the Amazon S3 path starting with S3:// 
 
