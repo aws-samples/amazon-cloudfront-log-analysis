@@ -8,7 +8,7 @@ from awsglue.dynamicframe import DynamicFrame
 from awsglue.job import Job
 
 ## @params: [JOB_NAME]
-args = getResolvedOptions(sys.argv, ['JOB_NAME'])
+args = getResolvedOptions(sys.argv, ['JOB_NAME', 'target_s3_bucket'])
 
 sc = SparkContext()
 glueContext = GlueContext(sc)
@@ -59,8 +59,11 @@ trimmedLambdaEdgeLogs = DropFields.apply(frame =lambdaEdgeLogs, paths=["year", "
 ## Convert to DataFrame
 trimmedLambdaEdgeLogsDF = trimmedLambdaEdgeLogs.toDF()
 
+#Destnation S3 loaction for combine Lambda@Edge logs
+leLogDestPath = "s3://" + args['target_s3_bucket'] + "/combined/lelogs"
+
 ## Write the combined Lambda@Edge logs to S3 (s3://<your-s3-bucket>/combined/lelogs) in optimized Parquet format partitioned by year, month, date, hour
-lambdaEdgeLogsSink = glueContext.write_dynamic_frame.from_options(frame = lambdaEdgeLogs, connection_type = "s3", connection_options = {"path": "s3://<your-s3-bucket>/combined/lelogs", "partitionKeys": ["year", "month", "date", "hour"]}, format = "parquet", transformation_ctx = "lambdaEdgeLogsSink")
+lambdaEdgeLogsSink = glueContext.write_dynamic_frame.from_options(frame = lambdaEdgeLogs, connection_type = "s3", connection_options = {"path": leLogDestPath, "partitionKeys": ["year", "month", "date", "hour"]}, format = "parquet", transformation_ctx = "lambdaEdgeLogsSink")
 
 ########################################################################
 # Combining Lambda@Edge Logs , CloudFront Access Logs, ALB Access Logs #
@@ -103,7 +106,11 @@ combinedLogs = DynamicFrame.fromDF(combinedLogsDF, glueContext, "combinedLogs")
 ## Drop custom trace id and requestid from combined logs
 finalCombinedLogs = DropFields.apply(frame = combinedLogs, paths=["custom_trace_id", "cf_requestid"], transformation_ctx ="finalCombinedLogs")
 
+#Destnation S3 loaction for combine logs
+logDestPath = "s3://" + args['target_s3_bucket'] + "/combined/logs"
+
+
 ## Write the combined Lambda@Edge logs to S3 (s3://<your-s3-bucket>/combined/lelogs) in optimized Parquet format partitioned by year, month, day
-finalCombinedLogsSink = glueContext.write_dynamic_frame.from_options(frame = finalCombinedLogs, connection_type = "s3", connection_options = {"path": "s3://<your-s3-bucket>/combined/logs", "partitionKeys": ["year", "month", "day"]}, format = "parquet", transformation_ctx = "finalCombinedLogsSink")
+finalCombinedLogsSink = glueContext.write_dynamic_frame.from_options(frame = finalCombinedLogs, connection_type = "s3", connection_options = {"path": logDestPath, "partitionKeys": ["year", "month", "day"]}, format = "parquet", transformation_ctx = "finalCombinedLogsSink")
 
 job.commit()

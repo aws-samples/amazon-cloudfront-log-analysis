@@ -337,13 +337,15 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - On the **Review** page, click **Save job and edit script**
 - If this your first time, a **Script editor tips** page will pop up. Close the pop up page by clicking on the *x *symbol on the top right
 - Copy and paste the LogCombiner script [log-combiner-glue-script.py](./log-combiner-glue-script.py) to AWS Glue script editor pane
-- Replace the place holder **<your-s3-bucket>** with the name of the Amazon S3 bucket your created at the beginning of this lab
-
-> **Note:** there are 4 place holder in the script that needs to replaced with the name of the Amazon S3 bucket created at the begining of this lab.
-
 - Click **Save**
 - Click **Run**
-- Click **Run job** on the popped up **Parameters(optional)** page
+- Expand *Security configuration, script libraries, and job parameters* section on the popped up **Parameters(optional)** page
+- Under **Job parameters**, type **--target_s3_bucket** into the text box under **Key**
+- Type the name of the Amazon S3 bucket that you created at the beginning of this lab.
+
+> **Note:** Type only the name of the S3 bucket and **not** the Amazon S3 path starting with S3:// 
+
+- Click **Run job**
 - Close the script editor page by click on **X** symbol on the right hand side of the page 
 - On the Jobs pages check the box next to the name of the Glue ETL job *(e.g. ReInvent2018-CTD410-LogCombiner)* *to view the current status of the job under the **History** tab at the bottom of the page
 - Ensure that the *Run status *is displaced as **Running**
@@ -356,7 +358,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Open the AWS Management Console for Athena from [here](https://console.aws.amazon.com/athena/home).
 - In the query pane, copy the following statement to create a the *lambdaedge_logs_combined_optimized* table, and then choose **Run Query**:
 
-> **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in step 1 earlier.
+> **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in beginning of this lab.
 
 ```$xslt
 CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized(
