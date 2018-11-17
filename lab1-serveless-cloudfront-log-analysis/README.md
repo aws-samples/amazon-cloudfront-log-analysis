@@ -543,9 +543,9 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 
 ![quicksight-s3-bucket-selection.png](./assets/quicksight-s3-bucket-selection.png)
 
-- On the pop up *Select Amazon S3 buckets *page check the box next to* Select all *or the name of the Amazon S3 bucket you created at the beginning of the lab
+- On the pop up **Select Amazon S3 buckets** page check the box next to **Select all** or the name of the Amazon S3 bucket you created at the beginning of the lab
 -  Click **Select buckets**
-- Ensure that the box next to *Amazon S3 *is checked
+- Ensure that the box next to **Amazon S3** is checked
 - Click **Apply**
 
 ### Configuring Amazon Quicksight to use Amazon Athena as data source
@@ -575,11 +575,11 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 
 ### Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight
 
-- Under *Fields* on the left column, click **New field**
+- Under **Fields** on the left column, click **New field**
 
 ![quicksight-new-field.png](./assets/quicksight-new-field.png)
 
-- In the *Add calculated field *pop up page, type **EdgeToOriginTimeTaken** under **Calculated field name**
+- In the **Add calculated field** pop up page, type **EdgeToOriginTimeTaken** under **Calculated field name**
 - Copy and paste the formula below in the **Formula** text box
 
 ```$xslt
@@ -593,7 +593,7 @@ ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_tim
 
 - Under **Fields** on the left column, click **New field**
 - In the **Add calculated field** pop up page, type **HourOfDay** under **Calculated field name**
-- Copy and paste the formula below in the *Formula* text box
+- Copy and paste the formula below in the **Formula** text box
 
 ```$xslt
 extract("HH",{time})
@@ -620,7 +620,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 ![quicksight-status-code-pop.png](./assets/quicksight-status-code-pop.png)
 
 Ensure that the selected region is **Ireland** in top right corner
-- Click the *Filter *icon in the QuickSight navigation pane 
+- Click the **Filter** icon in the QuickSight navigation pane 
 - Click on **+** symbol next to **Applied Filters**
 - Select **day** field in the pop up menu
 
@@ -669,7 +669,7 @@ Ensure that the selected region is **Ireland** in top right corner
 ![edge-to-origin-chart.png](./assets/edge-to-origin-chart.png)
 
 - Ensure that the selected region is **Ireland** in top right corner
-- Click the *Filter *icon in the QuickSight navigation pane 
+- Click the **Filter** icon in the QuickSight navigation pane 
 - Click on **+** symbol next to **Applied Filters**
 - Select **day** field in the pop up menu
 - Choose the new filter that you just created by clicking on filter name **day**
@@ -712,7 +712,7 @@ Ensure that the selected region is **Ireland** in top right corner
 
 ![time-taken-chart.png](./assets/time-taken-chart.png)
 
-- Click on *Add *from the QuickSight menu on the top to **Add Visual** from the pop up menu
+- Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
 - Ensure that the selected region is **Ireland** in top right corner
 - Click the **Filter** icon in the QuickSight navigation pane 
 - Click on **+** symbol next to **Applied Filters**
@@ -816,7 +816,7 @@ Ensure that the selected region is **Ireland** in top right corner
 - Click on **+** symbol next to **Applied Filters**
 - Select **deviceformfactor** field in the pop up menu
 - Choose the new filter that you just created by clicking on filter name **deviceformfactor**
-- Choose *Custom filter from the drop down for **Filter type** 
+- Choose **Custom filter** from the drop down for **Filter type** 
 - For the second drop down under **Filter type** choose **Does not equal**
 - Type *null* in the text box.
 - Click **Apply**
