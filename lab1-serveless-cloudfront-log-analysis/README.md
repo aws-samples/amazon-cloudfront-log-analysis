@@ -311,7 +311,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 > **Note**: Do not click on the policy, you just have to check the corresponding checkbox
 
-- On the same page, now search policies for Glue and check the box for *AWSGlueConsoleFullAccess* and *AWSGlueServiceRole*.
+- On the same page, now search policies for Glue and check the box for **AWSGlueConsoleFullAccess** and **AWSGlueServiceRole**.
 
 > **Note**: Do not click on the policy, you just have to check the corresponding checkbox
 
