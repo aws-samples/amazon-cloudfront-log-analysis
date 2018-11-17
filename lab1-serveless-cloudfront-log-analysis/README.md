@@ -521,7 +521,7 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 
 ![quicksight-account-create.png](./assets/quicksight-account-create.png)
 
-- On the next page, type a unique **QuickSight account name** 
+- On the next page, type a unique **QuickSight account name** *(e.g. REInvent2018-CTD410-QuickSight)*
 - Type a valid email id for **Notification email address**
 - Just for this step, ensure that **US East(N. Virginia)** is selected from the drop down menu for *QuickSight capacity region*
 - Ensure that boxes next to **Enable autodiscovery of your data and users in your Amazon Redshift, Amazon RDS and AWS IAM Services** and **Amazon Athena** are checked
@@ -533,7 +533,7 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 
 ![quicksight-manage.png](./assets/quicksight-manage.png)
 
-- On the Amazon QuickSight dashboard, navigate to User Settings page on the Top-Right section and click *Manage QuickSight*.
+- On the Amazon QuickSight dashboard, navigate to user settings page on the top right section and click **Manage QuickSight**.
 
 ![quicksight-permissionpng](./assets/quicksight-permission.png)
 
@@ -544,7 +544,7 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 ![quicksight-s3-bucket-selection.png](./assets/quicksight-s3-bucket-selection.png)
 
 - On the pop up **Select Amazon S3 buckets** page check the box next to **Select all** or the name of the Amazon S3 bucket you created at the beginning of the lab
--  Click **Select buckets**
+- Click **Select buckets**
 - Ensure that the box next to **Amazon S3** is checked
 - Click **Apply**
 
@@ -553,6 +553,7 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 ![quicksight-region-selection.png](./assets/quicksight-region-selection.png)
 
 - Select **EU(Ireland)** as the region for this lab
+- If this is first time you are using Amazon QuickSight in this region, close **Welcome to QuickSight** pop up page by clicking on the **x** symbol.
 - Click on **Manage data** in the upper right hand corner
 - Click on **New data set** on the upper left hand corner
 
@@ -575,7 +576,7 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 
 ### Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight
 
-- Under **Fields** on the left column, click **New field**
+- Under **Fields** on the left column, click **Add calculated field**
 
 ![quicksight-new-field.png](./assets/quicksight-new-field.png)
 
@@ -586,12 +587,12 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_time < -1 or response_processing_time < -1 or request_processing_time < -1, 0, {timetaken} - {target_processing_time} + {response_processing_time} +{request_processing_time}))
 ```
 
--Click **Create**
--Ensure that **#EdgeToOriginTimeTaken** appears under *Calculated fields*
+- Click **Create**
+- Ensure that **#EdgeToOriginTimeTaken** appears under *Calculated fields*
 
 ### Create new calculated fields "HourOfDay" in Amazon QuickSight
 
-- Under **Fields** on the left column, click **New field**
+- Under **Fields** on the left column, click **Add calculated field**
 - In the **Add calculated field** pop up page, type **HourOfDay** under **Calculated field name**
 - Copy and paste the formula below in the **Formula** text box
 
@@ -604,7 +605,7 @@ extract("HH",{time})
 
 ### Create new calculated fields "TotalTimeTakenAtALB" in Amazon QuickSight
 
-- Under **Fields** on the left column, click **New field**
+- Under **Fields** on the left column, click **Add calculated field**
 - In the **Add calculated field** pop up page, type **TotalTimeTakenAtALB** under **Calculated field name**
 - Copy and paste the formula below in the **Formula** text box
 
@@ -619,7 +620,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 ### Generate visualization to status code by edge location
 ![quicksight-status-code-pop.png](./assets/quicksight-status-code-pop.png)
 
-Ensure that the selected region is **Ireland** in top right corner
+- Ensure that the selected region is **Ireland** in top right corner
 - Click the **Filter** icon in the QuickSight navigation pane 
 - Click on **+** symbol next to **Applied Filters**
 - Select **day** field in the pop up menu
@@ -643,7 +644,7 @@ Ensure that the selected region is **Ireland** in top right corner
 
 ![quicksight-status-code-visualize-1.png](./assets/quicksight-status-code-visualize-1.png)
 
-- Select the Horizontal bar chart under **Visual types** 
+- Select the **Horizontal bar chart** under **Visual types** 
 - Drag and drop the **#status** field into the **Y axis** in the **Field wells** section on the top 
 - Drag and drop the **location** field into the **Group/Color** in the **Field wells** section 
 - Click on the drop down arrow next to **status** in the y-axis of the chart to reveal a sub menu.
@@ -669,6 +670,7 @@ Ensure that the selected region is **Ireland** in top right corner
 ![edge-to-origin-chart.png](./assets/edge-to-origin-chart.png)
 
 - Ensure that the selected region is **Ireland** in top right corner
+- Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
 - Click the **Filter** icon in the QuickSight navigation pane 
 - Click on **+** symbol next to **Applied Filters**
 - Select **day** field in the pop up menu
@@ -681,13 +683,13 @@ Ensure that the selected region is **Ireland** in top right corner
 - Choose the new filter that you just created by clicking on filter name **viewercountry**
 - Select all the values **(DE, IE, IN, US)** except **NULL**
 - Click **Apply**
--  Click **Close**
--  Click again on **+** symbol next to **Applied Filters** to add another filter
--  Select **responseresulttype** field in the pop up menu
--  Choose the new filter that you just created by clicking on filter name **responseresulttype**
--  Select **Miss** from the list of values
--  Click **Apply**
--  Click **Close**
+- Click **Close**
+- Click again on **+** symbol next to **Applied Filters** to add another filter
+- Select **responseresulttype** field in the pop up menu
+- Choose the new filter that you just created by clicking on filter name **responseresulttype**
+- Select **Miss** from the list of values
+- Click **Apply**
+- Click **Close**
 
 ![edge-to-origin-filter-summary.png](./assets/edge-to-origin-filter-summary.png)
 
@@ -810,7 +812,7 @@ Ensure that the selected region is **Ireland** in top right corner
 
 ![device-form-factor-chart.png](./assets/device-form-factor-chart.png)
 
-- Click on *Add *from the QuickSight menu on the top to **Add Visual** from the pop up menu
+- Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
 - Ensure that the selected region is **Ireland** in top right corner
 - Click the **Filter** icon in the QuickSight navigation pane 
 - Click on **+** symbol next to **Applied Filters**
