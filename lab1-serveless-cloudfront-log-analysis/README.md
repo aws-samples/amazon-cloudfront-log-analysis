@@ -47,10 +47,12 @@ In this lab, you are going to build a serverless architecture to combine all the
 ![amazon-s3.png](./assets/amazon-s3.png)
 
 - In the **Create Bucket** pop-up page, input a unique **Bucket name**. Choose a large bucket name with many random characters and numbers (no spaces). You will need this Bucket name later in this exercise. 
-  - Select the region as **EU (Ireland)**.
-  - Click Next to navigate to next tab.
-  - In the **Configure Options** tab, leave all options as default.
-  - In the **Set permissions** tag, leave all options as default.
+  - Select the region as **EU (Ireland)**
+  - Click **Next** to navigate to next tab
+  - In the **Configure Options** tab, leave all options as default
+  - Click **Next** to navigate to next tab
+  - In the **Set permissions** tag, leave all options as default
+  - Click **Next** to navigate to next tab
   - In the **Review** tab, click on **Create Bucket**
   
  ![amazon-s3-create-bucket.png](./assets/amazon-s3-create-bucket.png) 
@@ -130,6 +132,8 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.cf_access_optimized
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.cf_access_optimized
 ```
 
+> **Note:** Ensure that the rowcount = **207535**
+
 - Get the first ten records:
 
 ```$xslt
@@ -193,6 +197,8 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.alb_access_optimized
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.alb_access_optimized
 ```
 
+> **Note:** Ensure that the rowcount = **15355**
+
 - Get the first ten records:
 
 ```$xslt
@@ -241,6 +247,8 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_viewer_request_o
 ```$xslt
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_viewer_request_optimized
 ```
+
+> **Note:** Ensure that the rowcount = **207837**
 
 - Get the first ten records:
 
@@ -292,6 +300,8 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_o
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_optimized
 ```
 
+> **Note:** Ensure that the rowcount = **14517**
+
 - Get the first ten records:
 
 ```$xslt
@@ -315,7 +325,8 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 > **Note**: Do not click on the policy, you just have to check the corresponding checkbox
 
-- Click on **Next:Review**
+- Click on **Next: Tags**
+- Click on **Next: Review**
 - Type the **Role name** *(e.g. ReInvent2018-CTD410-GlueRole)*
 - Type the **Role description** (optional)
 - Ensure that **AmazonS3FullAccess**, **AWSGlueConsoleFullAccess** and **AWSGlueServiceRole** are listed under policies
@@ -325,8 +336,8 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 - Open the AWS Management console for AWS Glue service from [here](https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1)
 - If this is your first time visiting the AWS Management Console for AWS Glue, you will get a Getting Started page. Choose **Get Started**. If this isn't your first time, the **Tables** pages opens.
-- Make a note of the AWS region name, for example, for this lab you will need to choose the *eu-west-1 (Ireland) *region
-- Click on **Jobs** under the *ETL *section in the navigation pane on the left
+- Make a note of the AWS region name, for example, for this lab you will need to choose the **eu-west-1 (Ireland)** region
+- Click on **Jobs** under the **ETL** section in the navigation pane on the left
 - Click on **Add job** to create a new ETL job to join the Amazon CloudFront access logs, Lambda@Edge(viewer-request and origin-request) logs and Application Load Balancer logs
 - On the **Job properties** page, type the **Name** *(e.g. ReInvent2018-CTD410-LogCombiner)* of the AWS Glue ETL job
 - Choose the **IAM role** you created *(e.g. ReInvent2018-CTD410-GlueRole)* as part of the previous section in this lab from the drop down menu
@@ -335,11 +346,11 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Click **Next**
 - On the **Connections** page, click **Next**
 - On the **Review** page, click **Save job and edit script**
-- If this your first time, a **Script editor tips** page will pop up. Close the pop up page by clicking on the *x *symbol on the top right
+- If this your first time, a **Script editor tips** page will pop up. Close the pop up page by clicking on the **x** symbol on the top right
 - Copy and paste the LogCombiner script [log-combiner-glue-script.py](./log-combiner-glue-script.py) to AWS Glue script editor pane
 - Click **Save**
-- Click **Run**
-- Expand *Security configuration, script libraries, and job parameters* section on the popped up **Parameters(optional)** page
+- Click **Run job**
+- Expand **Security configuration, script libraries, and job parameters** section on the popped up **Parameters(optional)** page
 - Under **Job parameters**, type **--target_s3_bucket** into the text box under **Key**
 - Into the text box under  **Value**, type the name of the Amazon S3 bucket that you created at the beginning of this lab.
 
@@ -395,6 +406,8 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimiz
 ```$xslt
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized
 ```
+
+> **Note:** Ensure that the rowcount = **207837**
 
 - Get the first ten records:
 ```$xslt
@@ -480,6 +493,8 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.combined_log_optimized
 ```$xslt
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.combined_log_optimized
 ```
+
+> **Note:** Ensure that the rowcount = **207537**
 
 - Get the first ten records:
 
