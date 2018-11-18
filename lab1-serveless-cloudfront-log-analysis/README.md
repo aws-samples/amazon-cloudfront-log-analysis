@@ -430,6 +430,8 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 > **Note:** This step may take from upto 15 minutes to complete.
 
+[combine-schema](./assets/combine-schema.png)
+
 ## Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
 
 - Open the AWS Management Console for Athena from [here](https://console.aws.amazon.com/athena/home).
