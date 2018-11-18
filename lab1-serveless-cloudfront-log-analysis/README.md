@@ -148,7 +148,7 @@ Please review the values in the following fields/columns as you will be using th
 
  |Field Name|Description|type
  |---|----|---|
- |requestid|An encrypted string that uniquely identifies a request. This field value is used to join the CloudFront access logs with the Lambda@Edge logs|string|
+ |requestid|An encrypted string that uniquely identifies a request. This field value is used to join the optimized CloudFront access logs with the optimized Lambda@Edge logs|string|
  |time|The time when the CloudFront server finished responding to the request (in UTC), for example, 01:42:39|timestamp|
  |location|The edge location that served the request. Each edge location is identified by a three-letter code and an arbitrarily assigned number, for example, DFW3. The three-letter code typically corresponds with the International Air Transport Association airport code for an airport near the edge location. (These abbreviations might change in the future.) For a list of edge locations, see the Amazon CloudFront detail page, [http://aws.amazon.com/cloudfront](http://aws.amazon.com/cloudfront)|string|
  |uri|The query string portion of the URI, if any. When a URI doesn't contain a query string, the value of cs-uri-query is a hyphen (-). For more information, see [Caching Content Based on Query String Parameters](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/QueryStringParameters.html).|string|
@@ -156,9 +156,9 @@ Please review the values in the following fields/columns as you will be using th
  |useragent| The value of the User-Agent header in the request. The User-Agent header identifies the source of the request, such as the type of device and browser that submitted the request and, if the request came from a search engine, which search engine. For more information, see [User-Agent Header](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/RequestAndResponseBehaviorCustomOrigin.html#request-custom-user-agent-header). 
  |responseresulttype|How CloudFront classified the response just before returning the response to the viewer. Possible values include:<ul><li>Hit – CloudFront served the object to the viewer from the edge cache.For information about a situation in which CloudFront classifies the result type as Hit even though the response from the origin contains a Cache-Control: no-cache header, see [Simultaneous Requests for the Same Object (Traffic Spikes)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/RequestAndResponseBehaviorCustomOrigin.html#request-custom-traffic-spikes).</li><li>RefreshHit – CloudFront found the object in the edge cache but it had expired, so CloudFront contacted the origin to determine whether the cache has the latest version of the object and, if not, to get the latest version.</li><li> Miss – The request could not be satisfied by an object in the edge cache, so CloudFront forwarded the request to the origin server and returned the result to the viewer.</li><li>LimitExceeded – The request was denied because a CloudFront limit was exceeded.</li><li></li>CapacityExceeded – CloudFront returned an HTTP 503 status code (Service Unavailable) because the CloudFront edge server was temporarily unable to respond to requests.<li>Error – Typically, this means the request resulted in a client error (sc-status is 4xx) or a server error (sc-status is 5xx).</li><li>Redirect – CloudFront redirects from HTTP to HTTPS.If sc-status is 403 and you configured CloudFront to restrict the geographic distribution of your content, the request might have come from a restricted location. For more information about geo restriction, see [Restricting the Geographic Distribution of Your Content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/georestrictions.html).If the value of x-edge-result-type is Error and the value of x-edge-response-result-type is not Error, the client disconnected before finishing the download.</li></ul>|string|
  |timetaken|The number of seconds (to the thousandth of a second, for example, 0.002) between the time that a CloudFront edge server receives a viewer's request and the time that CloudFront writes the last byte of the response to the edge server's output queue as measured on the server. From the perspective of the viewer, the total time to get the full object will be longer than this value due to network latency and TCP buffering.|double|          
-                  
-
-
+ |year(partition)|The year on which the event occurred.|string|
+ |month(partition)|The month on which the event occurred.|string|
+ |day(partition)|The day on which the event occurred.|string|
 
 ## Create Glue Data Catalog for Application Load Balancer(ALB) Access Logs in optimized Parquet Format
 
@@ -225,6 +225,19 @@ After a few seconds, Athena will display your query results as shown below:
 
 ![alb-access-optimized.png](./assets/alb-access-optimized.png)
 
+Please review the values in the following fields/columns as you will be using them in this workshop
+
+|Field Name|Description|type
+|---|----|---|
+|trace_id|The contents of the X-Amzn-Trace-Id header, enclosed in double quotes. This field is used to join the optimized ALB logs with the optimized Lambda@Edge logs which in turn is used to correlate with the optimized CloudFront access logs using the requestId filed. For more information see [Request Tracing for Your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html). Example value: ```X-Amzn-Trace-Id: Self=1-67891234-12456789abcdef012345678;Root=1-67891233-abcdef012345678912345678```|string|
+|request_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the request until the time it sent it to a target. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout.| double|
+|target_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer sent the request to a target until the target started to send the response headers. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout. |double|
+|response_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the response header from the target until it started to send the response to the client. This includes both the queuing time at the load balancer and the connection acquisition time from the load balancer to the client. This value is set to -1 if the load balancer can't send the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. |double|
+|region(partition|The region of the load balancer and S3 bucket.|string|
+|year(partition)|The year the log was delivered.|string|
+|month(partition)|The month the log was delivered.|string|
+|day(partition)|The day the logs was delivered.|string|
+
 ## Create Glue Data Catalog for Lambda@Edge Logs - Viewer Request in optimized Parquet Format
 
 In the query pane, copy the following statement to create a the *lambdaedge_logs_viewer_request_optimized* table, and then choose **Run Query**:
@@ -276,6 +289,19 @@ After a few seconds, Athena will display your query results as shown below:
 
 ![viewer-request-optimized.png](./assets/viewer-request-optimized.png)
 
+Please review the values in the following fields/columns
+
+|Field Name|Description|type
+|---|----|---|
+|requestid|An encrypted string that uniquely identifies a request. This field value is used to join the optimized CloudFront access logs with the optimized Lambda@Edge logs. The requestId value also appears in CloudFront access logs as x-edge-request-id. For more information, see [Configuring and Using Access Logs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) and [Web Distribution Log File Format](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#BasicDistributionFileFormat).|string|
+|eventtype|The type of trigger that's associated with the request. Value = "veiwer-request"|string|
+|distributionid|The ID of the distribution that's associated with the request.|string|
+|distributionname|The domain name of the distribution that's associated with the request.|string|
+|customtraceid|A uniquely generated value per request to join the ALB logs with Lambda@Edge logs. As part of client side instrumentation an unique value (Sample Value: ```Root=1-67891233-abcdef012345678912345678```) per request is generated and added two headers **x-my-trace-id** and **X-Amzn-Trace-Id**.  The viewer-request triggered Lambda@Edge function extract the **x-my-trace-id** header and logs the value. For more details see [Viewer Request Trigger Lambda Function](./viewerRequest-Lambda/index.js). The **X-Amzn-Trace-Id** value is logged by the ALB. For more details refer, [Request Tracing for Your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html). |string|
+|year(partition)|The year on which the event occurred.|string|
+|month(partition)|The month on which the event occurred.|string|
+|day(partition)|The day on which the event occurred.|string|
+
 ## Create Glue Data Catalog for Lambda@Edge Logs - Origin Request in optimized Parquet Format
 
 In the query pane, copy the following statement to create a the *lambdaedge_logs_origin_request_optimized* table, and then choose **Run Query**:
@@ -323,6 +349,25 @@ SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_o
 ```$xslt
 SELECT * FROM reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_optimized LIMIT 10
 ```
+
+After a few seconds, Athena will display your query results as shown below:
+
+![origin-request-optimized.png](./assets/origin-request-optimized.png)
+
+Please review the values in the following fields/columns
+
+|Field Name|Description|type
+|---|----|---|
+|requestid|An encrypted string that uniquely identifies a request. This field value is used to join the optimized CloudFront access logs with the optimized Lambda@Edge logs. The requestId value also appears in CloudFront access logs as x-edge-request-id. For more information, see [Configuring and Using Access Logs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) and [Web Distribution Log File Format](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#BasicDistributionFileFormat).|string|
+|eventtype|The type of trigger that's associated with the request. Value = "origin-request"|string|
+|distributionid|The ID of the distribution that's associated with the request.|string|
+|distributionname|The domain name of the distribution that's associated with the request.|string|
+|customtraceid|A uniquely generated value per request to join the ALB logs with Lambda@Edge logs. As part of client side instrumentation an unique value (Sample Value: ```Root=1-67891233-abcdef012345678912345678```) per request is generated and added two headers **x-my-trace-id** and **X-Amzn-Trace-Id**.  The origin-request triggered Lambda@Edge function extract the **x-my-trace-id** header and logs the value. For more details see [Origin Request Trigger Lambda Function](./originRequest-Lambda/index.js). The **X-Amzn-Trace-Id** value is logged by the ALB. For more details refer, [Request Tracing for Your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html). |string|
+|viewercountry|Two letter country code based on IP address where the request came from. For more details [Configuring Caching Based on the Location of the Viewer](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-location). For an easy-to-use list of country codes, sortable by code and by country name, see the Wikipedia entry [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).|string|
+|deviceformfactor|Category or form factor of the device based on the user agent associated with the request. For more details see [Configuring Caching Based on the Device Type](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-device). Possible values: <ul><li>desktop</li><li>mobile</li><li>smarttv</li><li>tablet</li></ul>|string|
+|year(partition)|The year on which the event occurred.|string|
+|month(partition)|The month on which the event occurred.|string|
+|day(partition)|The day on which the event occurred.|string|
 
 ## Create AWS IAM Role
 
