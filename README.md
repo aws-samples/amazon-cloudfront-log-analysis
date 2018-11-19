@@ -34,15 +34,12 @@ The AWS region name is always listed in the upper-right corner of the AWS Manage
 ## Labs
 
 ### Pre-requisites
-
-[Create a new AWS Account](https://aws.amazon.com/free/) if you don't have one. 
+You should have active AWS account with Administrator IAM role
  
 |Lab|Name|
 |---|----|
 |Lab 1|[Serverless Amazon CloudFront Log Analysis Pipeline](./lab1-serveless-cloudfront-log-analysis)|
 |Lab 2|[Amazon CloudFront Log Analysis using ELK](./lab2-elk-cloudfront-log-analysis)|
-
-
 
 ## License Summary
 
