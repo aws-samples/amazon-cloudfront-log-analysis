@@ -924,6 +924,9 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click on the Ascending order for **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Count of product category by end user country**(optional)
 
+<details>
+     <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
+
 ### Generate visualization to show device form factor ratio
 
 ![device-form-factor-chart.png](./assets/device-form-factor-chart.png)
@@ -945,9 +948,6 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Edit the title by click on the title in the chart to **Device form factor Ratio** (optional)
 
 ![device-form-factor-visualize.png](./assets/device-form-factor-visualize.png)
-
-<details>
-     <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
      
  ### Generate visualization to show device form factor ration by viewer country
  
