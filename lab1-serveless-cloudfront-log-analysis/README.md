@@ -7,19 +7,19 @@
   * [Lambda @ Edge](#lambda--edge)
   * [Create Amazon S3 Bucket](#create-amazon-s3-bucket)
   * [Creating Glue Data Catalog Database and Table using Amazon Athena](#creating-glue-data-catalog-database-and-table-using-amazon-athena)
-     * [Create Glue Data Catalog Database using Amazon Athena](#create-glue-data-catalog-database-using-amazon-athena)
-  * [Create Glue Data Catalog for CloudFront Access Logs in optimized Parquet Format](#create-glue-data-catalog-for-cloudfront-access-logs-in-optimized-parquet-format)
-  * [Create Glue Data Catalog for Application Load Balancer(ALB) Access Logs in optimized Parquet Format](#create-glue-data-catalog-for-application-load-balanceralb-access-logs-in-optimized-parquet-format)
-  * [Create Glue Data Catalog for Lambda@Edge Logs - Viewer Request in optimized Parquet Format](#create-glue-data-catalog-for-lambdaedge-logs---viewer-request-in-optimized-parquet-format)
-  * [Create Glue Data Catalog for Lambda@Edge Logs - Origin Request in optimized Parquet Format](#create-glue-data-catalog-for-lambdaedge-logs---origin-request-in-optimized-parquet-format)
+    * [Create Glue Data Catalog Database using Amazon Athena](#create-glue-data-catalog-database-using-amazon-athena)
+    * [Create Glue Data Catalog for CloudFront Access Logs in optimized Parquet Format](#create-glue-data-catalog-for-cloudfront-access-logs-in-optimized-parquet-format)
+    * [Create Glue Data Catalog for Application Load Balancer(ALB) Access Logs in optimized Parquet Format](#create-glue-data-catalog-for-application-load-balanceralb-access-logs-in-optimized-parquet-format)
+    * [Create Glue Data Catalog for Lambda@Edge Logs - Viewer Request in optimized Parquet Format](#create-glue-data-catalog-for-lambdaedge-logs---viewer-request-in-optimized-parquet-format)
+    * [Create Glue Data Catalog for Lambda@Edge Logs - Origin Request in optimized Parquet Format](#create-glue-data-catalog-for-lambdaedge-logs---origin-request-in-optimized-parquet-format)
   * [Create AWS IAM Role](#create-aws-iam-role)
   * [Create AWS Glue ETL Job](#create-aws-glue-etl-job)
-  * [Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena](#create-aws-glue-data-catalog-for-the-combined-lamabdaeddge-logs-using-amazon-athena)
+  * [(Optional)Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena](#create-aws-glue-data-catalog-for-the-combined-lamabdaeddge-logs-using-amazon-athena)
   * [Create AWS Glue Data Catalog for the combined logs using Amazon Athena](#create-aws-glue-data-catalog-for-the-combined-logs-using-amazon-athena)
   * [Generate visualization using Amazon QuickSight](#generate-visualization-using-amazon-quicksight)
-     * [Signing Up for Amazon Quicksight Standard Edition](#signing-up-for-amazon-quicksight-standard-edition)
+     * [Signing Up for Amazon QuickSight Standard Edition](#signing-up-for-amazon-quicksight-standard-edition)
      * [Configure Amazon S3 bucket Permission](#configure-amazon-s3-bucket-permission)
-     * [Configuring Amazon Quicksight to use Amazon Athena as data source](#configuring-amazon-quicksight-to-use-amazon-athena-as-data-source)
+     * [Configuring Amazon QuickSight to use Amazon Athena as data source](#configuring-amazon-quicksight-to-use-amazon-athena-as-data-source)
      * [Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight](#create-new-calculated-fields-edgetoorigintimetaken-in-amazon-quicksight)
      * [Create new calculated fields "HourOfDay" in Amazon QuickSight](#create-new-calculated-fields-hourofday-in-amazon-quicksight)
      * [Create new calculated fields "TotalTimeTakenAtALB" in Amazon QuickSight](#create-new-calculated-fields-totaltimetakenatalb-in-amazon-quicksight)
@@ -107,7 +107,7 @@ CREATE DATABASE IF NOT EXISTS reInvent2018_aws_service_logs
 
 - Ensure *reInvent2018_aws_service_logs* appears in the DATABASE list on the Catalog dashboard
 
-## Create Glue Data Catalog for CloudFront Access Logs in optimized Parquet Format
+### Create Glue Data Catalog for CloudFront Access Logs in optimized Parquet Format
 
 - Ensure that current AWS region is **EU (Ireland)** region
 - Ensure *reInvent2018_aws_service_logs* is selected from the DATABASE list and then choose New Query.
@@ -192,7 +192,7 @@ Please review the values in the following fields/columns as you will be using th
  |month(partition)|The month on which the event occurred.|string|
  |day(partition)|The day on which the event occurred.|string|
 
-## Create Glue Data Catalog for Application Load Balancer(ALB) Access Logs in optimized Parquet Format
+### Create Glue Data Catalog for Application Load Balancer(ALB) Access Logs in optimized Parquet Format
 
 In the query pane, copy the following statement to create a the **alb_access_optimized** table, and then choose **Run Query**:
 
@@ -270,7 +270,7 @@ Please review the values in the following fields/columns as you will be using th
 |month(partition)|The month the log was delivered.|string|
 |day(partition)|The day the logs was delivered.|string|
 
-## Create Glue Data Catalog for Lambda@Edge Logs - Viewer Request in optimized Parquet Format
+### Create Glue Data Catalog for Lambda@Edge Logs - Viewer Request in optimized Parquet Format
 
 In the query pane, copy the following statement to create a the *lambdaedge_logs_viewer_request_optimized* table, and then choose **Run Query**:
 
@@ -337,7 +337,7 @@ Please review the values in the following fields/columns
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
 
-## Create Glue Data Catalog for Lambda@Edge Logs - Origin Request in optimized Parquet Format
+### Create Glue Data Catalog for Lambda@Edge Logs - Origin Request in optimized Parquet Format
 
 In the query pane, copy the following statement to create a the *lambdaedge_logs_origin_request_optimized* table, and then choose **Run Query**:
 
