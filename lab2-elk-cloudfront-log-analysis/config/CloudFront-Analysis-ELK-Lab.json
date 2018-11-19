@@ -1,0 +1,613 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "CloudFormation template for creating ELK stack for CloudFront Log Analysis Lab.You will be billed for the AWS resources used if you create a stack from this template",
+    "Parameters": {
+        "EC2KeyPair": {
+            "Description": "Amazon EC2 Key Pair",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "VpcCIDR": {
+            "Description": "Please enter the IP range (CIDR notation) for this VPC",
+            "Type": "String",
+            "Default": "10.192.0.0/16",
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+        },
+        "PublicSubnet1CIDR": {
+            "Description": "Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone",
+            "Type": "String",
+            "Default": "10.192.10.0/24",
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+        },
+        "PublicSubnet2CIDR": {
+            "Description": "Please enter the IP range (CIDR notation) for the public subnet in the second Availability Zone",
+            "Type": "String",
+            "Default": "10.192.11.0/24",
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+        },
+        "LogstashInstanceType": {
+            "Type": "String",
+            "Description": "Amazon EC2 instance type for the Logstash Instance",
+            "Default": "t3.medium",
+            "AllowedValues": [
+                "t3.medium",
+                "t3.large",
+                "m5.large",
+                "m4.large"
+            ]
+        },
+        "NginxInstanceType": {
+            "Type": "String",
+            "Description": "Amazon EC2 instance type for the Nginx proxy Instance",
+            "Default": "t3.medium",
+            "AllowedValues": [
+                "t3.medium",
+                "t3.large",
+                "m5.large",
+                "m4.large"
+            ]
+        },
+        "ESDomainDataInstanceType": {
+            "Type": "String",
+            "Description": "Instance Type for the Elasticsearch Domain",
+            "Default": "m4.large.elasticsearch",
+            "AllowedValues": [
+                "m4.large.elasticsearch",
+                "m4.medium.elasticsearch",
+                "c4.large.elasticsearch",
+                "r4.large.elasticsearch"
+            ]
+        },
+        "KibanaPassword": {
+            "Default": "admin123",
+            "NoEcho": "true",
+            "Description": "Enter password for Kibana user: admin",
+            "Type": "String",
+            "MinLength": "8",
+            "MaxLength": "41",
+            "AllowedPattern": "[a-zA-Z0-9]*",
+            "ConstraintDescription": "must contain only alphanumeric characters with minimum of 8 characters."
+        },
+        "ClientIP": {
+            "Description": "The IP address range that can be used to connect to the RDS instances from your local machine.It must be a valid IP CIDR range of the form x.x.x.x/x.Pls get your address using checkip.amazonaws.com or whatsmyip.org",
+            "Type": "String",
+            "MinLength": "9",
+            "MaxLength": "18",
+            "Default": "0.0.0.0/0",
+            "AllowedPattern": "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})",
+            "ConstraintDescription": "It must be a valid IP CIDR range of the form x.x.x.x/x. Suggest to enable access to your IP address only. Pls get your address using checkip.amazonaws.com or whatsmyip.org."
+        }
+    },
+    "Conditions": {
+        "AttachKeyPair": {
+            "Fn::Not": [
+                {
+                    "Fn::Equals": [
+                        {
+                            "Ref": "EC2KeyPair"
+                        },
+                        "None"
+                    ]
+                }
+            ]
+        }
+    },
+    "Metadata": {
+        "AWS::CloudFormation::Interface": {
+            "ParameterGroups": [
+                {
+                    "Label": {
+                        "default": "VPC Configurations"
+                    },
+                    "Parameters": [
+                        "EC2KeyPair",
+                        "VpcCIDR",
+                        "PublicSubnet1CIDR",
+                        "PublicSubnet2CIDR"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": " ELK Instance Configurations"
+                    },
+                    "Parameters": [
+                        "LogstashInstanceType",
+                        "NginxInstanceType",
+                        "ESDomainDataInstanceType",
+                        "KibanaPassword"
+                    ]
+                },
+                {
+                    "Label": {
+                        "default": "Enter IP address for the Security group Configuration"
+                    },
+                    "Parameters": [
+                        "ClientIP"
+                    ]
+                }
+            ]
+        }
+    },
+    "Mappings": {
+        "RegionMap": {
+            "us-east-1": {
+                "AMI": "ami-0ff8a91507f77f867"
+            },
+            "us-east-2": {
+                "AMI": "ami-0b59bfac6be064b78"
+            },
+            "us-west-1": {
+                "AMI": "ami-0bdb828fd58c52235"
+            },
+            "us-west-2": {
+                "AMI": "ami-a0cfeed8"
+            },
+            "eu-west-1": {
+                "AMI": "ami-047bb4163c506cd98"
+            },
+            "sa-east-1": {
+                "AMI": "ami-07b14488da8ea02a0"
+            },
+            "ap-southeast-1": {
+                "AMI": "ami-08569b978cc4dfa10"
+            },
+            "ap-southeast-2": {
+                "AMI": "ami-09b42976632b27e9b"
+            },
+            "ap-northeast-1": {
+                "AMI": "ami-06cd52961ce9f0d85"
+            }
+        }
+    },
+    "Resources": {
+        "VPC": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": {
+                    "Ref": "VpcCIDR"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "InternetGateway": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "InternetGatewayAttachment": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "InternetGatewayId": {
+                    "Ref": "InternetGateway"
+                },
+                "VpcId": {
+                    "Ref": "VPC"
+                }
+            }
+        },
+        "PublicSubnet1": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "AvailabilityZone": {
+                    "Fn::Select": [
+                        "0",
+                        {
+                            "Fn::GetAZs": ""
+                        }
+                    ]
+                },
+                "CidrBlock": {
+                    "Ref": "PublicSubnet1CIDR"
+                },
+                "MapPublicIpOnLaunch": true,
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Sub": "${AWS::StackName} Public Subnet (AZ1)"
+                        }
+                    }
+                ]
+            }
+        },
+        "PublicSubnet2": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "AvailabilityZone": {
+                    "Fn::Select": [
+                        "1",
+                        {
+                            "Fn::GetAZs": ""
+                        }
+                    ]
+                },
+                "CidrBlock": {
+                    "Ref": "PublicSubnet2CIDR"
+                },
+                "MapPublicIpOnLaunch": true,
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Sub": "${AWS::StackName} Public Subnet (AZ2)"
+                        }
+                    }
+                ]
+            }
+        },
+        "PublicRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": {
+                    "Ref": "VPC"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Sub": "${AWS::StackName} Public Routes"
+                        }
+                    }
+                ]
+            }
+        },
+        "DefaultPublicRoute": {
+            "Type": "AWS::EC2::Route",
+            "DependsOn": "InternetGatewayAttachment",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": {
+                    "Ref": "InternetGateway"
+                }
+            }
+        },
+        "PublicSubnet1RouteTableAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet1"
+                }
+            }
+        },
+        "PublicSubnet2RouteTableAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "RouteTableId": {
+                    "Ref": "PublicRouteTable"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet2"
+                }
+            }
+        },
+        "SGCFLabPublicEC2Access": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Security group for EC2 SSH and Proxy access",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": {
+                            "Ref": "ClientIP"
+                        }
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": {
+                            "Ref": "ClientIP"
+                        }
+                    }
+                ],
+                "VpcId": {
+                    "Ref": "VPC"
+                }
+            }
+        },
+        "EC2InstanceRole": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "ManagedPolicyArns": [
+                    "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+                ],
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Sid": "",
+                            "Effect": "Allow",
+                            "Principal": {
+                                "Service": [
+                                    "ec2.amazonaws.com"
+                                ]
+                            },
+                            "Action": [
+                                "sts:AssumeRole"
+                            ]
+                        }
+                    ]
+                },
+                "Path": "/"
+            }
+        },
+        "IAMlogstashInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [
+                    {
+                        "Ref": "EC2InstanceRole"
+                    }
+                ]
+            }
+        },
+        "CFLogBucket": {
+            "Type": "AWS::S3::Bucket"
+        },
+        "LogstashEC2Instance": {
+            "Type": "AWS::EC2::Instance",
+            "DependsOn": "CFLogBucket",
+            "Properties": {
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "RegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "AMI"
+                    ]
+                },
+                "InstanceType": {
+                    "Ref": "LogstashInstanceType"
+                },
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "SGCFLabPublicEC2Access"
+                    }
+                ],
+                "KeyName": {
+                    "Ref": "EC2KeyPair"
+                },
+                "IamInstanceProfile": {
+                    "Ref": "IAMlogstashInstanceProfile"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet1"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Logstash EC2 server"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Sub": "#!/bin/bash\necho \"${CFLogBucket}\" > /home/ec2-user/s3bucket.txt\naws s3 sync s3://eu-west-1.data-analytics/cflogworkshop/raw/cf-accesslogs s3://${CFLogBucket}\nmkdir /home/ec2-user/templates/\naws s3 sync s3://us-east-1.data-analytics/labcontent/reInvent2018content-ctd410/lab2/templates/ /home/ec2-user/templates/\nsudo mkdir /elk\ncd /elk\nsudo wget https://artifacts.elastic.co/downloads/logstash/logstash-6.4.2.tar.gz /elk/\nsudo gunzip logstash-6.4.2.tar.gz\nsudo tar -xvf logstash-6.4.2.tar\nsudo /elk/logstash-6.4.2/bin/logstash-plugin install logstash-output-amazon_es\nsudo sudo yum -y install java-1.8.*\ntmp_javapath=`alternatives --display java|grep priority|grep 1.8|awk '{print $1}'`\necho $tmp_javapath > /home/ec2-user/javapath.txt\nsudo alternatives --set java `cat /home/ec2-user/javapath.txt`\n"
+                    }
+                }
+            }
+        },
+        "LogstashElasticIP": {
+            "Type": "AWS::EC2::EIP",
+            "DependsOn": "LogstashEC2Instance",
+            "Properties": {
+                "InstanceId": {
+                    "Ref": "LogstashEC2Instance"
+                },
+                "Domain": "vpc"
+            }
+        },
+        "NginxEC2Instance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "RegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "AMI"
+                    ]
+                },
+                "InstanceType": {
+                    "Ref": "NginxInstanceType"
+                },
+                "SecurityGroupIds": [
+                    {
+                        "Ref": "SGCFLabPublicEC2Access"
+                    }
+                ],
+                "KeyName": {
+                    "Ref": "EC2KeyPair"
+                },
+                "SubnetId": {
+                    "Ref": "PublicSubnet2"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "Nginx Proxy EC2 server"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Sub": "#!/bin/bash\nmkdir /home/ec2-user/templates/\n cd /home/ec2-user/templates/\n wget https://s3-eu-west-1.amazonaws.com/eu-west-1.data-analytics/labcontent/reInvent2018-ctd410/lab2/templates/lab2-nginx.conf\nsudo yum -y install nginx\nsudo yum -y install httpd-tools\nsudo service nginx start\nsudo htpasswd -b -c /etc/nginx/.secrets_kibana admin ${KibanaPassword}\n"
+                    }
+                }
+            }
+        },
+        "NginxElasticIP": {
+            "Type": "AWS::EC2::EIP",
+            "DependsOn": "NginxEC2Instance",
+            "Properties": {
+                "InstanceId": {
+                    "Ref": "NginxEC2Instance"
+                },
+                "Domain": "vpc"
+            }
+        },
+        "ElasticsearchDomain": {
+            "Type": "AWS::Elasticsearch::Domain",
+            "DependsOn": "LogstashElasticIP",
+			"DependsOn": "NginxElasticIP",
+            "Properties": {
+                "ElasticsearchVersion": "6.3",
+                "ElasticsearchClusterConfig": {
+                    "InstanceCount": "2",
+                    "ZoneAwarenessEnabled": "true",
+                    "InstanceType": {
+                        "Ref": "ESDomainDataInstanceType"
+                    }
+                },
+                "EBSOptions": {
+                    "EBSEnabled": true,
+                    "Iops": 0,
+                    "VolumeSize": 50,
+                    "VolumeType": "gp2"
+                },
+                "SnapshotOptions": {
+                    "AutomatedSnapshotStartHour": "0"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": {
+                            "Fn::Sub": "${AWS::StackName} ES Domain"
+                        }
+                    }
+                ],
+                "AccessPolicies": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                        {
+                            "Effect": "Allow",
+                            "Principal": {
+                                "AWS": "*"
+                            },
+                            "Action": "es:*",
+                            "Resource": { 
+							"Fn::Sub": "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/*"
+                            },
+                            "Condition": {
+                                "IpAddress": {
+                                    "aws:SourceIp": [
+                                        {
+                                            "Ref": "LogstashElasticIP"
+                                        },
+                                        {
+                                            "Ref": "NginxElasticIP"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "AdvancedOptions": {
+                    "rest.action.multi.allow_explicit_index": "true"
+                }
+            }
+        }
+    },
+    "Outputs": {
+       
+	   "ESDomainEndpoint": {
+            "Description": "ElasticSearch Domain Endpoint",
+            "Value": { 
+  "Fn::Join": [
+    "",
+    ["https://",
+      {
+        "Fn::GetAtt": [
+          "ElasticsearchDomain",
+          "DomainEndpoint"
+        ]
+      }     
+    ]
+  ]
+}
+         
+ },
+	   
+        "ESKibanaEndpoint": {
+            "Description": "ElasticSearch Kibana Endpoint",
+            "Value": { 
+  "Fn::Join": [
+    "",
+    ["https://",
+      {
+        "Fn::GetAtt": [
+          "ElasticsearchDomain",
+          "DomainEndpoint"
+        ]
+      },
+      "/_plugin/kibana/"
+    ]
+  ]
+}
+                
+            
+        },
+        "S3bucketName": {
+            "Description": "S3 bucket to store CloudFront access logs",
+            "Value": {
+                "Ref": "CFLogBucket"
+            }
+        },
+        "LogstashEC2Instance": {
+            "Description": "IP for SSH access to Logstash server",
+            "Value": {
+                "Ref": "LogstashElasticIP"
+            }
+        },
+        "NginxEC2Instance": {
+            "Description": "IP for SSH access to Nginx proxy server",
+            "Value": {
+                "Ref": "NginxElasticIP"
+            }
+        },
+        "ESKibanaProxyEndpoint": {
+            "Description": "Kibana Proxy Endpoint",
+            "Value": {
+                "Fn::Join": [
+                    "",
+                    [
+                        "http://",
+                        {
+                            "Ref": "NginxElasticIP"
+                        }
+                    ]
+                ]
+            }
+        }
+    }
+}
