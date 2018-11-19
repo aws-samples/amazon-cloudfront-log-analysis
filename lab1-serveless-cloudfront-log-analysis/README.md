@@ -435,77 +435,77 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
 
-### Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
-
-- Open the AWS Management Console for Athena from [here](https://console.aws.amazon.com/athena/home).
-- In the query pane, copy the following statement to create a the *lambdaedge_logs_combined_optimized* table, and then choose **Run Query**:
-
-> **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in beginning of this lab.
-
-```$xslt
-CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized(
-                executionregion string,
-                requestid string,
-                distributionid string,
-                distributionname string,
-                requestdata string,
-                customtraceid string,
-                useragentstring string,
-                deviceformfactor string,
-                viewercountry string)
-PARTITIONED BY (
-                year string,
-                month string,
-                date string,
-                hour string)
-ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
-STORED AS PARQUET
-LOCATION 's3://<your-bucket-name>/combined/lelogs/'
-TBLPROPERTIES("parquet.compress"="SNAPPY")
-```
-
-Now that you have created the table you need to add the partition metadata to the AWS Glue Catalog.
-
-1. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
-
-```$xslt
-MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized
-```
-
-- Get the total number of combined Lambda@Edge Log records:
-
-```$xslt
-SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized
-```
-
-> **Note:** Ensure that the rowcount = **207837**
-
-- Get the first ten records:
-```$xslt
-SELECT * FROM reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized LIMIT 10
-```
-
-After a few seconds, Athena will display your query results as shown below:
-
-![le-combined-logs.png](./assets/le-combined-logs.png)
-
-Please review the values in the following fields/columns
-
-|Field Name|Description|type
-|---|----|---|
-|requestid|An encrypted string that uniquely identifies a request. This field value is used to join the optimized CloudFront access logs with the optimized Lambda@Edge logs. The requestId value also appears in CloudFront access logs as x-edge-request-id. For more information, see [Configuring and Using Access Logs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) and [Web Distribution Log File Format](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#BasicDistributionFileFormat).|string|
-|customtraceid|A uniquely generated value per request to join the ALB logs with Lambda@Edge logs. As part of client side instrumentation an unique value (Sample Value: ```Root=1-67891233-abcdef012345678912345678```) per request is generated and added two headers **x-my-trace-id** and **X-Amzn-Trace-Id**.  The origin-request triggered Lambda@Edge function extract the **x-my-trace-id** header and logs the value. For more details see [Viewer Request Trigger Lambda Function](./viewerRequest-Lambda/index.js) and [Origin Request Trigger Lambda Function](./originRequest-Lambda/index.js) and . The **X-Amzn-Trace-Id** value is logged by the ALB. For more details refer, [Request Tracing for Your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html). |string|
-|executionregion|The AWS region where the Lambda@Edge function was executed.|string|
-|eventtype|The type of trigger that's associated with the request. Possible Values <ul><li>viewer-request</li><li>origin-request</li></ul>|string|
-|distributionid|The ID of the distribution that's associated with the request.|string|
-|distributionname|The domain name of the distribution that's associated with the request.|string|
-|customtraceid|A uniquely generated value per request to join the ALB logs with Lambda@Edge logs. As part of client side instrumentation an unique value (Sample Value: ```Root=1-67891233-abcdef012345678912345678```) per request is generated and added two headers **x-my-trace-id** and **X-Amzn-Trace-Id**.  The origin-request triggered Lambda@Edge function extract the **x-my-trace-id** header and logs the value. For more details see [Origin Request Trigger Lambda Function](./originRequest-Lambda/index.js). The **X-Amzn-Trace-Id** value is logged by the ALB. For more details refer, [Request Tracing for Your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html). |string|
-|viewercountry|Two letter country code based on IP address where the request came from. For more details [Configuring Caching Based on the Location of the Viewer](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-location). For an easy-to-use list of country codes, sortable by code and by country name, see the Wikipedia entry [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).|string|
-|deviceformfactor|Category or form factor of the device based on the user agent associated with the request. For more details see [Configuring Caching Based on the Device Type](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-device). Possible values: <ul><li>desktop</li><li>mobile</li><li>smarttv</li><li>tablet</li></ul>|string|
-|year(partition)|The year on which the event occurred.|string|
-|month(partition)|The month on which the event occurred.|string|
-|day(partition)|The day on which the event occurred.|string|
-|hour(partition)|The hour on which the event occurred.|string|
+    ## Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
+    
+    - Open the AWS Management Console for Athena from [here](https://console.aws.amazon.com/athena/home).
+    - In the query pane, copy the following statement to create a the *lambdaedge_logs_combined_optimized* table, and then choose **Run Query**:
+    
+    > **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in beginning of this lab.
+    
+    ```$xslt
+    CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized(
+                    executionregion string,
+                    requestid string,
+                    distributionid string,
+                    distributionname string,
+                    requestdata string,
+                    customtraceid string,
+                    useragentstring string,
+                    deviceformfactor string,
+                    viewercountry string)
+    PARTITIONED BY (
+                    year string,
+                    month string,
+                    date string,
+                    hour string)
+    ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
+    STORED AS PARQUET
+    LOCATION 's3://<your-bucket-name>/combined/lelogs/'
+    TBLPROPERTIES("parquet.compress"="SNAPPY")
+    ```
+    
+    Now that you have created the table you need to add the partition metadata to the AWS Glue Catalog.
+    
+    1. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
+    
+    ```$xslt
+    MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized
+    ```
+    
+    - Get the total number of combined Lambda@Edge Log records:
+    
+    ```$xslt
+    SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized
+    ```
+    
+    > **Note:** Ensure that the rowcount = **207837**
+    
+    - Get the first ten records:
+    ```$xslt
+    SELECT * FROM reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized LIMIT 10
+    ```
+    
+    After a few seconds, Athena will display your query results as shown below:
+    
+    ![le-combined-logs.png](./assets/le-combined-logs.png)
+    
+    Please review the values in the following fields/columns
+    
+    |Field Name|Description|type
+    |---|----|---|
+    |requestid|An encrypted string that uniquely identifies a request. This field value is used to join the optimized CloudFront access logs with the optimized Lambda@Edge logs. The requestId value also appears in CloudFront access logs as x-edge-request-id. For more information, see [Configuring and Using Access Logs](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html) and [Web Distribution Log File Format](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#BasicDistributionFileFormat).|string|
+    |customtraceid|A uniquely generated value per request to join the ALB logs with Lambda@Edge logs. As part of client side instrumentation an unique value (Sample Value: ```Root=1-67891233-abcdef012345678912345678```) per request is generated and added two headers **x-my-trace-id** and **X-Amzn-Trace-Id**.  The origin-request triggered Lambda@Edge function extract the **x-my-trace-id** header and logs the value. For more details see [Viewer Request Trigger Lambda Function](./viewerRequest-Lambda/index.js) and [Origin Request Trigger Lambda Function](./originRequest-Lambda/index.js) and . The **X-Amzn-Trace-Id** value is logged by the ALB. For more details refer, [Request Tracing for Your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html). |string|
+    |executionregion|The AWS region where the Lambda@Edge function was executed.|string|
+    |eventtype|The type of trigger that's associated with the request. Possible Values <ul><li>viewer-request</li><li>origin-request</li></ul>|string|
+    |distributionid|The ID of the distribution that's associated with the request.|string|
+    |distributionname|The domain name of the distribution that's associated with the request.|string|
+    |customtraceid|A uniquely generated value per request to join the ALB logs with Lambda@Edge logs. As part of client side instrumentation an unique value (Sample Value: ```Root=1-67891233-abcdef012345678912345678```) per request is generated and added two headers **x-my-trace-id** and **X-Amzn-Trace-Id**.  The origin-request triggered Lambda@Edge function extract the **x-my-trace-id** header and logs the value. For more details see [Origin Request Trigger Lambda Function](./originRequest-Lambda/index.js). The **X-Amzn-Trace-Id** value is logged by the ALB. For more details refer, [Request Tracing for Your Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-request-tracing.html). |string|
+    |viewercountry|Two letter country code based on IP address where the request came from. For more details [Configuring Caching Based on the Location of the Viewer](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-location). For an easy-to-use list of country codes, sortable by code and by country name, see the Wikipedia entry [ISO 3166-1 alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2).|string|
+    |deviceformfactor|Category or form factor of the device based on the user agent associated with the request. For more details see [Configuring Caching Based on the Device Type](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-device). Possible values: <ul><li>desktop</li><li>mobile</li><li>smarttv</li><li>tablet</li></ul>|string|
+    |year(partition)|The year on which the event occurred.|string|
+    |month(partition)|The month on which the event occurred.|string|
+    |day(partition)|The day on which the event occurred.|string|
+    |hour(partition)|The hour on which the event occurred.|string|
 
 </details>
 
