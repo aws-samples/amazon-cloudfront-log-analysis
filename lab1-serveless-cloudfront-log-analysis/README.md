@@ -465,7 +465,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 ![combine-schema](./assets/combine-schema.png)
 
 
-## Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
+## (Optional) Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
 
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
