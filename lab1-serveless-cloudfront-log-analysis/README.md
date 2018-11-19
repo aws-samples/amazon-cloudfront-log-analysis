@@ -432,7 +432,10 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 ![combine-schema](./assets/combine-schema.png)
 
-## Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
+<details>
+     <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
+
+### Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
 
 - Open the AWS Management Console for Athena from [here](https://console.aws.amazon.com/athena/home).
 - In the query pane, copy the following statement to create a the *lambdaedge_logs_combined_optimized* table, and then choose **Run Query**:
@@ -503,6 +506,8 @@ Please review the values in the following fields/columns
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
+
+</details>
 
 ## Create AWS Glue Data Catalog for the combined logs using Amazon Athena
 - In the query pane, copy the following statement to create a the *combined_log_optimized* table, and then choose **Run Query*:
