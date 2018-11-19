@@ -27,7 +27,7 @@ In this task, you will need to create a key pair so that we can use this keypair
 
 1. Sign into the AWS Management Console and open the Amazon EC2 console at [https://console.aws.amazon.com/ec2](https://console.aws.amazon.com/ec2).
 
-2. In the upper-right corner of the AWS Management Console, confirm you are in the desired AWS region i.e. US West (Oregon).
+2. In the upper-right corner of the AWS Management Console, confirm you are in the desired AWS region i.e. EU West (Ireland).
 
 3. Click on **Key Pairs** in the NETWORK & SECURITY section near the bottom of the leftmost menu.  This will display a page to manage your SSH key pairs.
 
@@ -41,7 +41,7 @@ In this task, you will need to create a key pair so that we can use this keypair
 
 ![](assets/keyPair3.png)
 
-6. The page will download the file **[Your-Name]-DevCon.pem** to the local drive.  Follow the browser instructions to save the file to the default download location.
+6. The page will download the file **[Your-Name]-Reinvent.pem** to the local drive.  Follow the browser instructions to save the file to the default download location.
 
 7. Remember the full path to the file .pem file you just downloaded. You will use this Key Pair to manage your EC2 instances for the rest of the lab.
 
@@ -61,7 +61,7 @@ The template gives the following outputs:
 - Elastic IP details of Logstash and Nginx proxy servers
 - Nginx IP URLs for the Amazon ES Kibana through the proxy. You can use this to access the Kibana.
 
-1. Click on **Launch Stack** button below to launch CloudFormation template in US East AWS region.
+1. Click on **Launch Stack** button below to launch CloudFormation template in EU (Ireland) AWS region.
 
 Region| Launch
 ------|-----
@@ -96,7 +96,7 @@ EU (Ireland) | [![Launch Who-is-Who Workshop in eu-west-1](http://docs.aws.amazo
 ![](assets/Cf5png.png)
 
 ## Verify Amazon Elasticsearch Domain access policy
-1. Go to Amazon Elasticsearch(ES) console: https://us-east-2.console.aws.amazon.com/es 
+1. Go to Amazon Elasticsearch(ES) console: https://console.aws.amazon.com/es 
 
 2. Click on the Elasticsearch domain CloudFormation Template has created.
 
@@ -139,7 +139,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 	```bash
 	sudo su -
 	
-	curl -XPUT <ES Domain Endpoint>/_template/cloudfront-template -H "Content-Type: application/json" d@/home/ec2-user/templates/indextemplate.json	
+	curl -XPUT <ES Domain Endpoint>/_template/cloudfront-template -H "Content-Type: application/json" -d@/home/ec2-user/templates/indextemplate.json	
 	```
 4. Run the following commands to configure Logstash to start log ingestion.
 	```bash
@@ -147,7 +147,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 	
 	cd /elk/logstash-6.4.2/bin/
 	
-	java –version
+	java -version
 	```
 5. Copy the logstash configuration file **cloudfront.conf** from **/home/ec2-user/templates/** to **/elk/logstash-6.4.2/bin**.
 	```bash
@@ -186,13 +186,13 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 8. Start Logstash process
 	```bash
 	cd /elk/logstash-6.4.2/bin/
-	./logstash –f cloudfront.conf
+	nohup ./logstash -f cloudfront.conf
 	
 	```
 9. Check if its Logstash process started properly with tailing the log file
 
 	```bash
-	tail –f /elk/logstash-6.4.2/logs/logstash-plain.log
+	tail -f /elk/logstash-6.4.2/logs/logstash-plain.log
 	```
 
 10. Check if the Indexes are created on ES domain. Go to [Elasticsearch AWS Console](http://console.aws.amazon.com/es/). Click on the Elasticsearch domain that is created earlier. 
@@ -327,7 +327,7 @@ This visualization will show if customers are experiencing errors and from which
 ### Use Case #2 (Avg or Max Latency per city)
 You can use Geo-spatial visualization using Co-ordinate map. We will show to how to import the visualization from predefined template.
 
-1. Download [kibanamaxlatencypercity.json](https://github.com/aws-samples/amazon-cloudfront-log-analysis/blob/master/lab2-elk-cloudfront-log-analysis/kibanamaxlatencypercity.json) file to your local computer.
+1. Save [kibanamaxlatencypercity.json](https://raw.githubusercontent.com/aws-samples/amazon-cloudfront-log-analysis/master/lab2-elk-cloudfront-log-analysis/kibanamaxlatencypercity.json) file to your local computer by either downloading or copy and pasting as JSON file.
 
 2. Go to **Management** -> **Saved objects**.  Click **Import** and import the downloaded **kibanamaxlatencypercity.json**. This visualization shows the max(time_taken) for each city. 
 
@@ -350,7 +350,7 @@ You can use Geo-spatial visualization using Co-ordinate map. We will show to how
 ### Use Case #3 (Number of requests per geo-region or popular regions)
 In this case, we will create Geo-spatial visualization using regional map. This visualization shows the number of request distribution for each city. This kind of visualization can be used for analyzing the traffic pattern as well as marketing purposes.
 
-1. Download [kibanageorequests.json](https://github.com/aws-samples/amazon-cloudfront-log-analysis/blob/master/lab2-elk-cloudfront-log-analysis/kibanageorequests.json) file to your local computer.
+1. Save [kibanageorequests.json](https://raw.githubusercontent.com/aws-samples/amazon-cloudfront-log-analysis/master/lab2-elk-cloudfront-log-analysis/kibanageorequests.json) file to your local computer by either downloading or copy and pasting as JSON file.
 
 2. Follow **Steps 2 - 6** from the Use Case #2 and import downloaded file (kibanageorequests.json) .
 
