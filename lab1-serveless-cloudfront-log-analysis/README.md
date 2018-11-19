@@ -702,7 +702,7 @@ Please review the values in the following fields/columns as you will be using th
 - Ensure that the box next to **Amazon S3** is checked
 - Click **Apply**
 
-### Configuring Amazon Quicksight to use Amazon Athena as data source
+### Configuring Amazon QuickSight to use Amazon Athena as data source
 
 ![quicksight-region-selection.png](./assets/quicksight-region-selection.png)
 
@@ -806,7 +806,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Edit the title by click on the title in the chart to **Status code by Edge Location**(optional)
 
 
-### Generate visualization to status code by URI
+### (Optional) Generate visualization to status code by URI
 
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
@@ -912,7 +912,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click on the Ascending order next to **HourOfDay** under **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Hourly Avg. time taken (total Vs. edge to origin Vs. server-side processing) by end user country** (optional)
 
-### Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewer country
+### (Optional) Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewer country
 
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
@@ -963,7 +963,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click on the Ascending order for **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Count of product category by end user country**(optional)
 
-### Generate visualization to show device form factor ratio
+### (Optional) Generate visualization to show device form factor ratio
 
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
@@ -990,7 +990,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 
 </details>
      
- ### Generate visualization to show device form factor ration by viewer country
+ ### (Optional) Generate visualization to show device form factor ration by viewer country
  
  <details>
       <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
