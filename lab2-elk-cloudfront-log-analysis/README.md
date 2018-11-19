@@ -142,12 +142,12 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 	curl -XPUT <ES Domain Endpoint>/_template/cloudfront-template -H "Content-Type: application/json" d@/home/ec2-user/templates/indextemplate.json	
 	```
 4. Run the following commands to configure Logstash to start log ingestion.
-	```
+	```bash
 	# Run following commands to verify that installed Java version is 1.8.x
 	
 	cd /elk/logstash-6.4.2/bin/
 	
-	java –version
+	java -version
 	```
 5. Copy the logstash configuration file **cloudfront.conf** from **/home/ec2-user/templates/** to **/elk/logstash-6.4.2/bin**.
 	```bash
