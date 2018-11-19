@@ -464,10 +464,11 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 ![combine-schema](./assets/combine-schema.png)
 
-<details>
-     <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
 
 ## Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
+
+<details>
+     <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
 
 - Open the AWS Management Console for Athena from [here](https://console.aws.amazon.com/athena/home).
 - In the query pane, copy the following statement to create a the *lambdaedge_logs_combined_optimized* table, and then choose **Run Query**:
@@ -804,11 +805,12 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click on the Ascending order for **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Status code by Edge Location**(optional)
 
+
+### Generate visualization to status code by URI
+
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
-     
-### Generate visualization to status code by URI
-     
+          
 - Drag and drop the **uri** field into the **Group/Color** in the **Field wells** section 
 - Click on the drop down arrow next to **status** in the y-axis of the chart to reveal a sub menu.
 - Click on the Ascending order for **Sort by** in the revealed menu
@@ -910,10 +912,10 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click on the Ascending order next to **HourOfDay** under **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Hourly Avg. time taken (total Vs. edge to origin Vs. server-side processing) by end user country** (optional)
 
+### Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewer country
+
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
-  
-  ### Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewer country
   
   ![time-taken-visualize-2.png](./assets/time-taken-visualize-2.png)
   
@@ -961,10 +963,10 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Click on the Ascending order for **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Count of product category by end user country**(optional)
 
+### Generate visualization to show device form factor ratio
+
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
-
-### Generate visualization to show device form factor ratio
 
 ![device-form-factor-chart.png](./assets/device-form-factor-chart.png)
 
@@ -985,8 +987,13 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or 
 - Edit the title by click on the title in the chart to **Device form factor Ratio** (optional)
 
 ![device-form-factor-visualize.png](./assets/device-form-factor-visualize.png)
+
+</details>
      
  ### Generate visualization to show device form factor ration by viewer country
+ 
+ <details>
+      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
  
  ![device-form-factor-visualize-2.png](./assets/device-form-factor-visualize-2.png)
  
