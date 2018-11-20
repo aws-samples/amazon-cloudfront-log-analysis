@@ -108,6 +108,8 @@ In this section you will be creating an AWS Data Catalog Database along with the
 |lambdaedge_logs_origin_request_optimized|Origin request triggered Lambda@Edge logs|year, month, day, hour|
 |alb_access_optimized|Application Load Balancer(ALB) logs|region, year, month, day|
 
+The AWS Glue ETL job that will combine all the four logs will refer to metadata in AWS Glue data catalog to read the logs from Amazon S3. 
+
 ### Create Glue Data Catalog Database using Amazon Athena
 
 - Open the AWS Management Console for Athena from [here](https://console.aws.amazon.com/athena/home).
@@ -425,7 +427,7 @@ Please review the values in the following fields/columns
 
 ## Combine the logs using an AWS Glue ETL Job
 
-In this section you will create an AWS Glue ETL job to  join the four following logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3)Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs. The output of the combined logs is written in optimized parquet format to the Amazon S3 bucket that you created at the beginning of this lab. The data is partition by year followed by month follow by day.  
+In this section you will create an AWS Glue ETL job to  join the four following logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3)Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs. The output of the combined logs is written in optimized parquet format to the Amazon S3 bucket that you created at the beginning of this lab. The data is partition by year followed by month follow by day. You will also create an IAM role that grants AWS Glue service permission to read and write to Amazon S3 bucket and access the AWS Glue data catalog tables.  
 
 ### Create AWS IAM Role
 
@@ -485,8 +487,18 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 ![combine-schema](./assets/combine-schema.png)
 
+## Create AWS Glue Data Catalog for Combined Logs
 
-## (Optional) Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
+In this section you will be creating an AWS Data Catalog tables pointing to the combined logs written by the AWS Glue ETL job that you just executed. You will be creating the following tables, loading the partitions into each of these tables, and previewing the fields.
+
+|Table Name|Log Name|Partition|
+|---|---|----|
+|lambdaedge_logs_combined_optimized(optional)|Combined Lambda@Edge Logs obtained by joining viewer-request and origin-request logs |year, month, day, hour|
+|combined_log_optimized|Combined all the four following logs <ul><li>Amazon CloudFront access logs</li><li>Viewer request triggered Lambda@Edge logs</li><li>Origin request triggered Lambda@Edge logs</li><li>Application Load Balancer(ALB)</li></ul> |year, month, day|
+
+The AWS Glue data catalogs will be referred by AWS Athena service when you be query the logs directly from Amazon S3 bucket for generating your visualizations in Amazon QuckSight.
+
+### (Optional) Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
 
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
@@ -563,7 +575,7 @@ Please review the values in the following fields/columns
 
 </details>
 
-## Create AWS Glue Data Catalog for the combined logs using Amazon Athena
+### Create AWS Glue Data Catalog for the combined logs using Amazon Athena
 - In the query pane, copy the following statement to create a the *combined_log_optimized* table, and then choose **Run Query*:
 
 > **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in step 1 earlier.
