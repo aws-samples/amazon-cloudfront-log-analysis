@@ -13,7 +13,7 @@
   * [Create Glue Data Catalog for Application Load Balancer(ALB) Access Logs in optimized Parquet Format](#create-glue-data-catalog-for-application-load-balanceralb-access-logs-in-optimized-parquet-format)
   * [Create Glue Data Catalog for Lambda@Edge Logs - Viewer Request in optimized Parquet Format](#create-glue-data-catalog-for-lambdaedge-logs---viewer-request-in-optimized-parquet-format)
   * [Create Glue Data Catalog for Lambda@Edge Logs - Origin Request in optimized Parquet Format](#create-glue-data-catalog-for-lambdaedge-logs---origin-request-in-optimized-parquet-format)
-  [Combine the logs using an AWS Glue ETL Job](#combine-the-logs-using-an-aws-glue-elt-job)
+* [Combine the logs using an AWS Glue ETL Job](#combine-the-logs-using-an-aws-glue-elt-job)
   * [Create AWS IAM Role](#create-aws-iam-role)
   * [Create AWS Glue ETL Job](#create-aws-glue-etl-job)
 * [(Optional)Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena](#optional-create-aws-glue-data-catalog-for-the-combined-lamabdaeddge-logs-using-amazon-athena)
