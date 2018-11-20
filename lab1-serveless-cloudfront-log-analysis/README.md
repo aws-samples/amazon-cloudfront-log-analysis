@@ -78,7 +78,7 @@ This module requires:
 
 ## Create Amazon S3 Bucket
 
-In this section you will be creating an Amazon S3 bucket to store the combined (by joining Viewer request triggered Lambda@Edge logs, Origin request triggered Lambda@Edge logs, Amazon CloudFront access logs and Application Load Balancer(ALB) logs) and optimized logs written by the AWS Glue ETL job that you will be create and execute as part of this workshop.  
+In this section you will be creating an Amazon S3 bucket to store the combined (by joining Viewer request triggered Lambda@Edge logs, Origin request triggered Lambda@Edge logs, Amazon CloudFront access logs and Application Load Balancer(ALB) logs) and optimized logs written by the AWS Glue ETL job that you create and execute as part of this workshop.  
 
 - Open the AWS Management console for Amazon S3 from [here](https://s3.console.aws.amazon.com/s3/home?region=eu-west-1)
 - On the S3 Dashboard, Click on **Create Bucket.**
@@ -422,7 +422,11 @@ Please review the values in the following fields/columns
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
 
-## Create AWS IAM Role
+### Combine the logs using an AWS Glue ETL Job
+
+In this section you will create an AWS Glue ETL job to  join the four following logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3)Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs. The output of the combined logs is written in optimized parquet format to the Amazon S3 bucket that you created at the beginning of this lab. The data is partition by year followed by month follow by day.  
+
+### Create AWS IAM Role
 
 Create an IAM role that has permission to your Amazon S3 sources, targets, temporary directory, scripts, AWSGlueServiceRole and any libraries used by the job.
 
@@ -446,7 +450,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Ensure that **AmazonS3FullAccess**, **AWSGlueConsoleFullAccess** and **AWSGlueServiceRole** are listed under policies
 - Click **Create role**
 
-## Create AWS Glue ETL Job
+### Create AWS Glue ETL Job
 
 - Open the AWS Management console for AWS Glue service from [here](https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1)
 - If this is your first time visiting the AWS Management Console for AWS Glue, you will get a Getting Started page. Choose **Get Started**. If this isn't your first time, the **Tables** pages opens.
