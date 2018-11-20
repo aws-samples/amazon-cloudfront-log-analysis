@@ -78,6 +78,8 @@ This module requires:
 
 ## Create Amazon S3 Bucket
 
+In this section you will be creating an Amazon S3 bucket to store the combined (by joining Viewer request triggered Lambda@Edge logs, Origin request triggered Lambda@Edge logs, Amazon CloudFront access logs and Application Load Balancer(ALB) logs) and optimized logs written by the AWS Glue ETL job that you will be create and execute as part of this workshop.  
+
 - Open the AWS Management console for Amazon S3 from [here](https://s3.console.aws.amazon.com/s3/home?region=eu-west-1)
 - On the S3 Dashboard, Click on **Create Bucket.**
 
@@ -95,6 +97,15 @@ This module requires:
  ![amazon-s3-create-bucket.png](./assets/amazon-s3-create-bucket.png) 
  
 ## Creating Glue Data Catalog Database and Table using Amazon Athena
+
+In this section you will be creating an AWS Data Catalog Database along with the tables pointing to the optimized logs. These logs have been pre-generated as part of the workshop. You will be creating the following tables, loading the partitions into each of these tables, and previewing the fields.
+
+|Table Name|Log Name|Partition|
+|---|---|----|
+|lambdaedge_logs_viewer_request_optimized|Viewer request triggered Lambda@Edge logs|year, month, day, hour|
+|cf_access_optimized|Amazon CloudFront access logs|year, month, day|
+|lambdaedge_logs_origin_request_optimized|Origin request triggered Lambda@Edge logs|year, month, day, hour|
+|alb_access_optimized|Application Load Balancer(ALB) logs|region, year, month, day|
 
 ### Create Glue Data Catalog Database using Amazon Athena
 
