@@ -13,8 +13,9 @@
   * [Create Glue Data Catalog for Application Load Balancer(ALB) Access Logs in optimized Parquet Format](#create-glue-data-catalog-for-application-load-balanceralb-access-logs-in-optimized-parquet-format)
   * [Create Glue Data Catalog for Lambda@Edge Logs - Viewer Request in optimized Parquet Format](#create-glue-data-catalog-for-lambdaedge-logs---viewer-request-in-optimized-parquet-format)
   * [Create Glue Data Catalog for Lambda@Edge Logs - Origin Request in optimized Parquet Format](#create-glue-data-catalog-for-lambdaedge-logs---origin-request-in-optimized-parquet-format)
-* [Create AWS IAM Role](#create-aws-iam-role)
-* [Create AWS Glue ETL Job](#create-aws-glue-etl-job)
+  * [Combine the logs using an AWS Glue ETL Job](#combine-the-logs-using-an-aws-glue-elt-job)
+    * [Create AWS IAM Role](#create-aws-iam-role)
+    * [Create AWS Glue ETL Job](#create-aws-glue-etl-job)
 * [(Optional)Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena](#optional-create-aws-glue-data-catalog-for-the-combined-lamabdaeddge-logs-using-amazon-athena)
 * [Create AWS Glue Data Catalog for the combined logs using Amazon Athena](#create-aws-glue-data-catalog-for-the-combined-logs-using-amazon-athena)
 * [Generate visualization using Amazon QuickSight](#generate-visualization-using-amazon-quicksight)
@@ -422,7 +423,7 @@ Please review the values in the following fields/columns
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
 
-### Combine the logs using an AWS Glue ETL Job
+## Combine the logs using an AWS Glue ETL Job
 
 In this section you will create an AWS Glue ETL job to  join the four following logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3)Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs. The output of the combined logs is written in optimized parquet format to the Amazon S3 bucket that you created at the beginning of this lab. The data is partition by year followed by month follow by day.  
 
