@@ -788,7 +788,14 @@ ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_tim
 
 > EdgeToOriginTimeTaken = timetaken - target_processing_time + response_processing_time + request_processing_time\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= timetaken, when target_processing_time = null i.e. response was served by Amazon CloudFront\
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)\                                   
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)\ 
+> |Field Name|Description|type
+  |---|----|---|
+  |timetaken|The number of seconds (to the thousandth of a second, for example, 0.002) between the time that a CloudFront edge server receives a viewer's request and the time that CloudFront writes the last byte of the response to the edge server's output queue as measured on the server. From the perspective of the viewer, the total time to get the full object will be longer than this value due to network latency and TCP buffering.|double|          
+  |request_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the request until the time it sent it to a target. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout.| double|
+  |target_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer sent the request to a target until the target started to send the response headers. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout. |double|
+  |response_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the response header from the target until it started to send the response to the client. This includes both the queuing time at the load balancer and the connection acquisition time from the load balancer to the client. This value is set to -1 if the load balancer can't send the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. |double|
+                                  
 
 - Click **Create**
 - Ensure that **#EdgeToOriginTimeTaken** appears under *Calculated fields*
@@ -819,7 +826,12 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 > TotalTimeTakenAtALB = target_processing_time + response_processing_time + request_processing_time\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 0, when target_processing_time = null i.e. response was served by Amazon CloudFront\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)                                   
-
+> |Field Name|Description|type
+  |---|----|---|
+  |timetaken|The number of seconds (to the thousandth of a second, for example, 0.002) between the time that a CloudFront edge server receives a viewer's request and the time that CloudFront writes the last byte of the response to the edge server's output queue as measured on the server. From the perspective of the viewer, the total time to get the full object will be longer than this value due to network latency and TCP buffering.|double|          
+  |request_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the request until the time it sent it to a target. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout.| double|
+  |target_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer sent the request to a target until the target started to send the response headers. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout. |double|
+  |response_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the response header from the target until it started to send the response to the client. This includes both the queuing time at the load balancer and the connection acquisition time from the load balancer to the client. This value is set to -1 if the load balancer can't send the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. |double|
 
 - Click **Create**
 - Ensure that **#TotatlTimeTakenAtALB** appears under **Calculated fields**
