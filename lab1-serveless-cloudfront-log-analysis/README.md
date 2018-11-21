@@ -16,6 +16,7 @@
 * [Combine the logs using an AWS Glue ETL Job](#combine-the-logs-using-an-aws-glue-elt-job)
   * [Create AWS IAM Role](#create-aws-iam-role)
   * [Create AWS Glue ETL Job](#create-aws-glue-etl-job)
+* [Combine the logs using an AWS Glue ETL Job](#combine-the-logs-using-an-aws-glue-etl-job)
 * [(Optional)Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena](#optional-create-aws-glue-data-catalog-for-the-combined-lamabdaeddge-logs-using-amazon-athena)
 * [Create AWS Glue Data Catalog for the combined logs using Amazon Athena](#create-aws-glue-data-catalog-for-the-combined-logs-using-amazon-athena)
 * [Generate visualization using Amazon QuickSight](#generate-visualization-using-amazon-quicksight)
@@ -427,7 +428,7 @@ Please review the values in the following fields/columns
 
 ## Combine the logs using an AWS Glue ETL Job
 
-In this section you will create an AWS Glue ETL job to  join the four following logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3)Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs. The output of the combined logs is written in optimized parquet format to the Amazon S3 bucket that you created at the beginning of this lab. The data is partition by year followed by month follow by day. You will also create an IAM role that grants AWS Glue service permission to read and write to Amazon S3 bucket and access the AWS Glue data catalog tables.  
+Now that you have created all the AWS Glue data catalog tables for the optimized logs, in this section you will create an AWS Glue ETL job to  join the four optimized logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3)Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs. The output of the combined logs is written in optimized parquet format to the Amazon S3 bucket that you created at the beginning of this lab. The data is partition by year followed by month follow by day. You will also create an IAM role that grants AWS Glue service permission to read and write to Amazon S3 bucket and access the AWS Glue data catalog tables.  
 
 ### Create AWS IAM Role
 
@@ -455,7 +456,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 ### Create AWS Glue ETL Job
 
-- Open the AWS Management console for AWS Glue service from [here](https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1)
+- Now that you have created the IAM role, open the AWS Management console for AWS Glue service from [here](https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1)
 - If this is your first time visiting the AWS Management Console for AWS Glue, you will get a Getting Started page. Choose **Get Started**. If this isn't your first time, the **Tables** pages opens.
 - Make a note of the AWS region name, for example, for this lab you will need to choose the **eu-west-1 (Ireland)** region
 - Click on **Jobs** under the **ETL** section in the navigation pane on the left
@@ -489,14 +490,14 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 ## Create AWS Glue Data Catalog for Combined Logs
 
-In this section you will be creating an AWS Data Catalog tables pointing to the combined logs written by the AWS Glue ETL job that you just executed. You will be creating the following tables, loading the partitions into each of these tables, and previewing the fields.
+Now that you have successfully generated the combined logs, in this section you will be creating an AWS Data Catalog tables pointing to the combined logs written by the AWS Glue ETL job that you just executed. You will be creating the following tables, loading the partitions into each of these tables, and previewing the fields.
 
 |Table Name|Log Name|Partition|
 |---|---|----|
 |lambdaedge_logs_combined_optimized(optional)|Combined Lambda@Edge Logs obtained by joining viewer-request and origin-request logs |year, month, day, hour|
 |combined_log_optimized|Combined all the four following logs <ul><li>Amazon CloudFront access logs</li><li>Viewer request triggered Lambda@Edge logs</li><li>Origin request triggered Lambda@Edge logs</li><li>Application Load Balancer(ALB)</li></ul> |year, month, day|
 
-The AWS Glue data catalogs will be referred by AWS Athena service when you be query the logs directly from Amazon S3 bucket for generating your visualizations in Amazon QuckSight.
+The above AWS Glue data catalogs will be referred by AWS Athena service when you query the logs directly from Amazon S3 bucket for generating visualizations using Amazon QuickSight.
 
 ### (Optional) Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena
 
@@ -696,6 +697,8 @@ Please review the values in the following fields/columns as you will be using th
 
 ### Signing Up for Amazon Quicksight Standard Edition
 
+If you have never used Amazon QuickSight within this account, follow the instructions in this section to sign-up for an Amazon QuickSight account.
+
 ![quicksight-signup.png](./assets/quicksight-signup.png)
 
 - If this is the first time you are accessing QuickSight, you will see a sign-up landing page for QuickSight.
@@ -718,6 +721,8 @@ Please review the values in the following fields/columns as you will be using th
 
 ### Configure Amazon S3 bucket Permission
 
+In this section you configure the permission for Amazon QuickSight to access the Amazon S3 bucket to read the combined logs that you generated as part of the ETL job.
+
 ![quicksight-manage.png](./assets/quicksight-manage.png)
 
 - On the Amazon QuickSight dashboard, navigate to user settings page on the top right section and click **Manage QuickSight**.
@@ -736,6 +741,8 @@ Please review the values in the following fields/columns as you will be using th
 - Click **Apply**
 
 ### Configuring Amazon QuickSight to use Amazon Athena as data source
+
+In this section you will configure Amazon Athena as the data source to query the combined logs directly from Amazon S3 bucket by referencing the AWS Glue data catalog - *reInvent2018_aws_service_logs.combined_log_optimized*.   
 
 ![quicksight-region-selection.png](./assets/quicksight-region-selection.png)
 
