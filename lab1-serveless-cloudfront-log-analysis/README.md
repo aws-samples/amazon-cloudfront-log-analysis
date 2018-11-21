@@ -771,18 +771,12 @@ In this section you will configure Amazon Athena as the data source to query the
 ## Generating new calculated fields in Amazon QuickSight
 
 Now that you have configured the Amazon S3 permission and the data source in Amazon QuickSight, in this section you will generated following additional fields 
-
-**HourOfDay** 
-
-> ** Formula:**\
-> HourofDay = extract("HH",{time})
-
-|Field Name|Description|type
-|---|----|---|
-|time|The time when the CloudFront server finished responding to the request (in UTC), for example, 01:42:39|timestamp|
+*HourOfDay 
+*EdgeToOriginTimeTaken
+*TotalTimeTakenAtALB 
 
 
-**EdgeToOriginTimeTaken**
+### Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight
 
 > **Formula:**\
 > EdgeToOriginTimeTaken = timetaken - target_processing_time + response_processing_time + request_processing_time\
@@ -795,22 +789,6 @@ Now that you have configured the Amazon S3 permission and the data source in Ama
 |request_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the request until the time it sent it to a target. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout.| double|
 |target_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer sent the request to a target until the target started to send the response headers. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout. |double|
 |response_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the response header from the target until it started to send the response to the client. This includes both the queuing time at the load balancer and the connection acquisition time from the load balancer to the client. This value is set to -1 if the load balancer can't send the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. |double|
-    
-**TotalTimeTakenAtALB** 
-
-> **Formula**\
-> TotalTimeTakenAtALB = target_processing_time + response_processing_time + request_processing_time\
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 0, when target_processing_time = null i.e. response was served by Amazon CloudFront\
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)                                   
-
-|Field Name|Description|type
-|---|----|---|
-|timetaken|The number of seconds (to the thousandth of a second, for example, 0.002) between the time that a CloudFront edge server receives a viewer's request and the time that CloudFront writes the last byte of the response to the edge server's output queue as measured on the server. From the perspective of the viewer, the total time to get the full object will be longer than this value due to network latency and TCP buffering.|double|          
-|request_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the request until the time it sent it to a target. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout.| double|
-|target_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer sent the request to a target until the target started to send the response headers. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout. |double|
-|response_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the response header from the target until it started to send the response to the client. This includes both the queuing time at the load balancer and the connection acquisition time from the load balancer to the client. This value is set to -1 if the load balancer can't send the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. |double|
-
-### Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight
 
 - Open the AWS Management console for Amazon QuickSight from [here](https://eu-west-1.quicksight.aws.amazon.com/sn/start)
 - Under **Fields** on the left column, click **Add calculated field**
@@ -830,6 +808,14 @@ ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_tim
 
 ### Create new calculated fields "HourOfDay" in Amazon QuickSight
 
+> ** Formula:**\
+> HourofDay = extract("HH",{time})
+
+|Field Name|Description|type
+|---|----|---|
+|time|The time when the CloudFront server finished responding to the request (in UTC), for example, 01:42:39|timestamp|
+
+
 - Under **Fields** on the left column, click **Add calculated field**
 - In the **Add calculated field** pop up page, type **HourOfDay** under **Calculated field name**
 - Copy and paste the formula below in the **Formula** text box
@@ -842,6 +828,18 @@ extract("HH",{time})
 - Ensure that **#HourOfDay** *appears under **Calculated fields**
 
 ### Create new calculated fields "TotalTimeTakenAtALB" in Amazon QuickSight
+
+> **Formula**\
+> TotalTimeTakenAtALB = target_processing_time + response_processing_time + request_processing_time\
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 0, when target_processing_time = null i.e. response was served by Amazon CloudFront\
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)                                   
+
+|Field Name|Description|type
+|---|----|---|
+|timetaken|The number of seconds (to the thousandth of a second, for example, 0.002) between the time that a CloudFront edge server receives a viewer's request and the time that CloudFront writes the last byte of the response to the edge server's output queue as measured on the server. From the perspective of the viewer, the total time to get the full object will be longer than this value due to network latency and TCP buffering.|double|          
+|request_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the request until the time it sent it to a target. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout.| double|
+|target_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer sent the request to a target until the target started to send the response headers. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout. |double|
+|response_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the response header from the target until it started to send the response to the client. This includes both the queuing time at the load balancer and the connection acquisition time from the load balancer to the client. This value is set to -1 if the load balancer can't send the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. |double|
 
 - Under **Fields** on the left column, click **Add calculated field**
 - In the **Add calculated field** pop up page, type **TotalTimeTakenAtALB** under **Calculated field name**
