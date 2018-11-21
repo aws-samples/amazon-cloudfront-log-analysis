@@ -786,9 +786,9 @@ Now that you have configured the Amazon S3 permission and the data source in Ama
 ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_time = -1 or response_processing_time = -1 or request_processing_time = -1, 0, {timetaken} - {target_processing_time} + {response_processing_time} +{request_processing_time}))
 ```
 
-> **Note**: EdgeToOriginTimeTaken = timetaken - target_processing_time + response_processing_time + request_processing_time, when response was served by Origin
->                                 = timetaken, when target_processing_time = null i.e. response was served by Amazon CloudFront
->                                 = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)                                   
+> **Note**: EdgeToOriginTimeTaken = timetaken - target_processing_time + response_processing_time + request_processing_time, when response was served by Origin\
+>                                 = timetaken, when target_processing_time = null i.e. response was served by Amazon CloudFront\
+>                                 = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)\                                   
 
 - Click **Create**
 - Ensure that **#EdgeToOriginTimeTaken** appears under *Calculated fields*
@@ -816,8 +816,8 @@ extract("HH",{time})
 ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or response_processing_time = -1 or request_processing_time = -1, 0, {target_processing_time} + {response_processing_time} +{request_processing_time}))
 ```
 
-> **Note**: TotalTimeTakenAtALB = target_processing_time + response_processing_time + request_processing_time, when response was served by Origin
->                               = 0, when target_processing_time = null i.e. response was served by Amazon CloudFront
+> **Note**: TotalTimeTakenAtALB = target_processing_time + response_processing_time + request_processing_time, when response was served by Origin\
+>                               = 0, when target_processing_time = null i.e. response was served by Amazon CloudFront\
 >                               = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)                                   
 
 
