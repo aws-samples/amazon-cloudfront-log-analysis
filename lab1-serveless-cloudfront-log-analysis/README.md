@@ -19,13 +19,15 @@
 * [Combine the logs using an AWS Glue ETL Job](#combine-the-logs-using-an-aws-glue-etl-job)
 * [(Optional)Create AWS Glue Data Catalog for the combined Lamabda@Eddge logs using Amazon Athena](#optional-create-aws-glue-data-catalog-for-the-combined-lamabdaeddge-logs-using-amazon-athena)
 * [Create AWS Glue Data Catalog for the combined logs using Amazon Athena](#create-aws-glue-data-catalog-for-the-combined-logs-using-amazon-athena)
-* [Generate visualization using Amazon QuickSight](#generate-visualization-using-amazon-quicksight)
+* [Visualization using Amazon QuickSight](#visualization-using-amazon-quicksight)
   * [Signing Up for Amazon QuickSight Standard Edition](#signing-up-for-amazon-quicksight-standard-edition)
   * [Configure Amazon S3 bucket Permission](#configure-amazon-s3-bucket-permission)
   * [Configuring Amazon QuickSight to use Amazon Athena as data source](#configuring-amazon-quicksight-to-use-amazon-athena-as-data-source)
+* [Generating new calculated fields in Amazon QuickSight](#generating-new-calculated-fields-in-amazon-quickSight)
   * [Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight](#create-new-calculated-fields-edgetoorigintimetaken-in-amazon-quicksight)
   * [Create new calculated fields "HourOfDay" in Amazon QuickSight](#create-new-calculated-fields-hourofday-in-amazon-quicksight)
   * [Create new calculated fields "TotalTimeTakenAtALB" in Amazon QuickSight](#create-new-calculated-fields-totaltimetakenatalb-in-amazon-quicksight)
+* [Generate Visualization using Amazon QuickSight](#visualization-using-amazon-quicksight)
   * [Generate visualization to status code by edge location](#generate-visualization-to-status-code-by-edge-location)
   * [(Optional)Generate visualization to status code by URI](#optional-generate-visualization-to-status-code-by-uri)
   * [Generate visualization to show hourly average time taken between edge and origin by country where the end user request originated from](#generate-visualization-to-show-hourly-average-time-taken-between-edge-and-origin-by-country-where-the-end-user-request-originated-from)
@@ -690,10 +692,7 @@ Please review the values in the following fields/columns as you will be using th
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
 
-## Generate visualization using Amazon QuickSight
-![quicksight-visualization-all.png](./assets/quicksight-visualization-all.png)
-
-- Open the AWS Management console for Amazon QuickSight from [here](https://eu-west-1.quicksight.aws.amazon.com/sn/start)
+## Visualization using Amazon QuickSight
 
 ### Signing Up for Amazon Quicksight Standard Edition
 
@@ -701,6 +700,7 @@ If you have never used Amazon QuickSight within this account, follow the instruc
 
 ![quicksight-signup.png](./assets/quicksight-signup.png)
 
+- Open the AWS Management console for Amazon QuickSight from [here](https://eu-west-1.quicksight.aws.amazon.com/sn/start)
 - If this is the first time you are accessing QuickSight, you will see a sign-up landing page for QuickSight.
 - Click on **Sign up for QuickSight**.
 
@@ -721,7 +721,7 @@ If you have never used Amazon QuickSight within this account, follow the instruc
 
 ### Configure Amazon S3 bucket Permission
 
-In this section you configure the permission for Amazon QuickSight to access the Amazon S3 bucket to read the combined logs that you generated as part of the ETL job.
+In this section you will configure the permission for Amazon QuickSight to access the Amazon S3 bucket to read the combined logs that you generated as part of the ETL job.
 
 ![quicksight-manage.png](./assets/quicksight-manage.png)
 
@@ -768,8 +768,13 @@ In this section you will configure Amazon Athena as the data source to query the
 
 > Note: This is a crucial step. Please ensure you choose Edit/Preview data.
 
+## Generating new calculated fields in Amazon QuickSight
+
 ### Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight
 
+Now that you have configured the Amazon S3 permission and the data source in Amazon QuickSight, in this section you will generated additional fields.
+
+- Open the AWS Management console for Amazon QuickSight from [here](https://eu-west-1.quicksight.aws.amazon.com/sn/start)
 - Under **Fields** on the left column, click **Add calculated field**
 
 ![quicksight-new-field.png](./assets/quicksight-new-field.png)
@@ -778,8 +783,12 @@ In this section you will configure Amazon Athena as the data source to query the
 - Copy and paste the formula below in the **Formula** text box
 
 ```$xslt
-ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_time < -1 or response_processing_time < -1 or request_processing_time < -1, 0, {timetaken} - {target_processing_time} + {response_processing_time} +{request_processing_time}))
+ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_time = -1 or response_processing_time = -1 or request_processing_time = -1, 0, {timetaken} - {target_processing_time} + {response_processing_time} +{request_processing_time}))
 ```
+
+> **Note**: EdgeToOriginTimeTaken = timetaken - target_processing_time + response_processing_time + request_processing_time, when response was served by Origin
+>                                 = timetaken, when target_processing_time = null i.e. response was served by Amazon CloudFront
+>                                 = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)                                   
 
 - Click **Create**
 - Ensure that **#EdgeToOriginTimeTaken** appears under *Calculated fields*
@@ -804,12 +813,22 @@ extract("HH",{time})
 - Copy and paste the formula below in the **Formula** text box
 
 ```$xslt
-ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time < -1 or response_processing_time < -1 or request_processing_time < -1, 0, {target_processing_time} + {response_processing_time} +{request_processing_time}))
+ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or response_processing_time = -1 or request_processing_time = -1, 0, {target_processing_time} + {response_processing_time} +{request_processing_time}))
 ```
+
+> **Note**: TotalTimeTakenAtALB = target_processing_time + response_processing_time + request_processing_time, when response was served by Origin
+>                               = 0, when target_processing_time = null i.e. response was served by Amazon CloudFront
+>                               = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)                                   
+
 
 - Click **Create**
 - Ensure that **#TotatlTimeTakenAtALB** appears under **Calculated fields**
 - Click on **Save & visualize** on the top of the page
+
+## Generate visualization using Amazon QuickSight
+
+![quicksight-visualization-all.png](./assets/quicksight-visualization-all.png)
+
 
 ### Generate visualization to status code by edge location
 ![quicksight-status-code-pop.png](./assets/quicksight-status-code-pop.png)
