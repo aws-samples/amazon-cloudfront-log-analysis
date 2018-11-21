@@ -772,9 +772,9 @@ In this section you will configure Amazon Athena as the data source to query the
 
 Now that you have configured the Amazon S3 permission and the data source in Amazon QuickSight, in this section you will generated following additional fields 
 
-* HourOfDay = 
+**HourOfDay** 
 
-> ** Formula:
+> ** Formula:**\
 > HourofDay = extract("HH",{time})
 
 |Field Name|Description|type
@@ -782,12 +782,12 @@ Now that you have configured the Amazon S3 permission and the data source in Ama
 |time|The time when the CloudFront server finished responding to the request (in UTC), for example, 01:42:39|timestamp|
 
 
-* EdgeToOriginTimeTaken
+**EdgeToOriginTimeTaken**
 
-> **Formula:**
+> **Formula:**\
 > EdgeToOriginTimeTaken = timetaken - target_processing_time + response_processing_time + request_processing_time\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= timetaken, when target_processing_time = null i.e. response was served by Amazon CloudFront\
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)\ 
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout) 
 
 |Field Name|Description|type
 |---|----|---|
@@ -796,9 +796,9 @@ Now that you have configured the Amazon S3 permission and the data source in Ama
 |target_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer sent the request to a target until the target started to send the response headers. This value is set to -1 if the load balancer can't dispatch the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. This value can also be set to -1 if the registered target does not respond before the idle timeout. |double|
 |response_processing_time|The total time elapsed (in seconds, with millisecond precision) from the time the load balancer received the response header from the target until it started to send the response to the client. This includes both the queuing time at the load balancer and the connection acquisition time from the load balancer to the client. This value is set to -1 if the load balancer can't send the request to a target. This can happen if the target closes the connection before the idle timeout or if the client sends a malformed request. |double|
     
-* TotalTimeTakenAtALB 
+**TotalTimeTakenAtALB** 
 
-> **Formula**
+> **Formula**\
 > TotalTimeTakenAtALB = target_processing_time + response_processing_time + request_processing_time\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 0, when target_processing_time = null i.e. response was served by Amazon CloudFront\
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 0, when (target_processing_time || response_processing_time || request_processing_time) == -1  (request timeout)                                   
