@@ -770,10 +770,7 @@ In this section you will configure Amazon Athena as the data source to query the
 
 ## Generating new calculated fields in Amazon QuickSight
 
-Now that you have configured the Amazon S3 permission and the data source in Amazon QuickSight, in this section you will generated following additional fields 
-*HourOfDay 
-*EdgeToOriginTimeTaken
-*TotalTimeTakenAtALB 
+Now that you have configured the Amazon S3 permission and the data source in Amazon QuickSight, in this section you will generated following additional fields - HourOfDay, EdgeToOriginTimeTaken, TotalTimeTakenAtALB. 
 
 
 ### Create new calculated fields “EdgeToOriginTimeTaken” in Amazon QuickSight
