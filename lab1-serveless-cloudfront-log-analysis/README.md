@@ -121,7 +121,7 @@ The AWS Glue ETL job that will combine all the four logs will refer to metadata 
 - In the *Athena Query Editor*, you will see a query pane with an example query. Now you can start entering your query in the query pane.
 - To create a database named reInvent2018_aws_service_logs, copy the following statement, and then choose Run Query:
 
-```$xslt
+```sql
 CREATE DATABASE IF NOT EXISTS reInvent2018_aws_service_logs
 ```
 
@@ -176,13 +176,13 @@ Now that you have created the table you need to add the partition metadata to th
 
 Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata
 
-```$xslt
+```sql
 MSCK REPAIR TABLE reInvent2018_aws_service_logs.cf_access_optimized
 ```
 
 - Get the total number of CloudFront Access Log records:
 
-```$xslt
+```sql
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.cf_access_optimized
 ```
 
@@ -190,7 +190,7 @@ SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.cf_access_optimiz
 
 - Get the first ten records:
 
-```$xslt
+```sql
 SELECT * FROM reInvent2018_aws_service_logs.cf_access_optimized LIMIT 10
 ```
 
@@ -218,7 +218,7 @@ Please review the values in the following fields/columns as you will be using th
 
 In the query pane, copy the following statement to create a the **alb_access_optimized** table, and then choose **Run Query**:
 
-```$xslt
+```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.alb_access_optimized(
                 type string,
                 time timestamp,
@@ -257,13 +257,13 @@ Now that you have created the table you need to add the partition metadata to th
 
 - Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
 
-```$xslt
+```sql
 MSCK REPAIR TABLE reInvent2018_aws_service_logs.alb_access_optimized
 ```
 
 - Get the total number of ALB Access Log records:
 
-```$xslt
+```sql
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.alb_access_optimized
 ```
 
@@ -271,7 +271,7 @@ SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.alb_access_optimi
 
 - Get the first ten records:
 
-```$xslt
+```sql
 SELECT * FROM reInvent2018_aws_service_logs.alb_access_optimized LIMIT 10
 ```
 
@@ -296,7 +296,7 @@ Please review the values in the following fields/columns as you will be using th
 
 In the query pane, copy the following statement to create a the *lambdaedge_logs_viewer_request_optimized* table, and then choose **Run Query**:
 
-```$xslt
+```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.lambdaedge_logs_viewer_request_optimized(
                 executionregion string,
                 requestid string,
@@ -321,13 +321,13 @@ Now that you have created the table you need to add the partition metadata to th
 
 - Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
 
-```$xslt
+```sql
 MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_viewer_request_optimized
 ```
 
 - Get the total number of Lambda@Edge Log - Viewer Request records:
 
-```$xslt
+```sql
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_viewer_request_optimized
 ```
 
@@ -335,7 +335,7 @@ SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_v
 
 - Get the first ten records:
 
-```$xslt
+```sql
 SELECT * FROM reInvent2018_aws_service_logs.lambdaedge_logs_viewer_request_optimized LIMIT 10
 ```
 
@@ -363,7 +363,7 @@ Please review the values in the following fields/columns
 
 In the query pane, copy the following statement to create a the *lambdaedge_logs_origin_request_optimized* table, and then choose **Run Query**:
 
-```$xslt
+```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_optimized(
     executionregion string, 
     requestid string, 
@@ -389,13 +389,13 @@ Now that you have created the table you need to add the partition metadata to th
 
 - Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
 
-```$xslt
+```sql
 MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_optimized
 ```
 
 - Get the total number of Lambda@Edge Log - Viewer Request records:
 
-```$xslt
+```sql
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_optimized
 ```
 
@@ -403,7 +403,7 @@ SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_o
 
 - Get the first ten records:
 
-```$xslt
+```sql
 SELECT * FROM reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_optimized LIMIT 10
 ```
 
@@ -511,7 +511,7 @@ The above AWS Glue data catalogs will be referred by AWS Athena service when you
 
 > **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in beginning of this lab.
 
-```$xslt
+```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized(
                 executionregion string,
                 requestid string,
@@ -537,20 +537,20 @@ Now that you have created the table you need to add the partition metadata to th
 
 1. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
 
-```$xslt
+```sql
 MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized
 ```
 
 - Get the total number of combined Lambda@Edge Log records:
 
-```$xslt
+```sql
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized
 ```
 
 > **Note:** Ensure that the rowcount = **207837**
 
 - Get the first ten records:
-```$xslt
+```sql
 SELECT * FROM reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized LIMIT 10
 ```
 
@@ -583,7 +583,7 @@ Please review the values in the following fields/columns
 
 > **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in step 1 earlier.
 
-```$xslt
+```sql
 CREATE EXTERNAL TABLE reInvent2018_aws_service_logs.combined_log_optimized(
                 received_bytes int,
                 trace_id string,
@@ -650,12 +650,12 @@ Now that you have created the table you need to add the partition metadata to th
 
 - Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
 
-```$xslt
+```sql
 MSCK REPAIR TABLE reInvent2018_aws_service_logs.combined_log_optimized
 ```
 - Get the total number of combined log records:
 
-```$xslt
+```sql
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.combined_log_optimized
 ```
 
@@ -663,7 +663,7 @@ SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.combined_log_opti
 
 - Get the first ten records:
 
-```$xslt
+```sql
 SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 ```
 
