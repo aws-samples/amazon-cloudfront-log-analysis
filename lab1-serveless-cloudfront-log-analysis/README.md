@@ -37,10 +37,11 @@
   * [(Optional)Generate visualization to show device form factor ratio](#optional-generate-visualization-to-show-device-form-factor-ratio)
   * [(Optional)Generate visualization to show device form factor ration by viewer country](#optional-generate-visualization-to-show-device-form-factor-ration-by-viewer-country)
 
+---
+
 ## Overview
 
 ### Log collection
-  
 
 ![log-collection.png](./assets/log-collection.png)
 
@@ -53,6 +54,7 @@ As part of the log data generation generation, the following four different logs
 |Origin request triggered Lambda@Edge logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lelogs/origin-request/|JSON|{executionregion, requestid, distributionid, distributionname, eventtype, requestdata, customtraceid, viewercountry, deviceformfactor}|
 |Application Load Balancer(ALB) logs|aws s3 ls s3://eu-west-1.data-analytics/raw/lblogs/|JSON|[Access Log Entries](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html#access-log-entry-format)|
 
+---
 
 ### Lab Overview 
 
@@ -67,6 +69,8 @@ In this lab, you are going to build a serverless architecture to combine all the
 |Origin request triggered Lambda@Edge logs|year, month, day, hour|[lelogconverter.py](./lelogconverter.py)|-|aws s3 ls s3://eu-west-1.data-analytics/cflogworkshop/optimized/lelogs/origin-request/|
 |Application Load Balancer(ALB) logs|region, year, month, day|[sample_alb_job.py](https://github.com/awslabs/athena-glue-service-logs/blob/master/scripts/sample_alb_job.py)|[Link](https://github.com/awslabs/athena-glue-service-logs)|aws s3 ls s3://eu-west-1.data-analytics/cflogworkshop/optimized/lblogs/|
 
+---
+
 ## Lambda @ Edge
 
 ![lambda-edge.png](./assets/lambda-edge.png)
@@ -79,6 +83,8 @@ In this lab, you are going to build a serverless architecture to combine all the
 ## Pre-requisites
 This module requires:
  - You should have active AWS account with Administrator IAM role.
+
+---
 
 ## Create Amazon S3 Bucket
 
@@ -100,6 +106,8 @@ In this section you will be creating an Amazon S3 bucket to store the combined (
   
  ![amazon-s3-create-bucket.png](./assets/amazon-s3-create-bucket.png) 
  
+--- 
+ 
 ## Creating Glue Data Catalog Database and Table using Amazon Athena
 
 In this section you will be creating an AWS Data Catalog Database along with the tables pointing to the optimized logs. These logs have been pre-generated as part of the workshop. You will be creating the following tables, loading the partitions into each of these tables, and previewing the fields.
@@ -111,7 +119,7 @@ In this section you will be creating an AWS Data Catalog Database along with the
 |lambdaedge_logs_origin_request_optimized|Origin request triggered Lambda@Edge logs|year, month, day, hour|
 |alb_access_optimized|Application Load Balancer(ALB) logs|region, year, month, day|
 
-The AWS Glue ETL job that will combine all the four logs will refer to metadata in AWS Glue data catalog to read the logs from Amazon S3. 
+The AWS Glue ETL job that will combine all the four logs will refer to metadata in AWS Glue data catalog to read the logs from Amazon S3.
 
 ### Create Glue Data Catalog Database using Amazon Athena
 
@@ -128,6 +136,8 @@ CREATE DATABASE IF NOT EXISTS reInvent2018_aws_service_logs
 ![athena-database.png](./assets/athena-database.png)
 
 - Ensure *reInvent2018_aws_service_logs* appears in the DATABASE list on the Catalog dashboard
+
+---
 
 ### Create Glue Data Catalog for CloudFront Access Logs in optimized Parquet Format
 
@@ -214,6 +224,8 @@ Please review the values in the following fields/columns as you will be using th
  |month(partition)|The month on which the event occurred.|string|
  |day(partition)|The day on which the event occurred.|string|
 
+---
+
 ### Create Glue Data Catalog for Application Load Balancer(ALB) Access Logs in optimized Parquet Format
 
 In the query pane, copy the following statement to create a the **alb_access_optimized** table, and then choose **Run Query**:
@@ -292,6 +304,8 @@ Please review the values in the following fields/columns as you will be using th
 |month(partition)|The month the log was delivered.|string|
 |day(partition)|The day the logs was delivered.|string|
 
+---
+
 ### Create Glue Data Catalog for Lambda@Edge Logs - Viewer Request in optimized Parquet Format
 
 In the query pane, copy the following statement to create a the *lambdaedge_logs_viewer_request_optimized* table, and then choose **Run Query**:
@@ -358,6 +372,8 @@ Please review the values in the following fields/columns
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
+
+---
 
 ### Create Glue Data Catalog for Lambda@Edge Logs - Origin Request in optimized Parquet Format
 
@@ -456,6 +472,8 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Ensure that **AmazonS3FullAccess**, **AWSGlueConsoleFullAccess** and **AWSGlueServiceRole** are listed under policies
 - Click **Create role**
 
+---
+
 ### Create AWS Glue ETL Job
 
 - Now that you have created the IAM role, open the AWS Management console for AWS Glue service from [here](https://eu-west-1.console.aws.amazon.com/glue/home?region=eu-west-1)
@@ -489,6 +507,8 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 > **Note:** This step may take from upto 15 minutes to complete.
 
 ![combine-schema](./assets/combine-schema.png)
+
+---
 
 ## Create AWS Glue Data Catalog for Combined Logs
 
@@ -577,6 +597,8 @@ Please review the values in the following fields/columns
 |hour(partition)|The hour on which the event occurred.|string|
 
 </details>
+
+---
 
 ### Create AWS Glue Data Catalog for the combined logs using Amazon Athena
 - In the query pane, copy the following statement to create a the *combined_log_optimized* table, and then choose **Run Query*:
@@ -692,6 +714,8 @@ Please review the values in the following fields/columns as you will be using th
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
 
+---
+
 ## Visualization using Amazon QuickSight
 
 ### Signing Up for Amazon QuickSight Standard Edition
@@ -722,6 +746,8 @@ Please review the values in the following fields/columns as you will be using th
 
 </details>
 
+---
+
 ### Configure Amazon S3 bucket Permission
 
 In this section you will configure the permission for Amazon QuickSight to access the Amazon S3 bucket to read the combined logs that you generated as part of the ETL job.
@@ -742,6 +768,8 @@ In this section you will configure the permission for Amazon QuickSight to acces
 - Click **Select buckets**
 - Ensure that the box next to **Amazon S3** is checked
 - Click **Apply**
+
+---
 
 ### Configuring Amazon QuickSight to use Amazon Athena as data source
 
@@ -796,7 +824,6 @@ Now that you have configured the Amazon S3 permission and the data source in Ama
 
 ![quicksight-new-field.png](./assets/quicksight-new-field.png)
 
-
 - In the **Add calculated field** pop up page, type **EdgeToOriginTimeTaken** under **Calculated field name**
 - Copy and paste the formula below in the **Formula** text box
 
@@ -806,6 +833,8 @@ ifelse(isNull(target_processing_time), {timetaken}, ifelse(target_processing_tim
 
 - Click **Create**
 - Ensure that **#EdgeToOriginTimeTaken** appears under *Calculated fields*
+
+---
 
 ### Create new calculated fields "HourOfDay" in Amazon QuickSight
 
@@ -827,6 +856,8 @@ extract("HH",{time})
 
 - Click **Create**
 - Ensure that **#HourOfDay** *appears under **Calculated fields**
+
+---
 
 ### Create new calculated fields "TotalTimeTakenAtALB" in Amazon QuickSight
 
@@ -853,10 +884,11 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Ensure that **#TotatlTimeTakenAtALB** appears under **Calculated fields**
 - Click on **Save & visualize** on the top of the page
 
+---
+
 ## Generate visualization using Amazon QuickSight
 
 ![quicksight-visualization-all.png](./assets/quicksight-visualization-all.png)
-
 
 ### Generate visualization to status code by edge location
 ![quicksight-status-code-pop.png](./assets/quicksight-status-code-pop.png)
@@ -892,6 +924,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Click on the Ascending order for **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Status code by Edge Location**(optional)
 
+---
 
 ### (Optional) Generate visualization to status code by URI
 
@@ -906,6 +939,8 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 ![quicksight-status-code-visualize-2.png](./assets/quicksight-status-code-visualize-2.png)
      
 </details>
+
+---
 
 ### Generate visualization to show hourly average time taken between edge and origin by country where the end user request originated from
 
@@ -951,6 +986,8 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Click on the drop down arrow next to **HourOfDay** in the x-axis of the chart to reveal a sub menu.
 - Click on the Ascending order next to **HourOfDay** under **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Hourly Avg. for time taken from edge to origin by end user country** (optional)
+
+---
 
 ### Generate visualization to show hourly average time taken (total Vs. edge to origin Vs. server-side processing) by country where the end user request originated from
 
@@ -999,6 +1036,8 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Click on the Ascending order next to **HourOfDay** under **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Hourly Avg. time taken (total Vs. edge to origin Vs. server-side processing) by end user country** (optional)
 
+---
+
 ### (Optional) Generate visualization to show hourly average time taken (total Vs. edge to origin V.s server-side processing) by country where the end user request originated from for a different viewer country
 
 <details>
@@ -1014,6 +1053,8 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
   - Click the **Visualize** icon in the QuickSight navigation pane
 
 </details>
+
+---
 
 ### Generate Visualization to show PRODUCT CATEGORY REQUEST BY Country
 
@@ -1050,6 +1091,8 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Click on the Ascending order for **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Count of product category by end user country**(optional)
 
+---
+
 ### (Optional) Generate visualization to show device form factor ratio
 
 <details>
@@ -1076,10 +1119,10 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Drag and drop the **deviceformfactor** field into **Group/Color** in the **Field wells** section
 - Edit the title by click on the title in the chart to **Device form factor Ratio** (optional)
 
+</details>
+
 ---
 
-</details>
-     
  ### (Optional) Generate visualization to show device form factor ration by viewer country
  
  <details>
