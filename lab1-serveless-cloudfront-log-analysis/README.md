@@ -902,12 +902,12 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 
 ## Generate visualization using Amazon QuickSight
 
-Now that you have configure Athena as the data source to query the combined logs directly from Amazon S3 and created additional fields in Amazon QuickSight, you are ready to generation visualization for the following use cases:\
-* Status code count by Amazon CloudFront Edge / PoP\
-* Status code count by user requested URI\
-* Time taken (averaged over hour) from Amazon CloudFront edge to origin (located in AWS region us-east-1 (N. Virginia)) by country where the user request originated from\
-* Total time taken (averaged over hour) Vs. time taken (averaged over hour) from Amazon CloudFront edge to origin (located in AWS region us-east-1 (N. Virginia)) Vs. total server-side processing time (averaged over hour) for a country where the user request originated from\
-* Count of product category request by the country where the request originated from\
+Now that you have configure Athena as the data source to query the combined logs directly from Amazon S3 and created additional fields in Amazon QuickSight, you are ready to generation visualization for the following use cases:
+* Status code count by Amazon CloudFront Edge / PoP
+* Status code count by user requested URI
+* Time taken (averaged over hour) from Amazon CloudFront edge to origin (located in AWS region us-east-1 (N. Virginia)) by country where the user request originated from
+* Total time taken (averaged over hour) Vs. time taken (averaged over hour) from Amazon CloudFront edge to origin (located in AWS region us-east-1 (N. Virginia)) Vs. total server-side processing time (averaged over hour) for a country where the user request originated from
+* Count of product category request by the country where the request originated from
 * Ratio of device form factors used to browse globally or for a country where the user request originated from    
 
 ![quicksight-visualization-all.png](./assets/quicksight-visualization-all.png)
