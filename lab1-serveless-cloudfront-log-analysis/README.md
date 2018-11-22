@@ -135,7 +135,7 @@ CREATE DATABASE IF NOT EXISTS reInvent2018_aws_service_logs
 - Ensure *reInvent2018_aws_service_logs* is selected from the DATABASE list and then choose New Query.
 - In the query pane, copy the following statement to create a the *cf_access_optimized* table, and then choose **Run Query**:
 
-```$xslt
+```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.cf_access_optimized(
                 time timestamp,
                 location string,
@@ -766,7 +766,8 @@ In this section you will configure Amazon Athena as the data source to query the
 - Choose **combined_log_optimized** from the list under **Tables: contains the data you can visualize**
 - Click **Edit/Preview data**
 
-> Note: This is a crucial step. Please ensure you choose Edit/Preview data.
+> **Note: THIS IS A CRUCIAL STEP. PLEASE ENSURE YOU CHOOSE Edit/Preview data.**\
+> **Note: THIS IS A CRUCIAL STEP. PLEASE ENSURE YOU CHOOSE Edit/Preview data.**
 
 ## Generating new calculated fields in Amazon QuickSight
 
@@ -946,7 +947,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 
 - Click on the drop down arrow next to **HourOfDay** in the x-axis of the chart to reveal a sub menu.
 - Click on the Ascending order next to **HourOfDay** under **Sort by** in the revealed menu
-- Edit the title by click on the title in the chart to **Houlry Avg. for time taken from edge to origin by end user country** (optional)
+- Edit the title by click on the title in the chart to **Hourly Avg. for time taken from edge to origin by end user country** (optional)
 
 ### Generate visualization to show hourly average time taken (total Vs. edge to origin Vs. server-side processing) by country where the end user request originated from
 
@@ -1064,12 +1065,15 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Type *null* in the text box.
 - Click **Apply**
 - Click **Close**
+
+![device-form-factor-visualize.png](./assets/device-form-factor-visualize.png)
+
 - Click the **Visualize** icon in the QuickSight navigation pane
 - Select the **Pie chart** under **Visual types** 
 - Drag and drop the **deviceformfactor** field into **Group/Color** in the **Field wells** section
 - Edit the title by click on the title in the chart to **Device form factor Ratio** (optional)
 
-![device-form-factor-visualize.png](./assets/device-form-factor-visualize.png)
+
 
 </details>
      
