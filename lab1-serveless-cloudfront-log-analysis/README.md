@@ -1076,7 +1076,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Drag and drop the **deviceformfactor** field into **Group/Color** in the **Field wells** section
 - Edit the title by click on the title in the chart to **Device form factor Ratio** (optional)
 
-
+---
 
 </details>
      
@@ -1096,6 +1096,8 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
  - Click the **Visualize** icon in the QuickSight navigation pane
   
 </details>
+
+---
 
 ## License Summary
 
