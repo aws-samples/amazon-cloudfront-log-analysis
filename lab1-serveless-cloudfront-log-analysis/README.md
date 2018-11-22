@@ -694,7 +694,7 @@ Please review the values in the following fields/columns as you will be using th
 
 ## Visualization using Amazon QuickSight
 
-### Signing Up for Amazon Quicksight Standard Edition
+### Signing Up for Amazon QuickSight Standard Edition
 
 <details>
  <summary>IF YOU HAVE NEVER USER AMAZON QUICKSIGHT WITHIN THIS ACCOUNT, CLICK TO EXPAND THE INSTRUCTIONS TO SIGN-UP FOR AN AMAZON QUICKSIGHT ACCOUNT</summary>
@@ -989,8 +989,8 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
 - Drag and drop the **#EdgeToOriginTimeTaken** field into the **Value** in the **Field wells** section
 - Click on the down arrow next to **EdgeToOriginTimeTaken** in the Value to reveal a sub-menu
 - Select **Aggregate:** and select **Average**
-- Drag and drop the **#TimeTakenAtALB**field into the **Value** in the **Field wells** section
-- Click on the down arrow next to **#TimeTakenAtALB** in the Value to reveal a sub-menu
+- Drag and drop the **#TotalTimeTakenAtALB**field into the **Value** in the **Field wells** section
+- Click on the down arrow next to **#TotalTimeTakenAtALB** in the Value to reveal a sub-menu
 - Select **Aggregate:** and select **Average**
 - Drag and drop the **#timetaken** field into the **Value** in the **Field wells** section
 - Click on the down arrow next to **#timetaken** in the Value to reveal a sub-menu
