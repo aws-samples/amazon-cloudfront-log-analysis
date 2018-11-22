@@ -80,6 +80,8 @@ In this lab, you are going to build a serverless architecture to combine all the
 |Viewer Request|[index.js](./viewerRequest-Lambda/index.js)|
 |Origin Request|[index.js](./originRequest-Lambda/index.js)|
 
+---
+
 ## Pre-requisites
 This module requires:
  - You should have active AWS account with Administrator IAM role.
