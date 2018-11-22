@@ -696,7 +696,8 @@ Please review the values in the following fields/columns as you will be using th
 
 ### Signing Up for Amazon Quicksight Standard Edition
 
-If you have never used Amazon QuickSight within this account, follow the instructions in this section to sign-up for an Amazon QuickSight account.
+<details>
+ <summary>IF YOU HAVE NEVER USER AMAZON QUICKSIGHT WITHIN THIS ACCOUNT, CLICK TO EXPAND THE INSTRUCTIONS TO SIGN-UP FOR AN AMAZON QUICKSIGHT ACCOUNT</summary>
 
 ![quicksight-signup.png](./assets/quicksight-signup.png)
 
@@ -718,6 +719,8 @@ If you have never used Amazon QuickSight within this account, follow the instruc
 - Click **Finish**
 - Wait until the page with message **Congratulations! You are signed up for Amazon QuickSight!** on successful sign up is presented. 
 - Click on **Go to Amazon QuickSight**.
+
+</details>
 
 ### Configure Amazon S3 bucket Permission
 
