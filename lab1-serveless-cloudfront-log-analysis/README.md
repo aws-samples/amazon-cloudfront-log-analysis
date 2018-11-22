@@ -38,6 +38,7 @@
   * [(Optional)Generate visualization to show device form factor ration by viewer country](#optional-generate-visualization-to-show-device-form-factor-ration-by-viewer-country)
 
 ---
+---
 
 ## Overview
 
@@ -71,7 +72,7 @@ In this lab, you are going to build a serverless architecture to combine all the
 
 ---
 
-## Lambda @ Edge
+### Lambda @ Edge
 
 ![lambda-edge.png](./assets/lambda-edge.png)
 
@@ -81,11 +82,13 @@ In this lab, you are going to build a serverless architecture to combine all the
 |Origin Request|[index.js](./originRequest-Lambda/index.js)|
 
 ---
+---
 
 ## Pre-requisites
 This module requires:
  - You should have active AWS account with Administrator IAM role.
 
+---
 ---
 
 ## Create Amazon S3 Bucket
@@ -109,6 +112,7 @@ In this section you will be creating an Amazon S3 bucket to store the combined (
  ![amazon-s3-create-bucket.png](./assets/amazon-s3-create-bucket.png) 
  
 --- 
+---
  
 ## Creating Glue Data Catalog Database and Table using Amazon Athena
 
@@ -446,6 +450,9 @@ Please review the values in the following fields/columns
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
 
+---
+---
+
 ## Combine the logs using an AWS Glue ETL Job
 
 Now that you have created all the AWS Glue data catalog tables for the optimized logs, in this section you will create an AWS Glue ETL job to  join the four optimized logs - 1) Viewer request triggered Lambda@Edge logs, 2) Origin request triggered Lambda@Edge logs, 3)Amazon CloudFront access logs and 4) Application Load Balancer(ALB) logs. The output of the combined logs is written in optimized parquet format to the Amazon S3 bucket that you created at the beginning of this lab. The data is partition by year followed by month follow by day. You will also create an IAM role that grants AWS Glue service permission to read and write to Amazon S3 bucket and access the AWS Glue data catalog tables.  
@@ -510,6 +517,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 ![combine-schema](./assets/combine-schema.png)
 
+---
 ---
 
 ## Create AWS Glue Data Catalog for Combined Logs
@@ -716,6 +724,7 @@ Please review the values in the following fields/columns as you will be using th
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
 
+---
 ---
 
 ## Visualization using Amazon QuickSight
