@@ -1088,6 +1088,7 @@ ifelse(isNull(target_processing_time), 0, ifelse(target_processing_time = -1 or 
  ![device-form-factor-visualize-2.png](./assets/device-form-factor-visualize-2.png)
  
  - Click the **Filter** icon in the QuickSight navigation pane 
+ - Click on + symbol next to Applied Filters
  - Choose the new filter that you just created by clicking on filter name **viewercountry**
  - Select one of the values (e.g. **IN**) except **DE**
  - Click **Apply**
