@@ -54,6 +54,7 @@ In this section we will deploy the solution using CloudFormation template. This 
 - A S3 bucket in your region which stores a sample CloudFront access logs  
 - EC2 IAM role with policies to access the Amazon S3
 - Amazon ES domain with 2 nodes with IP-based access policy with access restricted to only Nginx proxy and Logstash instances
+:warning: **Default limit of VPCs per AWS Region is 5. This CloudFormation template needs to create a VPC.** 
 
 The template gives the following outputs:
 
@@ -69,29 +70,32 @@ US East (Ohio) | [![Launch Who-is-Who Workshop in us-east-2](http://docs.aws.ama
 US West (Oregon) | [![Launch Who-is-Who Workshop in us-west-2](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=us-west-2#/stacks/create/review?stackName=CF-LogAnalysis2018&templateURL=https://s3-eu-west-1.amazonaws.com/eu-west-1.data-analytics/labcontent/reInvent2018-ctd410/lab2/templates/CloudFront-Analysis-ELK-Lab.json)
 EU (Ireland) | [![Launch Who-is-Who Workshop in eu-west-1](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/images/cloudformation-launch-stack-button.png)](https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/create/review?CF-LogAnalysis2018&templateURL=https://s3-eu-west-1.amazonaws.com/eu-west-1.data-analytics/labcontent/reInvent2018-ctd410/lab2/templates/CloudFront-Analysis-ELK-Lab.json)
 
-2. Select the key pair you created in previous section.
+2. Enter a unique name for your Stack in **Stack name** text box or you can use the default name **CF-LogAnalysis2018**.
 
-3. Update **KibanaPassword** field. Default password is set to **admin123** but we highly recommend to update it to a strong password.
+3. Select the key pair you created in previous section.
 
-4. Under Create stack, check both checkboxes for **I acknowledge that AWS CloudFormation might create IAM resources with custom names** and click **Create** button.
+4. Update **KibanaPassword** field. Default password is set to **admin123** but we highly recommend to update it to a strong password.
 
+5. Under Create stack, check both checkboxes for **I acknowledge that AWS CloudFormation might create IAM resources with custom names** and click **Create** button.
+
+:warning: **Default limit of VPCs per AWS Region is 5. This CloudFormation template needs to create a VPC.** 
 :warning: **We recommend that you restrict the access to the EC2 instances for your specific IP range in production environments. By default, this setup allows SSH and HTTP access to `0.0.0.0/0`**
 
 ![](assets/Cf1.png)
 
-4. You should now see the screen with status **CREATE_IN_PROGRESS**. Click on the **Stacks** link in the top navigation to see current CloudFormation stacks.
+6. You should now see the screen with status **CREATE_IN_PROGRESS**. Click on the **Stacks** link in the top navigation to see current CloudFormation stacks.
 
 ![](assets/Cf2.png)
 
-5. Click on the checkbox next to the stack to see additional details below.
+7. Click on the checkbox next to the stack to see additional details below.
 
 ![](assets/Cf3.png)
 
-6. CloudFormation template will take around 10 minutes to complete. Wait until CloudFormation stack status changes to  **CREATE_COMPLETE**.
+8. CloudFormation template will take around 10 minutes to complete. Wait until CloudFormation stack status changes to  **CREATE_COMPLETE**.
 
 ![](assets/Cf4.png)
 
-7. Click on "Output" tab and note down the outputs as we will be referring to these values in next steps.
+9. Click on "Output" tab and note down the outputs as we will be referring to these values in next steps.
 
 ![](assets/Cf5png.png)
 
@@ -133,7 +137,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 
 2. You need to connect to the Logstash EC2 instance using SSH. Please make sure that you have configured your machine to SSH into EC2 instances. You can follow the [instructions here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html) to configure your Mac/Windows machine to connect to EC2 instance using SSH. Use the following command to connect to EC2 instance:
 	
-	`ssh -i dub.pem ec2-user@<Elastic IP of Logstash server>`
+	`ssh -i <your pem key> ec2-user@<Elastic IP of Logstash server>`
 
 3. Create an Index mapping template for processing the CloudFront logs. CloudFormation template has already copied the **indextemplate.json** in `/home/ec2-user/templates directory` .  Make sure you copy the Elasticsearch domain from CloudFront output key **ESDomainEndpoint**.
 	```bash
@@ -164,7 +168,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 			#No change needed for "prefix"
 			prefix => ""
 			
-			#Point "region" to your AWS Region.
+			#Point "region" to your AWS Region. e.g. eu-west-1
 			region => "<AWS REGION YOU CREATED YOUR STACK IN>"  
 		}
 	}
@@ -178,7 +182,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 			#domain from CloudFormation stach output "ESDomainEndpoint"
 			hosts =>["<Elasticsearch Domain>"]
 			
-			#Point "region" to AWS Region you have created the CloudFormation stack in.
+			#Point "region" to AWS Region you have created the CloudFormation stack in. e.g. eu-west-1
 			region => "<AWS REGION YOU CREATED YOUR STACK IN>"
 		}
 	}
@@ -189,7 +193,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 	nohup ./logstash -f cloudfront.conf
 	
 	```
-9. Check if its Logstash process started properly with tailing the log file
+9. Check if Logstash process started properly by opening another SSH session and tailing the log file. This process can take around 8-10 minutes.
 
 	```bash
 	tail -f /elk/logstash-6.4.2/logs/logstash-plain.log
@@ -364,7 +368,7 @@ In this case, we will create Geo-spatial visualization using regional map. This 
 You have successfully this Lab. Please proceed with the clean up of this lab to make sure running resources do not incur unnecessary billing.  
 
 ## Clean up
-1.  Delete the S3 buckets created in this lab.
+1.  Delete the S3 buckets created in this lab in Step: [**Verify CloudFront Access Logs**](https://github.com/aws-samples/amazon-cloudfront-log-analysis/tree/master/lab2-elk-cloudfront-log-analysis#verify-cloudfront--access-logs-in-s3-bucket)
 
 2. Go to CloudFormation console : http://console.aws.amazon.com/cloudformation/ 
 
