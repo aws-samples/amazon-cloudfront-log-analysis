@@ -54,6 +54,7 @@ In this section we will deploy the solution using CloudFormation template. This 
 - A S3 bucket in your region which stores a sample CloudFront access logs  
 - EC2 IAM role with policies to access the Amazon S3
 - Amazon ES domain with 2 nodes with IP-based access policy with access restricted to only Nginx proxy and Logstash instances
+
 :warning: **Default limit of VPCs per AWS Region is 5. This CloudFormation template needs to create a VPC.** 
 
 The template gives the following outputs:
@@ -79,6 +80,7 @@ EU (Ireland) | [![Launch Who-is-Who Workshop in eu-west-1](http://docs.aws.amazo
 5. Under Create stack, check both checkboxes for **I acknowledge that AWS CloudFormation might create IAM resources with custom names** and click **Create** button.
 
 :warning: **Default limit of VPCs per AWS Region is 5. This CloudFormation template needs to create a VPC.** 
+
 :warning: **We recommend that you restrict the access to the EC2 instances for your specific IP range in production environments. By default, this setup allows SSH and HTTP access to `0.0.0.0/0`**
 
 ![](assets/Cf1.png)
@@ -174,6 +176,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 	}
 	```
 7. Edit  **output-> amazon_es** section to update Elasticsearch domain information for your setup.
+
 :warning: Make sure the Elasticsearch domain is listed **WITHOUT** https:// in the following section.
 	```nginx
 	output{
