@@ -1084,7 +1084,7 @@ Now that you have configure Athena as the data source to query the combined logs
 
 ![product-category-chart.png](./assets/product-category-chart.png)
 
-**Use-case:**
+**Use case:** Based on the popular attributes (e.g. product categories) that your customers are requesting for you can prioritize and optimize latency by caching the pages for these popular categories or for delivering ad impression besides various other business insight your can derive in terms of inventory management etc. 
 
 - Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
 - Ensure that the selected region is **Ireland** in top right corner
@@ -1126,7 +1126,7 @@ Now that you have configure Athena as the data source to query the combined logs
 
 ![device-form-factor-chart.png](./assets/device-form-factor-chart.png)
 
-**Use-case:** Based on the popular device form factor(s) that your global customers are using to browse your website you can prioritize customization and optimization of your content on those form factor(s).
+**Use case:** Based on the popular device form factor(s) that your global customers are using to browse your website you can prioritize customization and optimization of your content on those form factor(s).
 
 - Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
 - Ensure that the selected region is **Ireland** in top right corner
@@ -1158,7 +1158,7 @@ Now that you have configure Athena as the data source to query the combined logs
  
  ![device-form-factor-visualize-2.png](./assets/device-form-factor-visualize-2.png)
  
-**Use-case:** Based on the popular device form factor(s) that customers in a particular region or country are using to browse your website you can prioritize customization and optimization of your content on those form factor(s).
+**Use case:** Based on the popular device form factor(s) that customers in a particular region or country are using to browse your website you can prioritize customization and optimization of your content on those form factor(s).
  
  - Click the **Filter** icon in the QuickSight navigation pane 
  - Click on **+** symbol next to Applied Filters
