@@ -968,7 +968,7 @@ Now that you have configure Athena as the data source to query the combined logs
 
 ![edge-to-origin-chart.png](./assets/edge-to-origin-chart.png)
 
-**Use case:**     
+**Use case:** Derive insights into edge to origin latency for your global traffic and further optimize routing 
 
 - Ensure that the selected region is **Ireland** in top right corner
 - Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
@@ -1014,6 +1014,8 @@ Now that you have configure Athena as the data source to query the combined logs
 ---
 
 ### Generate visualization to show hourly average time taken (total Vs. edge to origin Vs. server-side processing) by country where the end user request originated from
+
+**Use case:** Troubleshoot latency issue at various stages of a request-response pipeline
 
 ![time-taken-chart.png](./assets/time-taken-chart.png)
 
@@ -1068,6 +1070,8 @@ Now that you have configure Athena as the data source to query the combined logs
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
   
   ![time-taken-visualize-2.png](./assets/time-taken-visualize-2.png)
+  
+  **Use case:** Troubleshoot latency issues at various stages of a request-response pipeline 
   
   - Click the **Filter** icon in the QuickSight navigation pane 
   - Choose the new filter that you just created by clicking on filter name **viewercountry**
@@ -1126,7 +1130,7 @@ Now that you have configure Athena as the data source to query the combined logs
 
 ![device-form-factor-chart.png](./assets/device-form-factor-chart.png)
 
-**Use case:** Based on the popular device form factor(s) that your global customers are using to browse your website you can prioritize customization and optimization of your content on those form factor(s).
+**Use case:** Based on the popular device form factor(s) that your global customers are using to browse your website you can prioritize customization and optimization of your content on those form factor(s)
 
 - Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
 - Ensure that the selected region is **Ireland** in top right corner
@@ -1158,7 +1162,7 @@ Now that you have configure Athena as the data source to query the combined logs
  
  ![device-form-factor-visualize-2.png](./assets/device-form-factor-visualize-2.png)
  
-**Use case:** Based on the popular device form factor(s) that customers in a particular region or country are using to browse your website you can prioritize customization and optimization of your content on those form factor(s).
+**Use case:** Based on the popular device form factor(s) that customers in a particular region or country are using to browse your website you can prioritize customization and optimization of your content on those form factor(s)
  
  - Click the **Filter** icon in the QuickSight navigation pane 
  - Click on **+** symbol next to Applied Filters
