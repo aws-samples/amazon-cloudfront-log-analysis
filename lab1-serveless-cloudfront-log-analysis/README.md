@@ -914,6 +914,7 @@ Now that you have configure Athena as the data source to query the combined logs
 
 ![quicksight-status-code-pop.png](./assets/quicksight-status-code-pop.png) 
 
+**Use case:** HTTP Status Codes (3xx, 4xx, 5xx) error code by Edge/PoP location can provide insight in troubleshooting issue (such as connectivity etc.)
 
 - Ensure that the selected region is **Ireland** in top right corner
 - Click the **Filter** icon in the QuickSight navigation pane 
@@ -952,6 +953,9 @@ Now that you have configure Athena as the data source to query the combined logs
 
 <details>
      <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
+     
+ **Use case:** HTTP Status Codes (3xx, 4xx, 5xx) error code by URI can provide insight into troubleshooting issue (such as 404- page not found etc.)
+
           
 - Drag and drop the **uri** field into the **Group/Color** in the **Field wells** section 
 - Click on the drop down arrow next to **status** in the y-axis of the chart to reveal a sub menu.
