@@ -109,7 +109,6 @@ finalCombinedLogs = DropFields.apply(frame = combinedLogs, paths=["custom_trace_
 #Destnation S3 loaction for combine logs
 logDestPath = "s3://" + args['target_s3_bucket'] + "/combined/logs"
 
-
 ## Write the combined Lambda@Edge logs to S3 (s3://<your-s3-bucket>/combined/lelogs) in optimized Parquet format partitioned by year, month, day
 finalCombinedLogsSink = glueContext.write_dynamic_frame.from_options(frame = finalCombinedLogs, connection_type = "s3", connection_options = {"path": logDestPath, "partitionKeys": ["year", "month", "day"]}, format = "parquet", transformation_ctx = "finalCombinedLogsSink")
 

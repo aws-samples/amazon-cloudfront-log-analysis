@@ -85,8 +85,8 @@ exports.handler = (event, context, callback) => {
     
     //Rejecting requests based on user agent 
     if(request.headers['user-agent'] &&
-      (request.headers['user-agent'][0].value == "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)" ||
-        request.headers['user-agent'][0].value == "Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)")) {
+      (request.headers['user-agent'][0].value == "<user-agent-string-1-to-be-blocked>" ||
+        request.headers['user-agent'][0].value == "<user-agent-string-2-to-be-blocked>")) {
         const response = {
           status: '302',
           statusDescription: 'Found',
