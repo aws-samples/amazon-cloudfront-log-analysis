@@ -914,6 +914,7 @@ Now that you have configure Athena as the data source to query the combined logs
 
 ![quicksight-status-code-pop.png](./assets/quicksight-status-code-pop.png) 
 
+
 - Ensure that the selected region is **Ireland** in top right corner
 - Click the **Filter** icon in the QuickSight navigation pane 
 - Click on **+** symbol next to **Applied Filters**
@@ -966,6 +967,8 @@ Now that you have configure Athena as the data source to query the combined logs
 ### Generate visualization to show hourly average time taken between edge and origin by country where the end user request originated from
 
 ![edge-to-origin-chart.png](./assets/edge-to-origin-chart.png)
+
+**Use case:**     
 
 - Ensure that the selected region is **Ireland** in top right corner
 - Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
@@ -1081,6 +1084,8 @@ Now that you have configure Athena as the data source to query the combined logs
 
 ![product-category-chart.png](./assets/product-category-chart.png)
 
+**Use-case:**
+
 - Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
 - Ensure that the selected region is **Ireland** in top right corner
 - Click the **Filter** icon in the QuickSight navigation pane 
@@ -1121,6 +1126,8 @@ Now that you have configure Athena as the data source to query the combined logs
 
 ![device-form-factor-chart.png](./assets/device-form-factor-chart.png)
 
+**Use-case:** Based on the popular device form factor(s) that your global customers are using to browse your website you can prioritize customization and optimization of your content on those form factor(s).
+
 - Click on **Add** from the QuickSight menu on the top to **Add Visual** from the pop up menu
 - Ensure that the selected region is **Ireland** in top right corner
 - Click the **Filter** icon in the QuickSight navigation pane 
@@ -1150,6 +1157,8 @@ Now that you have configure Athena as the data source to query the combined logs
       <summary>CLICK TO EXPAND FOR OPTIONAL SECTION</summary>
  
  ![device-form-factor-visualize-2.png](./assets/device-form-factor-visualize-2.png)
+ 
+**Use-case:** Based on the popular device form factor(s) that customers in a particular region or country are using to browse your website you can prioritize customization and optimization of your content on those form factor(s).
  
  - Click the **Filter** icon in the QuickSight navigation pane 
  - Click on **+** symbol next to Applied Filters
