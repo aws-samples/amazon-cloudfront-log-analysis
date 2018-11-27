@@ -214,7 +214,10 @@ SELECT * FROM reInvent2018_aws_service_logs.cf_access_optimized LIMIT 10
 
 ![cf-access-optimized.png](./assets/cf-access-optimized.png)
 
-Please review the values in the following fields/columns as you will be using them in this workshop
+
+<details>
+
+<summary>Click to expand to review the values in the following fields/columns as you will be using them in this workshop</summary>
 
  |Field Name|Description|type
  |---|----|---|
@@ -229,6 +232,8 @@ Please review the values in the following fields/columns as you will be using th
  |year(partition)|The year on which the event occurred.|string|
  |month(partition)|The month on which the event occurred.|string|
  |day(partition)|The day on which the event occurred.|string|
+
+</details>
 
 ---
 
@@ -297,7 +302,9 @@ After a few seconds, Athena will display your query results as shown below:
 
 ![alb-access-optimized.png](./assets/alb-access-optimized.png)
 
-Please review the values in the following fields/columns as you will be using them in this workshop
+<details>
+
+<summary>Click to expand to review the values in the following fields/columns as you will be using them in this workshop</summary>
 
 |Field Name|Description|type
 |---|----|---|
@@ -309,6 +316,8 @@ Please review the values in the following fields/columns as you will be using th
 |year(partition)|The year the log was delivered.|string|
 |month(partition)|The month the log was delivered.|string|
 |day(partition)|The day the logs was delivered.|string|
+
+</details>
 
 ---
 
@@ -363,7 +372,9 @@ After a few seconds, Athena will display your query results as shown below:
 
 ![viewer-request-optimized.png](./assets/viewer-request-optimized.png)
 
-Please review the values in the following fields/columns
+<details>
+
+<summary>Click to expand to review the values in the following fields/columns</summary>
 
 |Field Name|Description|type
 |---|----|---|
@@ -377,6 +388,8 @@ Please review the values in the following fields/columns
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
+
+</details>
 
 ---
 
@@ -432,7 +445,9 @@ After a few seconds, Athena will display your query results as shown below:
 
 ![origin-request-optimized.png](./assets/origin-request-optimized.png)
 
-Please review the values in the following fields/columns
+<details>
+
+<summary>Please review the values in the following fields/columns</summary>
 
 |Field Name|Description|type
 |---|----|---|
@@ -448,6 +463,8 @@ Please review the values in the following fields/columns
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
+
+</details>
 
 ---
 ---
