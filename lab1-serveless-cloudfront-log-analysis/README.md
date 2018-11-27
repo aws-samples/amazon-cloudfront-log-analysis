@@ -202,7 +202,7 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.cf_access_optimized
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.cf_access_optimized
 ```
 
-> **Note:** Ensure that the rowcount = **207535**
+> :warning: Ensure that the rowcount = **207535**
 
 - Get the first ten records:
 
@@ -290,7 +290,7 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.alb_access_optimized
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.alb_access_optimized
 ```
 
-> **Note:** Ensure that the rowcount = **15355**
+> :warning: Ensure that the rowcount = **15355**
 
 - Get the first ten records:
 
@@ -360,7 +360,7 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_viewer_request_o
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_viewer_request_optimized
 ```
 
-> **Note:** Ensure that the rowcount = **207837**
+> :warning: Ensure that the rowcount = **207837**
 
 - Get the first ten records:
 
@@ -433,7 +433,7 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_o
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_origin_request_optimized
 ```
 
-> **Note:** Ensure that the rowcount = **14517**
+> :warning: Ensure that the rowcount = **14517**
 
 - Get the first ten records:
 
@@ -532,7 +532,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Ensure that the **Run status** is displaced as **Running**
 - Wait until the Run status changes to **Succeeded** 
 
-> **Note:** This step may take from upto 15 minutes to complete.
+> :warning: This step may take from upto 15 minutes to complete.
 
 ![combine-schema](./assets/combine-schema.png)
 
@@ -633,7 +633,7 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.combined_log_optimized
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.combined_log_optimized
 ```
 
-> **Note:** Ensure that the rowcount = **207537**
+> :warning: Ensure that the rowcount = **207537**
 
 - Get the first ten records:
 
@@ -717,7 +717,7 @@ MSCK REPAIR TABLE reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimiz
 SELECT count(*) AS rowcount FROM reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized
 ```
 
-> **Note:** Ensure that the rowcount = **207837**
+> :warning: Ensure that the rowcount = **207837**
 
 - Get the first ten records:
 ```sql
