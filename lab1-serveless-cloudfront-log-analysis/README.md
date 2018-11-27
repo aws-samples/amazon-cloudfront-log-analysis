@@ -624,7 +624,8 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 
 ![combined-logs-all.png](./assets/combined-logs-all.png)
 
-Please review the values in the following fields/columns as you will be using them in this workshop
+<details>
+     <summary>Click to expand to review the values in the following fields/columns as you will be using them in this workshop</summary>
 
 |Field Name|Description|type
 |---|----|---|
@@ -646,6 +647,8 @@ Please review the values in the following fields/columns as you will be using th
 |year(partition)|The year on which the event occurred.|string|
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
+
+</details>
 
 ---
 
@@ -706,7 +709,8 @@ After a few seconds, Athena will display your query results as shown below:
 
 ![le-combined-logs.png](./assets/le-combined-logs.png)
 
-Please review the values in the following fields/columns
+<details>
+    <summary>Click to expand to review the values in the following fields/columns</summary>
 
 |Field Name|Description|type
 |---|----|---|
@@ -722,6 +726,8 @@ Please review the values in the following fields/columns
 |month(partition)|The month on which the event occurred.|string|
 |day(partition)|The day on which the event occurred.|string|
 |hour(partition)|The hour on which the event occurred.|string|
+
+</details>
 
 </details>
 
@@ -960,7 +966,10 @@ Now that you have configure Athena as the data source to query the combined logs
  **Use case:** HTTP Status Codes (3xx, 4xx, 5xx) error code by URI can provide insight into troubleshooting issue (such as 404- page not found etc.)
 
           
-- Drag and drop the **uri** field into the **Group/Color** in the **Field wells** section 
+- Drag and drop the **uri** field into the **Group/Color** in the **Field wells** section.
+
+> **Note:** While dragging and and dropping multiple fields do not replace the existing field but drop the field on top 
+ 
 - Click on the drop down arrow next to **status** in the y-axis of the chart to reveal a sub menu.
 - Click on the Ascending order for **Sort by** in the revealed menu
 - Edit the title by click on the title in the chart to **Status code by URI**(optional)     
