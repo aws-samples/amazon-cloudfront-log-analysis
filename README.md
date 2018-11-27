@@ -42,7 +42,7 @@ You should have active AWS account with Administrator IAM role
 |Lab 2|[Amazon CloudFront Log Analysis using ELK](./lab2-elk-cloudfront-log-analysis)|
 
 ## Deploy Solution
-We would like you to deploy the solution using CloudFormation template while we go over the presentation. This is to save you time for Lab #2. Please complete the following 2 steps to deploy solution:
+We recommend to deploy the solution for Lab2 using CloudFormation template while we go through the presentation. This is to save your time for Lab #2. Please complete the following 2 steps to deploy solution. The CloudFormation will take about 10 minutes to complete.
  - [Create a Key Pair for EC2 Instances](https://github.com/aws-samples/amazon-cloudfront-log-analysis/tree/master/lab2-elk-cloudfront-log-analysis#create-a-key-pair-for-ec2-instances) 
  - [Deploy Solution](https://github.com/aws-samples/amazon-cloudfront-log-analysis/tree/master/lab2-elk-cloudfront-log-analysis#deploy-solution)
 
