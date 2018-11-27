@@ -484,11 +484,11 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Click on **Next:Permissions** on the bottom
 - On the Attach permissions policies, search policies for S3 and check the box for **AmazonS3FullAccess**
 
-> **Note**: Do not click on the policy, you just have to check the corresponding checkbox
+> :warning: Do not click on the policy, you just have to check the corresponding checkbox
 
 - On the same page, now search policies for Glue and check the box for **AWSGlueConsoleFullAccess** and **AWSGlueServiceRole**.
 
-> **Note**: Do not click on the policy, you just have to check the corresponding checkbox
+> :warning: Do not click on the policy, you just have to check the corresponding checkbox
 
 - Click on **Next: Tags**
 - Click on **Next: Review**
@@ -521,7 +521,7 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 - Under **Job parameters**, type **--target_s3_bucket** into the text box under **Key**
 - Into the text box under  **Value**, type the name of the Amazon S3 bucket that you created at the beginning of this lab.
 
-> **Note:** Type only the name of the S3 bucket and **not** the Amazon S3 path starting with S3:// 
+> :warning: Type only the name of the S3 bucket and **not** the Amazon S3 path starting with S3:// 
 
 - Click **Run job**
 - Close the script editor page by click on **X** symbol on the right hand side of the page 
@@ -555,7 +555,7 @@ The above AWS Glue data catalogs will be referred by AWS Athena service when you
 ### Create AWS Glue Data Catalog for the combined logs using Amazon Athena
 - In the query pane, copy the following statement to create a the *combined_log_optimized* table, and then choose **Run Query*:
 
-> **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in step 1 earlier.
+> :warning: Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in step 1 earlier.
 
 ```sql
 CREATE EXTERNAL TABLE reInvent2018_aws_service_logs.combined_log_optimized(
@@ -679,7 +679,7 @@ SELECT * FROM reInvent2018_aws_service_logs.combined_log_optimized LIMIT 10
 - Open the AWS Management Console for Athena from [here](https://console.aws.amazon.com/athena/home).
 - In the query pane, copy the following statement to create a the *lambdaedge_logs_combined_optimized* table, and then choose **Run Query**:
 
-> **Note:** Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in beginning of this lab.
+> :warning: Replace <your-bucket-name> in the query below with the unique name of the S3 Bucket you created in beginning of this lab.
 
 ```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS reInvent2018_aws_service_logs.lambdaedge_logs_combined_optimized(
@@ -834,8 +834,8 @@ In this section you will configure Amazon Athena as the data source to query the
 - Choose **combined_log_optimized** from the list under **Tables: contains the data you can visualize**
 - Click **Edit/Preview data**
 
-> **Note: THIS IS A CRUCIAL STEP. PLEASE ENSURE YOU CHOOSE Edit/Preview data.**\
-> **Note: THIS IS A CRUCIAL STEP. PLEASE ENSURE YOU CHOOSE Edit/Preview data.**
+> :warning: **THIS IS A CRUCIAL STEP. PLEASE ENSURE YOU CHOOSE Edit/Preview data.**\
+> :warning: **THIS IS A CRUCIAL STEP. PLEASE ENSURE YOU CHOOSE Edit/Preview data.**
 
 ---
 ---
@@ -987,7 +987,7 @@ Now that you have configure Athena as the data source to query the combined logs
           
 - Drag and drop the **uri** field into the **Group/Color** in the **Field wells** section.
 
-> **Note:** While dragging and and dropping multiple fields do not replace the existing field but drop the field on top 
+> :warning: While dragging and and dropping multiple fields do not replace the existing field but drop the field on top 
  
 - Click on the drop down arrow next to **status** in the y-axis of the chart to reveal a sub menu.
 - Click on the Ascending order for **Sort by** in the revealed menu
