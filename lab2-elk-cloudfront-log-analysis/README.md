@@ -8,7 +8,7 @@ In this lab, you will be building an ELK (ElasticSearch, Logstash and Kibana) st
 
 Logstash provides out-of-the box plugins such as [grok](https://www.elastic.co/guide/en/logstash/6.4/plugins-filters-grok.html) for filtering and enriching the data, derives [geo coordinates from Ip addresses](https://www.elastic.co/guide/en/logstash/6.4/plugins-filters-geoip.html) before ingesting the data to ElasticSearch domain.  Kibana provides a broad set of visualization, filtering and aggregation options to analyze your data that is stored in ElasticSearch domain.
 
-In this lab, you will visualize CloudFront access behavior using Kibana Geo-spatial visualization options such as [Regional](https://www.elastic.co/guide/en/kibana/current/regionmap.html) and [Coordinate graphs](https://www.elastic.co/guide/en/kibana/current/tilemap.html). These maps can
+In this lab, you will visualize CloudFront access behavior using Kibana Geo-spatial visualization options such as [Regional](https://www.elastic.co/guide/en/kibana/current/regionmap.html) and [Coordinate graphs](https://www.elastic.co/guide/en/kibana/current/tilemap.html). These maps can provide nice insights about your customer behaviour as well as latency information of your CloudFront distribution for various geo locations.
 
 Note: We will use a sample access logs generated from our demo environment. In a production scenario, you can just change the Logstash configuration to poll the logs from your S3 bucket or configure CloudFront distribution logs to deliver the bucket used in this Lab.
 
@@ -37,7 +37,7 @@ In this task, you will need to create a key pair so that we can use this keypair
 
 ![](assets/keyPair2.png)
 
-5. In the resulting pop up window, type **_[First Name]-[Last Name]-DevCon_** into the **Key Pair Name:** text box and click **Create.**
+5. In the resulting pop up window, type **_[First Name]-[Last Name]-Reinvent_** into the **Key Pair Name:** text box and click **Create.**
 
 ![](assets/keyPair3.png)
 
@@ -190,13 +190,14 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 		}
 	}
 	```
-8. Start Logstash process
+8. Start Logstash process. Logstash will take about 8-10 minutes to index the logs to Amazon Elasticsearch.
 	```bash
 	cd /elk/logstash-6.4.2/bin/
 	nohup ./logstash -f cloudfront.conf
 	
 	```
-9. Check if Logstash process started properly by opening another SSH session and tailing the log file. This process can take around 8-10 minutes.
+9. You can also verify if the Logstash process started properly by opening another SSH session and tailing the log file as shown below. 
+   **NOTE:** You will see some errors related to installing templates in logstash logs. This is due to a known issue (https://github.com/awslabs/logstash-output-amazon_es/issues/101 -link to github). You  can ignore them.
 
 	```bash
 	tail -f /elk/logstash-6.4.2/logs/logstash-plain.log
@@ -220,7 +221,7 @@ It should be noted that Kibana does not natively support IAM users and roles, bu
 
 2. Connect to Nginx proxy EC2 instance as ec2-user using your key pair.
 	```bash
-	ssh -i dub.pem ec2-user@<Elastic IP of Nginx EC2 server>
+	ssh -i <your pem file> ec2-user@<Elastic IP of Nginx EC2 server>
 	```
 
 3. Copy **lab2-nginx.conf** from **/home/ec2-user/templates/**. You will need to update the conf file with your Elasticsearch domain endpoints, Elasticsearch Kibana endpoint and Elastic IPs.
