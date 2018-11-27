@@ -536,6 +536,8 @@ Create an IAM role that has permission to your Amazon S3 sources, targets, tempo
 
 ![combine-schema](./assets/combine-schema.png)
 
+The AWS Glue ETL job performs an left outer join with the Amazon CloudFront access logs with the viewer request and origin triggered Lambda@Edge logs based on the 'requiestid' field. This is followed by another left outer join will Application Load Balancer (ALB) logs based on 'customtraceid' field in the Lambda@Edge logs and 'trace_id' field ALB logs. The duplicate fields in the logs are also removed. For more details, see [log-combiner-glue-script.py](./log-combiner-glue-script.py).
+
 ---
 ---
 
