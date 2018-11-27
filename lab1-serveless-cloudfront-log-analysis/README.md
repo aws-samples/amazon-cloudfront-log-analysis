@@ -447,7 +447,7 @@ After a few seconds, Athena will display your query results as shown below:
 
 <details>
 
-<summary>Please review the values in the following fields/columns</summary>
+<summary>Click to expand to review the values in the following fields/columns</summary>
 
 |Field Name|Description|type
 |---|----|---|
