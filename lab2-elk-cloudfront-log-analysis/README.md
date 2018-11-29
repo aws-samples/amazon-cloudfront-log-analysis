@@ -178,7 +178,8 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 7. Edit  **output-> amazon_es** section to update Elasticsearch domain information for your setup.
 
 :warning: Make sure the Elasticsearch domain is listed **WITHOUT** https:// in the following section.
-	```nginx
+	
+```nginx
 	output{
 		amazon_es{
 			#Enter Elasticsearch domain name WITHOUT https://. You can copy the Elasticsearch
@@ -189,7 +190,7 @@ In this step we will configure Logstash agent installed on EC2 instance to inges
 			region => "<AWS REGION YOU CREATED YOUR STACK IN>"
 		}
 	}
-	```
+```
 8. Start Logstash process. Logstash will take about 8-10 minutes to index the logs to Amazon Elasticsearch.
 	```bash
 	cd /elk/logstash-6.4.2/bin/
